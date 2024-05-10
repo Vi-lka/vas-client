@@ -3,7 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--Inter"
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,9 +22,9 @@ export default function RootLayout({
     <html 
       lang="ru"
       suppressHydrationWarning
-      className={`scroll-smooth`}
+      className={`${inter.variable} scroll-smooth`}
     >
-      <body className={inter.className}>
+      <body className="font-Inter bg-background">
         {children}
         <Toaster />
       </body>
