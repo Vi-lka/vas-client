@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import Header from "@/components/header/Header";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -25,6 +26,7 @@ export default function RootLayout({
       className={`${inter.variable} scroll-smooth`}
     >
       <body className="font-Inter bg-background">
+        <Header />
         {children}
         <Toaster />
       </body>
