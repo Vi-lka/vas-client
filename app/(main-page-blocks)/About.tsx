@@ -58,7 +58,7 @@ export default async function About() {
       {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
       <BlocksRendererStrapi content={dataResult.value.attributes.text} />
 
-      <div className=''>
+      <div className='flex items-center min-h-screen my-32'>
         <AboutBento />
       </div>
     </div>

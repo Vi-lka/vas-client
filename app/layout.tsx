@@ -23,9 +23,9 @@ export default function RootLayout({
     <html 
       lang="ru"
       suppressHydrationWarning
-      className={`${inter.variable} scroll-smooth`}
+      className={`${inter.variable}`}
     >
-      <body className="font-Inter bg-background">
+      <body className="font-Inter bg-background scroll-smooth">
         <Header />
         {children}
         <Toaster />
