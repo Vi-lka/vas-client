@@ -10,7 +10,7 @@ export default function Hero() {
         <div className="mx-auto max-w-3xl text-center z-10">
           <Logo className='w-full lg:max-w-48 max-w-36 h-auto aspect-square mx-auto mb-8' />
 
-          <h1 className="text-3xl font-extrabold sm:text-5xl tracking-tighter">
+          <h1 className="font-extrabold sm:text-5xl text-3xl tracking-tighter">
             VII (XXIII) Всероссийский
             <strong className="font-extrabold text-primary block">Aрхеологический Cъезд</strong>
           </h1>

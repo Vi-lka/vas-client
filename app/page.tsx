@@ -1,9 +1,12 @@
-import Hero from "./Hero";
+import About from "./(main-page-blocks)/About";
+import Hero from "./(main-page-blocks)/Hero";
 
 export default function Home() {
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
+    <main className="flex min-h-screen max-w-screen-xl mx-auto flex-col items-center justify-between">
       <Hero />
+      <About />
     </main>
   );
 }
