@@ -13,9 +13,6 @@ import { Button } from "@/components/ui/button";
 import CalendarLink from "@/components/CalendarLink";
 
 export default function AboutBento() {
-
-  
-
   const features = [
     {
       Icon: LogIn,
@@ -50,7 +47,7 @@ export default function AboutBento() {
       Icon: GlobeIcon,
       name: "Место проведения",
       description: "г. Красноярск, пр. Свободный, 82",
-      href: "/",
+      href: "/#place",
       cta: "Подробнее",
       className: "col-span-3 lg:col-span-2",
       background: (

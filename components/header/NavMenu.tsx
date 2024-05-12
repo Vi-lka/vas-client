@@ -14,6 +14,7 @@ export default function NavMenu({
         <NavigationMenu className={cn("", className)}>
             <NavigationMenuList>
                 <NavMenuItem href='/#about' title='О съезде' />
+                <NavMenuItem href='/#materials' title='Материалы' />
                 <NavMenuItem href='/#programm' title='Программа' />
             </NavigationMenuList>
         </NavigationMenu>

@@ -51,14 +51,16 @@ export default async function About() {
   )
 
   return (
-    <div id='about' className='container'>
-      <TypographyH1 className='mb-2'>
+    <div id='about' className='container pt-24'>
+      <TypographyH1 className='mb-8'>
         О Съезде
       </TypographyH1>
-      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-      <BlocksRendererStrapi content={dataResult.value.attributes.text} />
+      <div className='lg:text-justify'>
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
+        <BlocksRendererStrapi content={dataResult.value.attributes.text} />
+      </div>
 
-      <div className='flex items-center min-h-screen my-24'>
+      <div className='flex items-center pt-24'>
         <AboutBento />
       </div>
     </div>
