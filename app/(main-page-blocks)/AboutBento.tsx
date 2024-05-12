@@ -10,6 +10,7 @@ import Orgs from "./Orgs";
 import Ripple from "@/components/magic/ripple";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import CalendarLink from "@/components/CalendarLink";
 
 export default function AboutBento() {
 
@@ -63,15 +64,20 @@ export default function AboutBento() {
       className: "col-span-3 lg:col-span-1",
       href: "/",
       cta: "Подробнее",
+      children: (
+        <CalendarLink />
+      ),
       background: (
-        <Calendar
-          mode="range"
-          disabled
-          fromDate={new Date(2025, 9, 6, 0, 0, 0)}
-          toDate={new Date(2025, 9, 10, 0, 0, 0)}
-          selected={{from: new Date(2025, 9, 6, 0, 0, 0), to: new Date(2025, 9, 10, 0, 0, 0)}}
-          className="absolute right-0 top-10 origin-top rounded-md border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_20%,#000_60%)] group-hover:scale-105"
-        />
+        <CalendarLink>
+          <Calendar
+            mode="range"
+            disabled
+            fromDate={new Date(2025, 9, 6, 0, 0, 0)}
+            toDate={new Date(2025, 9, 10, 0, 0, 0)}
+            selected={{from: new Date(2025, 9, 6, 0, 0, 0), to: new Date(2025, 9, 10, 0, 0, 0)}}
+            className="absolute right-0 top-10 origin-top rounded-md border transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_20%,#000_60%)] group-hover:scale-105"
+          />
+        </CalendarLink>
       ),
     },
   ];
