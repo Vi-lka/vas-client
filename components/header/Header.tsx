@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import Logo from './Logo'
 import NavSheet from './NavSheet'
+import { Button } from '../ui/button'
 
 export default function Header() {
 
@@ -67,7 +68,7 @@ export default function Header() {
                     <div className='relative lg:flex hidden justify-between'>
                         <Link 
                           href="/#top" 
-                          className='' 
+                          className='lg:w-1/6' 
                           onClick={handleScrollToTop}
                         >
                             <Logo className='w-12 h-12' />
@@ -75,8 +76,12 @@ export default function Header() {
 
                         <NavMenu className='flex-1' />
 
-                        <div className='flex items-center'>
-                          MoreMenu
+                        <div className='flex items-center justify-end lg:w-1/6'>
+                            <Link href="/reg" passHref className=''>
+                                <Button variant="outline" className='font-medium text-base sm:px-8 sm:py-5 px-6 py-4'>
+                                    Вход
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                     {/* Desktop */}
@@ -88,7 +93,11 @@ export default function Header() {
                         </Link>
 
                         <div className='flex items-center gap-3'>
-                            MoreMenu
+                            <Link href="/reg" passHref className=''>
+                                <Button variant="outline" className='font-medium text-base sm:px-8 sm:py-5 px-6 py-4'>
+                                    Вход
+                                </Button>
+                            </Link>
                             <NavSheet className="text-primary" />
                         </div>
                     </div>
