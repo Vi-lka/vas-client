@@ -16,7 +16,6 @@ RUN yarn global add pnpm
 COPY . ./
 COPY public ./public
 COPY next.config.js .
-COPY global.d.ts .
 COPY sentry.client.config.ts .
 COPY sentry.server.config.ts .
 COPY sentry.edge.config.ts .
@@ -68,7 +67,6 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/next.config.js .
-COPY --from=builder /app/global.d.ts .
 COPY --from=builder /app/sentry.client.config.ts .
 COPY --from=builder /app/sentry.server.config.ts .
 COPY --from=builder /app/sentry.edge.config.ts .
