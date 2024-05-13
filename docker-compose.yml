@@ -17,7 +17,7 @@ services:
         SENTRY_ORG: ${SENTRY_ORG}
     restart: always
     volumes:
-      - client_next_cache:/app/.next/cache
+      - client_next_cache_vas:/app/.next/cache
     ports:
       - 3001:3000
     networks:
@@ -33,5 +33,5 @@ networks:
     external: true
 
 volumes:
-  client_next_cache:
+  client_next_cache_vas:
     external: true
