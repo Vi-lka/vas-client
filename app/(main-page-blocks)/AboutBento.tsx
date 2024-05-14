@@ -1,11 +1,11 @@
 import { Calendar } from "@/components/ui/calendar";
 import { BentoCard, BentoGrid } from "@/components/magic/bento-grid";
-import Globe from "@/components/magic/globe";
 import {
   CalendarIcon,
   GlobeIcon,
 } from "@radix-ui/react-icons";
 import { Building2, LogIn } from "lucide-react";
+import Image from 'next/image';
 import Orgs from "./Orgs";
 import Ripple from "@/components/magic/ripple";
 import Link from "next/link";
@@ -51,7 +51,15 @@ export default function AboutBento() {
       cta: "Подробнее",
       className: "col-span-3 lg:col-span-2",
       background: (
-        <Globe className="top-0 h-[600px] w-[600px] transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-105 -right-80" />
+        <div className="absolute inset-0 mx-auto aspect-[1/1] w-full max-w-[600px] sm:top-10 top-12 sm:-right-80 -right-20 transition-all duration-300 ease-out [mask-image:linear-gradient(to_top,transparent_40%,#000_100%)] group-hover:scale-105">
+          <Image 
+            src={"/globe.png"} 
+            alt={"Globe"}
+            width={600}
+            height={600}
+            className="" 
+          />
+        </div>
       ),
     },
     {
