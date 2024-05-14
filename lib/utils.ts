@@ -18,3 +18,14 @@ export function getShortText(
     return array.slice(0, sliceLength).join(" ") + "...";
   } else return array.join(" ");
 }
+
+export function maxDifference(arr: number[]) {
+  let diff = 0
+
+  if (arr.length !== 0) {
+
+    diff = Math.max(...arr) - Math.min(...arr)
+    return diff;
+
+  } else return 0
+}

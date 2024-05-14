@@ -22,17 +22,21 @@ export default function Hero() {
           </p>
         
           <div className="mt-8 flex flex-wrap sm:flex-row flex-col justify-center gap-4">
-            <Link href="/reg" passHref className=''>
-              <Button className='font-medium shadow text-base px-12 py-6'>
-                Регистрация
-              </Button>
-            </Link>
+            <div className='w-full sm:w-[calc(50%-1rem)] flex sm:justify-end justify-center'>
+              <Link href="/reg" passHref className='w-fit h-fit'>
+                <Button className='font-medium shadow text-base px-12 py-6'>
+                  Регистрация
+                </Button>
+              </Link>
+            </div>
 
-            <Link href="#about" passHref className=''>
-              <Button variant="outline" className='font-medium shadow text-base px-12 py-6 border-none'>
-                Узнать больше
-              </Button>
-            </Link>
+            <div className='w-full sm:w-[calc(50%-1rem)] flex sm:justify-start justify-center'>
+              <Link href="#about" passHref className='w-fit h-fit'>
+                <Button variant="outline" className='font-medium text-base px-12 py-6'>
+                  Узнать больше
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

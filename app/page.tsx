@@ -1,5 +1,6 @@
 import About from "./(main-page-blocks)/About";
 import AboutBento from "./(main-page-blocks)/AboutBento";
+import Directions from "./(main-page-blocks)/Directions";
 import Hero from "./(main-page-blocks)/Hero";
 import Materials from "./(main-page-blocks)/Materials";
 
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <About />
       <AboutBento />
+      <Directions />
       <Materials />
     </main>
   );

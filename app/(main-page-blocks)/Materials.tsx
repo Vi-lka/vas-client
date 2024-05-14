@@ -1,9 +1,9 @@
 import ErrorHandler from '@/components/errors/ErrorHandler';
 import { TypographyH1, TypographyH3 } from '@/components/typography';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import fetchData from '@/lib/fetchData';
 import { MaterialsT } from '@/lib/types/mainPage';
-import { cn } from '@/lib/utils';
+import { cn, maxDifference } from '@/lib/utils';
 import { DownloadIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -21,6 +21,7 @@ export default async function Materials() {
                 title
                 files {
                   title
+                  description
                   file {
                     data {
                       attributes { url }
@@ -69,6 +70,8 @@ export default async function Materials() {
 
   const maxValue = Math.max(...filesLengths)
 
+  const maxDiff = maxDifference(filesLengths)
+
   return (
     <div id='materials' className='container pt-24'>
       <TypographyH1 className='mb-8'>
@@ -86,21 +89,30 @@ export default async function Materials() {
             dataResult.value.attributes.items.length === 1 
               ? "lg:w-1/2 sm:w-5/6 w-full mx-auto"
               : "w-full",
-            item.files.length === maxValue ? "row-span-2": "row-span-1"
+            (item.files.length === maxValue) && (maxDiff >= 3) ? "row-span-2": "row-span-1"
           )}>
             {item.title && (
               <TypographyH3 className='text-foreground mb-4'>
                 {item.title}
               </TypographyH3>
             )}
-            <ul className="flex flex-col gap-4">
+            <ul className="grid lg:grid-cols-2 gap-4 auto-rows-fr">
               {item.files.map((filesItem, filesIndex) => (
-                <li key={filesIndex}>
-                  <Link href={filesItem.file.data.attributes.url} target="_blank" passHref>
-                    <Button variant="secondary" className='flex items-center w-full gap-2 whitespace-normal border font-normal text-base tracking-tighter shadow-md bg-background/90 hover:text-background hover:bg-primary/90 p-6'>
-                      <DownloadIcon className='w-8 h-8'/>
-                      <p className='flex-1'>{filesItem.title}</p>
-                    </Button>
+                <li key={filesIndex} className='group w-full h-full ring-primary/80 hover:ring ring-offset-2 rounded-xl transition-all duration-300'>
+                  <Link href={filesItem.file.data.attributes.url} target="_blank" className='w-full h-full'>
+                    <Card className='w-full h-full flex flex-col justify-center overflow-hidden'>
+                      <CardHeader className='pb-2'>
+                        <CardTitle className='mb-1'>
+                          <DownloadIcon className='w-8 h-8 mx-auto group-hover:translate-y-2 transition-all duration-300'/>
+                        </CardTitle>
+                        <CardDescription className='font-medium text-center text-card-foreground'>{filesItem.title}</CardDescription>
+                      </CardHeader>
+                      {filesItem.description && (
+                        <CardContent className='pt-0 text-center'>
+                          <p className='text-xs font-light text-muted-foreground'>{filesItem.description}</p>
+                        </CardContent>
+                      )}
+                    </Card>
                   </Link>
                 </li>
               ))}

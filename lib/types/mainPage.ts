@@ -24,12 +24,23 @@ export const OrgsT  = z.object({
 })
 export type OrgsT = z.infer<typeof OrgsT>;
 
+export const DirectionsT = z.object({
+    attributes: z.object({
+        title: z.string(),
+        items: z.object({
+            title: z.string(),
+        }).array()
+    }),
+})
+export type DirectionsT = z.infer<typeof DirectionsT>;
+
 export const MaterialsT = z.object({
     attributes: z.object({
         items: z.object({
             title: z.string().nullable(),
             files: z.object({
                 title: z.string(),
+                description: z.string().nullable(),
                 file: z.object({
                     data: z.object({
                         attributes: z.object({

@@ -39,7 +39,8 @@ export default function RootLayout({
     <html 
       lang="ru"
       suppressHydrationWarning
-      className={`${inter.variable}`}
+      className={`${inter.variable} scroll-smooth`}
+      style={{scrollBehavior:'smooth'}}
     >
       <body className="font-Inter bg-background scroll-smooth">
         <Header />
