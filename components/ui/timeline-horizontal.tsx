@@ -28,11 +28,11 @@ export function TimelineHorizontal({
 
 export function TimelineHorizontalItem({
   title,
-  description,
+  time,
   className
 }: {
   title: string,
-  description?: string,
+  time?: string,
   className?: string
 }) {
   return (
@@ -40,8 +40,12 @@ export function TimelineHorizontalItem({
       <span className="rounded-full bg-primary text-background">
         <Circle />
       </span>
+
       <span>{title}</span>
-      <span className='lg:text-sm text-sm font-normal'>{description}</span>
+      
+      {time && (
+        <span className='lg:text-sm text-sm font-normal'>{time}</span>
+      )}
     </li>
   )
 }
