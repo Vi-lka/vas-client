@@ -5,7 +5,6 @@ import fetchData from '@/lib/fetchData';
 import { AboutT } from '@/lib/types/mainPage';
 import { notFound } from 'next/navigation';
 import React from 'react'
-import AboutBento from './AboutBento';
 
 export default async function About() {
   const getAbout = async (): Promise<AboutT> => {
@@ -58,10 +57,6 @@ export default async function About() {
       <div className='lg:text-justify'>
         {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
         <BlocksRendererStrapi content={dataResult.value.attributes.text} />
-      </div>
-
-      <div className='flex items-center pt-24'>
-        <AboutBento />
       </div>
     </div>
   ) 
