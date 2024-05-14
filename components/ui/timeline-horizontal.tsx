@@ -13,7 +13,7 @@ export function TimelineHorizontal({
   const countChildren = getValidChildren(children).length
 
   return (
-    <div className={cn('', className)} >
+    <div className={cn('pl-2.5 md:pl-0', className)} >
       <div className="timeline-horizontal">
         <ol 
           className="text-sm lg:text-base font-medium text-foreground" 
@@ -42,7 +42,7 @@ export function TimelineHorizontalItem({
       </span>
 
       <span>{title}</span>
-      
+
       {time && (
         <span className='lg:text-sm text-sm font-normal'>{time}</span>
       )}
