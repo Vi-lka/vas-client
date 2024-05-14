@@ -97,7 +97,7 @@ export default function AboutBento() {
   ];
 
   return (
-    <div className='flex items-center pt-24'>
+    <div className='flex items-center pt-24 container'>
       <BentoGrid>
         {features.map((feature, idx) => (
           <BentoCard key={idx} {...feature} />
