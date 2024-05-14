@@ -27,8 +27,8 @@ export default function NavSheet({
             <ScrollArea className="font-Inter mt-[2vh] h-[90vh] w-full p-1">
               <SheetMenuItem href='/#about' title="О съезде" />
               <SheetMenuItem href='/#directions' title='Направления' />
-              <SheetMenuItem href='/#materials' title='Материалы' />
               <SheetMenuItem href='/#programm' title='Программа' />
+              <SheetMenuItem href='/#materials' title='Материалы' />
             </ScrollArea>
           </NavigationMenuList>
         </NavigationMenu>

@@ -15,8 +15,8 @@ export default function NavMenu({
             <NavigationMenuList>
                 <NavMenuItem href='/#about' title='О съезде' />
                 <NavMenuItem href='/#directions' title='Направления' />
-                <NavMenuItem href='/#materials' title='Материалы' />
                 <NavMenuItem href='/#programm' title='Программа' />
+                <NavMenuItem href='/#materials' title='Материалы' />
             </NavigationMenuList>
         </NavigationMenu>
     )
