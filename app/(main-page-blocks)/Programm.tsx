@@ -78,10 +78,12 @@ export default async function Programm() {
         ))}
       </div>
 
-      <article className='prose prose-sm sm:text-sm text-xs sm:[&>*]:leading-5 [&>*]:leading-4 w-full lg:w-[70%] md:w-5/6 mx-auto text-center text-muted-foreground sm:mt-8 mt-6'>
-        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
-        <BlocksRendererStrapi content={dataResult.value.attributes.description} />
-      </article>
+      {dataResult.value.attributes.description && (
+        <article className='prose prose-sm sm:text-sm text-xs sm:[&>*]:leading-5 [&>*]:leading-4 w-full lg:w-[70%] md:w-5/6 mx-auto text-center text-muted-foreground sm:mt-8 mt-6'>
+          {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
+          <BlocksRendererStrapi content={dataResult.value.attributes.description} />
+        </article>
+      )}
     </div>
   )
 }

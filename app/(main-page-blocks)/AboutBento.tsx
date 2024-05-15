@@ -1,4 +1,5 @@
 import { Calendar } from "@/components/ui/calendar";
+import type { BentoCardProps} from "@/components/magic/bento-grid";
 import { BentoCard, BentoGrid } from "@/components/magic/bento-grid";
 import {
   CalendarIcon,
@@ -11,10 +12,44 @@ import Ripple from "@/components/magic/ripple";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CalendarLink from "@/components/CalendarLink";
-import { ArrowRightIcon } from "@radix-ui/react-icons";
+import fetchData from "@/lib/fetchData";
 
-export default function AboutBento() {
-  const features = [
+export default async function AboutBento() {
+
+  const getAddress = async (): Promise<string> => {
+    const query = /* GraphGL */ `
+      query Address {
+        place {
+          data {
+            attributes {
+              address
+            }
+          }
+        }
+      }
+    `;
+  
+    const json = await fetchData<{ 
+      data: { 
+        place: { 
+          data: {
+            attributes: { address: string }
+          } 
+        } 
+      }; 
+    }>({ 
+      query, 
+      error: "Failed to fetch Address"
+    })
+    
+    const address = json.data.place.data.attributes.address;
+    
+    return address;
+  };
+  
+  const [ addressResult ] = await Promise.allSettled([ getAddress() ]);
+
+  const features: BentoCardProps[] = [
     {
       Icon: LogIn,
       name: "Онлайн регистрация",
@@ -47,17 +82,21 @@ export default function AboutBento() {
     {
       Icon: GlobeIcon,
       name: "Место проведения",
-      description: "г. Красноярск, пр. Свободный, 82",
-      href: `https://maps.yandex.ru/?text=г. Красноярск, пр. Свободный, 82`,
-      cta: "Открыть на карте",
-      children: (
-        <Button variant="ghost" asChild size="sm" className="pointer-events-auto">
-          <Link href={`https://maps.yandex.ru/?text=г. Красноярск, пр. Свободный, 82`} target="_blank" className="">
-            Открыть на карте
-            <ArrowRightIcon className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
-      ),
+      description: addressResult.status !== "rejected" 
+        ? addressResult.value 
+        : "Ознакомьтесь с местом проведения съезда и городом Красноярск",
+      href: "/#place",
+      cta: "Подробнее",
+      // href: `https://maps.yandex.ru/?text=г. Красноярск, пр. Свободный, 82`,
+      // cta: "Открыть на карте",
+      // children: (
+      //   <Button variant="ghost" asChild size="sm" className="pointer-events-auto">
+      //     <Link href={`https://maps.yandex.ru/?text=г. Красноярск, пр. Свободный, 82`} target="_blank" className="">
+      //       Открыть на карте
+      //       <ArrowRightIcon className="ml-2 h-4 w-4" />
+      //     </Link>
+      //   </Button>
+      // ),
       className: "col-span-3 lg:col-span-2",
       background: (
         <div className="absolute inset-0 mx-auto aspect-[1/1] w-full max-w-[600px] sm:top-10 top-12 sm:-right-80 -right-20 transition-all duration-300 ease-out group-hover:scale-105">

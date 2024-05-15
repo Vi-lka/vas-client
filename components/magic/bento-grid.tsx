@@ -23,16 +23,7 @@ const BentoGrid = ({
   );
 };
 
-const BentoCard = ({
-  name,
-  className,
-  background,
-  Icon,
-  description,
-  href,
-  cta,
-  children
-}: {
+export type BentoCardProps = {
   name: string;
   className: string;
   background: ReactNode;
@@ -42,7 +33,18 @@ const BentoCard = ({
   href: string;
   cta: string;
   children?: ReactNode
-}) => (
+}
+
+const BentoCard = ({
+  name,
+  className,
+  background,
+  Icon,
+  description,
+  href,
+  cta,
+  children
+}: BentoCardProps) => (
   <div
     key={name}
     className={cn(
@@ -60,7 +62,7 @@ const BentoCard = ({
       <h3 className="text-xl font-semibold text-foreground">
         {name}
       </h3>
-      <p className="max-w-lg text-foreground/50">{description}</p>
+      <p className="max-w-xl text-foreground/50">{description}</p>
     </div>
 
     <div

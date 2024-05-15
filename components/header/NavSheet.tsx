@@ -28,6 +28,7 @@ export default function NavSheet({
               <SheetMenuItem href='/#about' title="О съезде" />
               <SheetMenuItem href='/#directions' title='Направления' />
               <SheetMenuItem href='/#programm' title='Программа' />
+              <SheetMenuItem href='/#place' title='Место' />
               <SheetMenuItem href='/#materials' title='Материалы' />
             </ScrollArea>
           </NavigationMenuList>

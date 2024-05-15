@@ -49,6 +49,24 @@ export const ProgrammT = z.object({
 })
 export type ProgrammT = z.infer<typeof ProgrammT>;
 
+export const PlaceT = z.object({
+    attributes: z.object({
+        title: z.string(),
+        address: z.string(),
+        description: z.any(),
+        titleAboutCity: z.string(),
+        imageAboutCity: z.object({
+            data: z.object({
+                attributes: z.object({
+                    url: z.string()
+                })
+            })
+        }),
+        descriptionAboutCity: z.string().nullable()
+    }),
+})
+export type PlaceT = z.infer<typeof PlaceT>;
+
 export const MaterialsT = z.object({
     attributes: z.object({
         items: z.object({
