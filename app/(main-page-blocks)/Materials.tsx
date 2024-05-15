@@ -79,7 +79,7 @@ export default async function Materials() {
       </TypographyH1>
 
       <div className={cn(
-        'grid gap-y-6 lg:gap-x-16 md:gap-x-12 gap-x-8',
+        'grid gap-y-8 lg:gap-x-16 md:gap-x-12 gap-x-8',
         dataResult.value.attributes.items.length === 1 
           ? "grid-cols-1" 
           : "grid-cols-1 md:grid-cols-2"

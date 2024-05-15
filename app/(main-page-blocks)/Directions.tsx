@@ -61,7 +61,7 @@ export default async function Directions() {
                 {dataResult.value.attributes.items.map((item, index) => (
                     <li key={index} data-custom-attribute={index + 1}>
                         <div>
-                            <h4 className="whitespace-pre-wrap relative md:top-[-10px] top-[-6px] w-fit font-medium tracking-tight lg:text-xl sm:text-lg text-base md:px-6 px-4 md:py-4 py-3 bg-background rounded-lg shadow">
+                            <h4 className="whitespace-pre-wrap relative top-[-6px] w-fit border font-medium tracking-tight sm:text-lg text-base px-4 py-3 bg-background rounded-lg shadow">
                                 {item.title}
                             </h4>
                         </div>

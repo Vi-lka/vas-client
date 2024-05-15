@@ -3,10 +3,10 @@
   border-color: hsl(var(--foreground) / 0.15);
 }
 
-.timeline-horizontal:after {
+.timeline-horizontal:before {
   content: "";
   display: block;
-  margin-top: 14px;
+  margin-bottom: 14px;
   height: 0.25rem/* 4px */;
   width: 100%;
   background-color: hsl(var(--foreground) / 0.15);
@@ -36,12 +36,12 @@
 
 .timeline-horizontal > ol > li > span:last-child  {
   position: absolute;
-  bottom: -3.5rem/* -56px */;
+  top: -3.5rem/* -56px */;
 }
 
 .timeline-horizontal > ol > li > span:first-child {
   position: absolute;
-  bottom: -1.75rem/* -28px */;
+  top: -1.75rem/* -28px */;
 }
 .timeline-horizontal > ol > li > span:nth-child(2) {
   display: block;
@@ -64,7 +64,7 @@
     border-left-width: 4px;
   }
 
-  .timeline-horizontal:after {
+  .timeline-horizontal:before {
     display: none;
   }
 
@@ -92,7 +92,7 @@
   }
   .timeline-horizontal > ol > li > span:last-child {
     position: relative;
-    bottom: 0;
+    top: 0;
     order: 0;
   }
 
@@ -107,6 +107,7 @@
   }
   .timeline-horizontal > ol > li:last-child > span:first-child {
     left: -30px;
+    top: auto;
     bottom: -4px;
   }
 }

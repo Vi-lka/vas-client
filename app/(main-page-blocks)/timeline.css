@@ -70,7 +70,7 @@
 
     .timeline > li:nth-child(odd) > *,
     .timeline > li:nth-child(even) > * {
-        left: 40px;
+        left: 35px;
         text-align: left;
     }
 }

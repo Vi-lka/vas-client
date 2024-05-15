@@ -34,6 +34,21 @@ export const DirectionsT = z.object({
 })
 export type DirectionsT = z.infer<typeof DirectionsT>;
 
+export const ProgrammT = z.object({
+    attributes: z.object({
+        title: z.string(),
+        items: z.object({
+            day: z.string(),
+            times: z.object({
+                title: z.string(),
+                time: z.string()
+            }).array()
+        }).array(),
+        description: z.any()
+    }),
+})
+export type ProgrammT = z.infer<typeof ProgrammT>;
+
 export const MaterialsT = z.object({
     attributes: z.object({
         items: z.object({
