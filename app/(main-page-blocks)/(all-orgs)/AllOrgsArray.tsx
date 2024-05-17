@@ -15,7 +15,7 @@ export default function AllOrgsArray({
     <section className="px-8">
       <div className="lg:container mx-auto text-center">
         {title}
-        <div className="flex flex-wrap justify-center gap-6 lg:max-w-6xl mx-auto">
+        <div className="flex flex-wrap justify-center lg:gap-4 gap-2 lg:max-w-6xl mx-auto">
           {children}
         </div>
       </div>
@@ -35,10 +35,10 @@ export function AllOrgsItem({
   const item = (
     <figure
       className={cn(
-        "relative flex flex-col justify-center overflow-hidden rounded-lg border p-2",
-        "bg-secondary/70 hover:bg-card",
+        "relative flex flex-col justify-center overflow-hidden rounded-lg border border-transparent px-2 py-4",
+        "group bg-card",
         "transform-gpu transition-all duration-300 ease-out",
-        data.url ? "" : className
+        data.url ? "hover:shadow-md hover:border-border" : className
       )}
     >
       <Image 
@@ -46,10 +46,16 @@ export function AllOrgsItem({
         alt={data.title} 
         width={120}
         height={120}
-        className='object-contain aspect-square overflow-hidden rounded-2xl p-2 mx-auto'
+        className={cn(
+          'object-contain aspect-square overflow-hidden rounded-2xl p-1 mx-auto',
+          data.url ? "group-hover:scale-105 transition-all duration-300" : ""
+        )}
       />
-      <div className="flex h-full flex-col justify-center flex-1">
-        <figcaption className="text-center tracking-tight leading-5">
+      <div className="flex h-full flex-col justify-center flex-1 mt-1.5 mx-auto">
+        <figcaption className={cn(
+          "font-medium text-center tracking-tight leading-5",
+          data.url ? "group-hover:text-primary group-hover:-translate-y-1 transition-all duration-300" : ""
+        )}>
           {data.title}
         </figcaption>
       </div>

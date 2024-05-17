@@ -1,5 +1,4 @@
 import ErrorHandler from '@/components/errors/ErrorHandler';
-import { TypographyH3 } from '@/components/typography';
 import { getOrgs } from '@/lib/queries/getOrgs';
 import React from 'react';
 import AllOrgsArray, { AllOrgsItem } from "./AllOrgsArray";
@@ -30,7 +29,8 @@ export default async function AllOrgs() {
             data={org} 
             className={cn(
               "text-base",
-              dataResult.value.attributes.main.length >= 1 && "sm:w-[calc(50%-1.5rem)] w-full",
+              dataResult.value.attributes.main.length >= 1 && "md:w-[calc(33%-1.5rem)] w-full",
+              dataResult.value.attributes.main.length >= 3 && "lg:w-[calc(25%-1.5rem)]",
             )}
           />
         ))}
@@ -38,9 +38,9 @@ export default async function AllOrgs() {
 
       {dataResult.value.attributes.support.length > 0 && (
         <AllOrgsArray title={
-          <TypographyH3 className="my-4 leading-snug lg:text-xl text-lg sm:mt-12 mt-8">
+          <TypographyH2 className="my-4 leading-snug lg:text-3xl text-2xl first:mt-12">
             При поддержке
-          </TypographyH3>
+          </TypographyH2>
         }>
           {dataResult.value.attributes.support.map((org, indx) => (
             <AllOrgsItem 
@@ -48,8 +48,7 @@ export default async function AllOrgs() {
               data={org} 
               className={cn(
                 "text-sm",
-                dataResult.value.attributes.support.length >= 1 && "sm:w-[calc(50%-1.5rem)] w-full",
-                dataResult.value.attributes.support.length >= 2 && "md:w-[calc(33%-1.5rem)]",
+                dataResult.value.attributes.support.length >= 1 && "md:w-[calc(33%-1.5rem)] w-full",
                 dataResult.value.attributes.support.length >= 3 && "lg:w-[calc(25%-1.5rem)]",
               )}
             />
@@ -69,8 +68,7 @@ export default async function AllOrgs() {
               data={org} 
               className={cn(
                 "text-sm",
-                dataResult.value.attributes.partners.length >= 1 && "sm:w-[calc(50%-1.5rem)] w-full",
-                dataResult.value.attributes.partners.length >= 2 && "md:w-[calc(33%-1.5rem)]",
+                dataResult.value.attributes.partners.length >= 1 && "md:w-[calc(33%-1.5rem)] w-full",
                 dataResult.value.attributes.partners.length >= 3 && "lg:w-[calc(25%-1.5rem)]",
               )}
             />
@@ -90,8 +88,7 @@ export default async function AllOrgs() {
               data={org} 
               className={cn(
                 "text-sm",
-                dataResult.value.attributes.co_organizers.length >= 1 && "sm:w-[calc(50%-1.5rem)] w-full",
-                dataResult.value.attributes.co_organizers.length >= 2 && "md:w-[calc(33%-1.5rem)]",
+                dataResult.value.attributes.co_organizers.length >= 1 && "md:w-[calc(33%-1.5rem)] w-full",
                 dataResult.value.attributes.co_organizers.length >= 3 && "lg:w-[calc(25%-1.5rem)]",
               )}
             />
