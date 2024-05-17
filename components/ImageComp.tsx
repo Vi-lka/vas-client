@@ -10,6 +10,7 @@ type Props = {
   priority?: boolean;
   quality?: number;
   className?: string;
+  style?: React.CSSProperties
   onLoad?: React.ReactEventHandler<HTMLImageElement>;
 } & (Fill | NotFill);
 
@@ -51,6 +52,7 @@ export default function ImageComp(props: Props) {
       placeholder={placeholderSvg(width, height, resolvedTheme)}
       onError={() => setImage(placeholderImage)}
       className={props.className}
+      style={props.style}
       alt={props.alt}
       priority={props.priority}
       onLoad={props.onLoad}

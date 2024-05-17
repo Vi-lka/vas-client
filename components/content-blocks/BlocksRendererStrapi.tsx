@@ -137,13 +137,19 @@ export default function BlocksRendererStrapi({
               </Link>
             ),
             image: ({ image }) => (
-              <ClientHydration fallback={<Skeleton style={{ height: image.height < 1000 ? image.height : 450}} className='object-contain w-full' />}>
+              <ClientHydration fallback={
+                <Skeleton 
+                  style={{ aspectRatio: image.width/image.height }} 
+                  className='object-contain w-full rounded-xl'
+                />
+              }>
                 <ImageComp
                   src={"/uploads/" + image.hash + image.ext}
                   fill={false}
-                  width={image.width < 1000 ? image.width : 450}
-                  height={image.height < 1000 ? image.height : 450}
-                  className="object-contain w-full overflow-hidden rounded-3xl"
+                  width={image.width < 1000 ? image.width : 700}
+                  height={image.height < 1000 ? image.height : 700}
+                  className="object-contain w-full overflow-hidden rounded-xl"
+                  style={{ aspectRatio: image.width/image.height }}
                   alt={image.alternativeText ? image.alternativeText : ""}
                   priority
                 />

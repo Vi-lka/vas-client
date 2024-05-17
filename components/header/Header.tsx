@@ -10,7 +10,6 @@ import { Button } from '../ui/button'
 
 export default function Header() {
 
-    const [sticky, setSticky] = useState(true)
     const [shadow, setShadow] = useState(false)
     const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -44,32 +43,23 @@ export default function Header() {
         return () => {
             window.removeEventListener('scroll', fixedHeader);
         };
-    }, [sticky, scrollPosition])
-
-    const handleScrollToTop = () => {
-        setSticky(false)
-    }
+    }, [scrollPosition])
 
     return (
         <header className='container md:w-5/6 mx-auto'>
             <div 
                 ref={stickyHeader} 
                 className={cn(
-                    " bg-background z-50 py-6 duration-300",
-                    sticky ? "fixed w-full top-0 left-1/2 -translate-x-1/2" : "relative -mb-[112px]",
+                    "fixed w-full top-0 left-1/2 -translate-x-1/2 bg-background z-50 py-6 duration-300",
                     shadow ? "py-2 shadow-sm transition-all" : " transition-[padding]"
                 )}
             >
-                <div className={cn(
-                    "relative",
-                    sticky ? "container md:w-5/6 w-full" : ""
-                )}>
+                <div className="relative container md:w-5/6 w-full">
                     {/* Desktop */}
                     <div className='relative lg:flex hidden justify-between'>
                         <Link 
                           href="/#top" 
                           className='lg:w-1/6' 
-                          onClick={handleScrollToTop}
                         >
                             <Logo className='w-12 h-12' />
                         </Link>
@@ -88,7 +78,7 @@ export default function Header() {
 
                     {/* Mobile */}
                     <div className='lg:hidden flex items-center justify-between w-full'>
-                        <Link href="/#top" onClick={handleScrollToTop}>
+                        <Link href="/#top">
                             <Logo className='w-12 h-12' />
                         </Link>
 

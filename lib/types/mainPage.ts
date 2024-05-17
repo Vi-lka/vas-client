@@ -54,15 +54,24 @@ export const PlaceT = z.object({
         title: z.string(),
         address: z.string(),
         description: z.any(),
-        titleAboutCity: z.string(),
-        imageAboutCity: z.object({
-            data: z.object({
-                attributes: z.object({
-                    url: z.string()
+        additionalLinks: z.object({
+            title: z.string(),
+            image: z.object({
+                data: z.object({
+                    attributes: z.object({
+                        url: z.string()
+                    })
                 })
+            }),
+            description: z.string().nullable(),
+            page: z.object({
+                data: z.object({
+                    attributes: z.object({
+                        slug: z.string()
+                    })
+                }).nullable()
             })
-        }),
-        descriptionAboutCity: z.string().nullable()
+        }).array(),
     }),
 })
 export type PlaceT = z.infer<typeof PlaceT>;

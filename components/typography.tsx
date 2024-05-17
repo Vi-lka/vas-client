@@ -34,7 +34,7 @@ export function TypographyH4({ className, children }: { className?: string, chil
 
 export function TypographyH5({ className, children }: { className?: string, children?: React.ReactNode }) {
     return (
-        <article className="prose lg:prose-xl">
+        <article className="prose prose-lg text-foreground">
             <h5 className={cn('font-Inter', className)} >{children}</h5>
         </article>
     )
@@ -42,7 +42,7 @@ export function TypographyH5({ className, children }: { className?: string, chil
 
 export function TypographyH6({ className, children }: { className?: string, children?: React.ReactNode }) {
     return (
-        <article className="prose lg:prose-xl">
+        <article className="prose lg:prose-lg text-foreground">
             <h6 className={cn('font-Inter', className)} >{children}</h6>
         </article>
     )
