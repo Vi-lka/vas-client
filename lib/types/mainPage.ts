@@ -7,19 +7,25 @@ export const AboutT  = z.object({
 })
 export type AboutT = z.infer<typeof AboutT>;
 
+export const OrgsItemT = z.object({
+    title: z.string(),
+    url: z.string().nullable(),
+    image: z.object({
+        data: z.object({
+            attributes: z.object({
+                url: z.string()
+            })
+        })
+    })
+})
+export type OrgsItemT = z.infer<typeof OrgsItemT>;
+
 export const OrgsT  = z.object({
     attributes: z.object({
-        items: z.object({
-            title: z.string(),
-            url: z.string().nullable(),
-            image: z.object({
-                data: z.object({
-                    attributes: z.object({
-                        url: z.string()
-                    })
-                })
-            })
-        }).array()
+        main: OrgsItemT.array(),
+        support: OrgsItemT.array(),
+        partners: OrgsItemT.array(),
+        co_organizers: OrgsItemT.array()
     }),
 })
 export type OrgsT = z.infer<typeof OrgsT>;

@@ -5,6 +5,7 @@ import Hero from "./(main-page-blocks)/Hero";
 import Materials from "./(main-page-blocks)/Materials";
 import Place from "./(main-page-blocks)/Place";
 import Programm from "./(main-page-blocks)/Programm";
+import AllOrgs from  "./(main-page-blocks)/(all-orgs)/AllOrgs"
 
 export default function Home() {
 
@@ -17,6 +18,7 @@ export default function Home() {
       <Programm />
       <Place />
       <Materials />
+      <AllOrgs />
     </main>
   );
 }
