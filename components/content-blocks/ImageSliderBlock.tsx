@@ -28,7 +28,7 @@ export default function ImageSliderBlock({
                 <CarouselComp className='lg:-ml-8 -ml-4'>
                     {data.images.data.map((item, index) => (
                         <CarouselItem key={index} className='lg:pl-8 pl-4'>
-                            <Card className='border-none shadow-md bg-transparent rounded-3xl'>
+                            <Card className='border-none shadow-md bg-transparent rounded-3xl mb-2'>
                                 <CardContent className="relative w-full sm:aspect-[3/2] aspect-square">
                                     <ImageComp
                                         src={item.attributes.url}

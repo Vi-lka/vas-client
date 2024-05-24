@@ -89,12 +89,12 @@ export default async function AdditionalPage({
 
   return (
     <main className="flex min-h-screen max-w-screen-xl mx-auto flex-col items-center justify-between pt-24">
-      <div className='xl:w-3/5 lg:w-2/3 md:w-[70%] sm:w-3/4 w-5/6 mx-auto px-8 pt-8'>
+      <div className='xl:w-3/5 lg:w-2/3 md:w-[70%] sm:w-3/4 w-5/6 mx-auto sm:px-8 px-2 pt-8'>
         <TypographyH1 className='mb-8'>
           {dataResult.value.attributes.title}
         </TypographyH1>
         
-        <div className=' flex flex-col gap-8'>
+        <div className='flex flex-col gap-8'>
           {dataResult.value.attributes.content.map((item, indx) => (
             <DynamicZone key={indx} item={item} />
           ))}

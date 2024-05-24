@@ -5,7 +5,7 @@ import FormFooter from './FormFooter';
 
 export default function Footer() {
     return (
-        <footer className="flex lg:flex-row flex-col justify-between items-center sm:gap-12 gap-6 p-10 bg-background border-t mt-12">
+        <footer className="flex lg:flex-row flex-col justify-between items-center sm:gap-12 gap-6 p-10 bg-background border-t mt-16">
             <aside className='flex flex-col justify-center items-center gap-3'>
                 <Logo className='w-20 h-20' />
 
