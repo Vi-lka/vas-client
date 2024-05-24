@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/header/Header";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body className="font-Inter bg-background scroll-smooth">
         <Header />
         {children}
+        <Footer />
         <Toaster />
       </body>
     </html>

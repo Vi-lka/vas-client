@@ -101,3 +101,31 @@ export const MaterialsT = z.object({
     }),
 })
 export type MaterialsT = z.infer<typeof MaterialsT>;
+
+
+export const PersonT = z.object({
+    title: z.string(),
+    description: z.string().nullable(),
+    image: z.object({
+        data: z.object({
+            attributes: z.object({
+                url: z.string()
+            })
+        }).nullable()
+    })
+})
+export type PersonT = z.infer<typeof PersonT>;
+
+export const CommitteeItemT = z.object({
+    title: z.string(),
+    persons: PersonT.array(),
+})
+export type CommitteeItemT = z.infer<typeof CommitteeItemT>;
+
+export const CommitteeT = z.object({
+    attributes: z.object({
+        title: z.string(),
+        items: CommitteeItemT.array()
+    }),
+})
+export type CommitteeT = z.infer<typeof CommitteeT>;

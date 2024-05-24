@@ -2,7 +2,7 @@ import ErrorHandler from '@/components/errors/ErrorHandler';
 import { getOrgs } from '@/lib/queries/getOrgs';
 import React from 'react';
 import AllOrgsArray, { AllOrgsItem } from "./AllOrgsArray";
-import { TypographyH2 } from '@/components/typography';
+import { TypographyH1, TypographyH2 } from '@/components/typography';
 import { cn } from '@/lib/utils';
 
 export default async function AllOrgs() {
@@ -18,6 +18,10 @@ export default async function AllOrgs() {
 
   return (
     <div id='orgs' className='container pt-24'>
+      <TypographyH1 className='mb-8'>
+        Организации
+      </TypographyH1>
+
       <AllOrgsArray title={
         <TypographyH2 className="my-4 leading-snug lg:text-3xl text-2xl">
           Организаторы

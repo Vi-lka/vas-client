@@ -25,7 +25,7 @@ type NotFill = {
 };
 
 export default function ImageComp(props: Props) {
-  const placeholderImage = "/hero-image.jpeg";
+  const placeholderImage = "/person.png";
   const { resolvedTheme } = useTheme();
 
   const [image, setImage] = React.useState(

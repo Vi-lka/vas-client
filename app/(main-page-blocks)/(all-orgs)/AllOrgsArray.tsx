@@ -35,7 +35,7 @@ export function AllOrgsItem({
   const item = (
     <figure
       className={cn(
-        "relative flex flex-col justify-center overflow-hidden rounded-lg border border-transparent px-2 py-4",
+        "relative flex flex-col justify-center overflow-hidden rounded-xl border border-transparent px-2 py-4",
         "group bg-card",
         "transform-gpu transition-all duration-300 ease-out",
         data.url ? "hover:shadow-md hover:border-border" : className

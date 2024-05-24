@@ -6,6 +6,7 @@ import Materials from "./(main-page-blocks)/Materials";
 import Place from "./(main-page-blocks)/Place";
 import Programm from "./(main-page-blocks)/Programm";
 import AllOrgs from  "./(main-page-blocks)/(all-orgs)/AllOrgs"
+import Committee from "./(main-page-blocks)/(committee)/Committee";
 
 export default function Home() {
 
@@ -19,6 +20,7 @@ export default function Home() {
       <Place />
       <Materials />
       <AllOrgs />
+      <Committee />
     </main>
   );
 }
