@@ -27,8 +27,9 @@ export default function CommitteeItem({
                                 {item.image.data && (
                                     <ClientHydration fallback={<Skeleton className='w-28 h-28 aspect-square mx-auto mb-1 rounded-xl' />}>
                                         <ImageComp
-                                            src={item.image.data.attributes.url}
+                                            src={item.image.data?.attributes.url}
                                             alt={item.title}
+                                            placeholder='/person.png'
                                             fill={false}
                                             width={112}
                                             height={112}
@@ -37,13 +38,13 @@ export default function CommitteeItem({
                                     </ClientHydration>
                                 )}
                                 <h4 className={cn(
-                                    "font-bold tracking-tight text-foreground",
+                                    "font-semibold tracking-tight text-foreground",
                                     item.description ? "lg:text-lg" : "text-base"
                                 )}>
                                     {item.title}
                                 </h4>
                                 {item.description && (
-                                    <p className='mt-1 text-sm text-muted-foreground flex-1'>{item.description}</p>
+                                    <p className='mt-1 text-xs text-muted-foreground flex-1'>{item.description}</p>
                                 )}
                             </CardContent>
                         </Card>

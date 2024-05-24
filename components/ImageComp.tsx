@@ -7,6 +7,7 @@ import { useTheme } from "next-themes";
 type Props = {
   src: string | undefined;
   alt: string;
+  placeholder?: string
   priority?: boolean;
   quality?: number;
   className?: string;
@@ -25,7 +26,7 @@ type NotFill = {
 };
 
 export default function ImageComp(props: Props) {
-  const placeholderImage = "/person.png";
+  const placeholderImage = props.placeholder ? props.placeholder : "/vas-logo.png";
   const { resolvedTheme } = useTheme();
 
   const [image, setImage] = React.useState(

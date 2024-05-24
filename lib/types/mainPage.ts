@@ -129,3 +129,28 @@ export const CommitteeT = z.object({
     }),
 })
 export type CommitteeT = z.infer<typeof CommitteeT>;
+
+
+
+export const ContactsItemT = z.object({
+    title: z.string().nullable(),
+    places: z.object({
+        title: z.string().nullable(),
+        address: z.string().nullable(),
+        link: z.string().nullable(),
+    }).array(),
+    persons: z.object({
+        title: z.string().nullable(),
+        description: z.string().nullable(),
+        tel: z.string().nullable(),
+        email: z.string().nullable(),
+    }).array(),
+})
+export type ContactsItemT = z.infer<typeof ContactsItemT>;
+
+export const ContactsT = z.object({
+    attributes: z.object({
+        items: ContactsItemT.array()
+    }),
+})
+export type ContactsT = z.infer<typeof ContactsT>;
