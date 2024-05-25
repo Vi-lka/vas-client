@@ -58,7 +58,7 @@ export default function Header() {
                     {/* Desktop */}
                     <div className='relative lg:flex hidden justify-between'>
                         <Link 
-                          href="/#top" 
+                          href="/" 
                           className='lg:w-1/6' 
                         >
                             <Logo className='w-12 h-12' />

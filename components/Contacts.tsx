@@ -6,8 +6,13 @@ import ErrorHandler from "./errors/ErrorHandler";
 import { TypographyH3, TypographyH5 } from "./typography";
 import Link from "next/link";
 import { AtSign, MapPin, PhoneCall, UserRound } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export default async function Contacts() {
+export default async function Contacts({
+    className
+}: {
+    className?: string
+}) {
 
     const getContacts = async (): Promise<ContactsT> => {
       const query = /* GraphGL */ `
@@ -65,9 +70,9 @@ export default async function Contacts() {
     )
   
     return (
-        <div className="self-start">
+        <div className={cn("", className)}>
             <TypographyH3 className="mb-3 sm:text-left text-center">Контакты</TypographyH3> 
-            <div className="grid grid-cols-1 gap-8">
+            <div className="grid grid-cols-1 items-center gap-8">
                 {dataResult.value.attributes.items.map((item, indx) => (
                     <ContactsItem key={indx} data={item} />
                 ))}
