@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import { ClerkProvider } from '@clerk/nextjs';
+import { ruRU } from "@clerk/localizations";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
+import "./globals.css";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -37,18 +39,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html 
-      lang="ru"
-      suppressHydrationWarning
-      className={`${inter.variable} scroll-smooth`}
-      style={{scrollBehavior:'smooth'}}
-    >
-      <body className="font-Inter bg-background scroll-smooth">
-        <Header />
-        {children}
-        <Footer />
-        <Toaster />
-      </body>
-    </html>
+    <ClerkProvider localization={ruRU}>
+      <html 
+        lang="ru"
+        suppressHydrationWarning
+        className={`${inter.variable} scroll-smooth`}
+        style={{scrollBehavior:'smooth'}}
+      >
+        <body className="font-Inter bg-background scroll-smooth">
+          <Header />
+          {children}
+          <Footer />
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

@@ -67,7 +67,7 @@ export default function Header() {
                         <NavMenu className='flex-1' />
 
                         <div className='flex items-center justify-end lg:w-1/6'>
-                            <Link href="/reg" passHref className=''>
+                            <Link href="/sign-in" passHref className=''>
                                 <Button variant="outline" className='font-medium text-base sm:px-8 sm:py-5 px-6 py-4'>
                                     Вход
                                 </Button>
@@ -83,7 +83,7 @@ export default function Header() {
                         </Link>
 
                         <div className='flex items-center gap-3'>
-                            <Link href="/reg" passHref className=''>
+                            <Link href="/sign-in" passHref className=''>
                                 <Button variant="outline" className='font-medium text-base sm:px-8 sm:py-5 px-6 py-4'>
                                     Вход
                                 </Button>

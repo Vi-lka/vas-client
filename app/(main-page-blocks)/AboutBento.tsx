@@ -54,13 +54,13 @@ export default async function AboutBento() {
       Icon: LogIn,
       name: "Онлайн регистрация",
       description: "Регистрируйтесь и получайте уведомления",
-      href: "/reg",
+      href: "/sign-up",
       cta: "Перейти",
       className: "col-span-3 lg:col-span-1",
       background: (
         <div className="absolute w-full [mask-image:linear-gradient(to_top,transparent_0%,#000_50%)]">
           <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg bg-background p-20">
-            <Link href="/reg" passHref className='z-10'>
+            <Link href="/sign-up" passHref className='z-10'>
               <Button variant="secondary" className='font-medium text-base tracking-tighter bg-background/90 hover:text-background hover:bg-primary/90 p-6'>
                 Регистрация
               </Button>

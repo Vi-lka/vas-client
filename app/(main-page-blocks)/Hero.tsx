@@ -23,7 +23,7 @@ export default function Hero() {
         
           <div className="mt-8 flex flex-wrap sm:flex-row flex-col justify-center gap-4">
             <div className='w-full sm:w-[calc(50%-1rem)] flex sm:justify-end justify-center'>
-              <Link href="/reg" passHref className='w-fit h-fit'>
+              <Link href="/sign-up" passHref className='w-fit h-fit'>
                 <Button className='font-medium shadow text-base px-12 py-6'>
                   Регистрация
                 </Button>
