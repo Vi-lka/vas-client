@@ -59,3 +59,16 @@ export function getValidChildren(children: React.ReactNode) {
     React.isValidElement(child),
   ) as React.ReactElement[]
 }
+
+export function translateClerkError(code: string, defaultMessage: string) {
+  switch (code) {
+    case "form_identifier_not_found":
+      return "Не удалось найти ваш аккаунт."
+    
+    case "form_password_incorrect":
+      return "Неверный пароль. Попробуйте еще раз."
+
+    default:
+      return defaultMessage;
+  }
+}

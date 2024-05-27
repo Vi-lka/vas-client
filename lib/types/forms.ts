@@ -14,6 +14,20 @@ export const ContactFormT = z.object({
 })
 export type ContactFormT = z.infer<typeof ContactFormT>;
 
+
+
+
+export const SignInFormT = z.object({
+  identifier: z.string().email({ message: "Неверно введен Email" }),
+  password: z.string().min(8, {
+    message: "Введите не менее 8 символов",
+  }),
+})
+export type SignInFormT = z.infer<typeof SignInFormT>;
+
+
+
+
 export const SignUpFormT = z.object({
   emailAddress: z.string().email({ message: "Неверно введен Email" }),
   password: z.string().min(8, {
@@ -66,12 +80,18 @@ export const SignUpFormT = z.object({
 });
 export type SignUpFormT = z.infer<typeof SignUpFormT>;
 
+
+
+
 export const VerifyFormT = z.object({
   code: z.string().min(6, {
     message: "Код верификации должен содержать 6 цифр",
   })
 })
 export type VerifyFormT = z.infer<typeof VerifyFormT>;
+
+
+
 
 export const MetadataNoReportFormT = z.object({
   report: z.literal(false),
@@ -93,11 +113,15 @@ export const MetadataNoReportFormT = z.object({
 })
 export type MetadataNoReportFormT = z.infer<typeof MetadataNoReportFormT>;
 
+
+
+
 export const FormatEnum = z.enum(
   ["очно", "дистанционно", "стендовый доклад"], 
   {required_error: "Это поле является обязательным"}
 );
 export type FormatEnum = z.infer<typeof FormatEnum>;
+
 
 export const MetadataReportFormT = z.object({
   report: z.literal(true),
@@ -148,6 +172,7 @@ export const MetadataReportFormT = z.object({
   comment: z.string()
 })
 export type MetadataReportFormT = z.infer<typeof MetadataReportFormT>;
+
 
 export const MetadataFormT = z.discriminatedUnion( 'report', [
   MetadataNoReportFormT,

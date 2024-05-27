@@ -3,11 +3,13 @@
 import * as React from 'react';
 import { useSignUp } from '@clerk/nextjs';
 import SignUpForm from '../../../components/froms/SignUpForm';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import VerifyForm from '@/components/froms/VerifyForm';
 import Steps from './Steps';
 import { Check, Database, LogIn } from 'lucide-react';
 import MetadataForm from '@/components/froms/MetadataForm';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function SignUpContent() {
   const { isLoaded, signUp } = useSignUp();
@@ -69,19 +71,28 @@ export default function SignUpContent() {
                 <VerifyForm setMetadata={setMetadata} />
               </CardContent>
             </Card>
-          ) : (
-            // Display the initial sign-up form to capture the email and password
-            <Card className='sm:w-5/6 w-full sm:max-w-md max-w-sm mx-auto'>
-              <CardHeader>
-                <CardTitle className='text-center lg:text-2xl text-xl'>Регистрация</CardTitle>
-                <CardDescription className='text-center'>
-                  Регистрируйтесь, чтобы принять участие в Cъезде и получать уведомления
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <SignUpForm setVerifying={setVerifying} />
-              </CardContent>
-            </Card>
+          ) : (<>
+              {/* Display the initial sign-up form to capture the email and password */}
+              <Card className='relative sm:w-5/6 w-full sm:max-w-md max-w-sm mx-auto'>
+                <CardHeader>
+                  <CardTitle className='text-center lg:text-2xl text-xl'>Регистрация</CardTitle>
+                  <CardDescription className='text-center'>
+                    Регистрируйтесь, чтобы принять участие в Cъезде и получать уведомления
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <SignUpForm setVerifying={setVerifying} />
+                </CardContent>
+                <CardFooter className='absolute -bottom-16 w-full flex items-center justify-center gap-1'>
+                  <p className='text-sm'>Уже регистрировались?</p>
+                  <Link href="/sign-in" passHref className=''>
+                    <Button variant="link" className='text-sm font-medium px-1'>
+                      Войти
+                    </Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            </>
           )
       }
     </div>

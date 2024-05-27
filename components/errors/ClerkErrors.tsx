@@ -1,8 +1,10 @@
+import { translateClerkError } from '@/lib/utils'
 import { CircleAlert } from 'lucide-react'
 import React from 'react'
 
 export type ClerkError = {
     errors: {
+        code: string,
         message: string,
         longMessage: string
     }[]
@@ -27,7 +29,7 @@ export function SignUpError({
             )}
             {data.errors.map((err, indx) => (
                 <p key={indx} className='font-Inter'>
-                    {err.longMessage}
+                    {translateClerkError(err.code, err.longMessage)}
                 </p>
             ))}
         </div>

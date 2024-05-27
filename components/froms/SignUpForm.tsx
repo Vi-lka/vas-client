@@ -5,7 +5,7 @@ import { SignUpError } from '@/components/errors/ClerkErrors'
 import { InputField } from '@/components/froms/inputs/InputField'
 import { PasswordField } from '@/components/froms/inputs/PasswordField';
 import SubmitButton from '@/components/froms/inputs/SubmitButton';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { SignUpFormT } from '@/lib/types/forms'
 import { useSignUp } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -89,6 +89,7 @@ export default function SignUpForm({
               <FormLabel>Пароль</FormLabel>
               <FormControl>
                 <PasswordField
+                  placeholder='Введите пароль'
                   disabled={form.formState.isSubmitting}
                   autoComplete="new-password"
                   className='bg-background rounded-lg border-border shadow'
@@ -96,6 +97,14 @@ export default function SignUpForm({
                 />
               </FormControl>
               <FormMessage />
+              <FormDescription className='text-xs text-center flex flex-wrap justify-center items-center gap-x-1'>
+                Советуем пользоваться
+                <a 
+                  href='https://vc.ru/reg-ru/469476-7-menedzherov-paroley-kotorye-ne-ushli-s-nashego-rynka' 
+                  target="_blank" 
+                  className='text-primary underline-offset-4 hover:underline'
+                >Менеджером паролей</a>
+              </FormDescription>
             </FormItem>
           )}
         />
@@ -105,7 +114,7 @@ export default function SignUpForm({
 
         <SubmitButton 
           disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting}
-          className='sm:px-12 px-6 mx-auto !mt-6'
+          className='sm:px-12 px-6 mx-auto !mt-4'
         >
           Продолжить
         </SubmitButton>
