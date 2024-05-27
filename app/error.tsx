@@ -23,7 +23,7 @@ export default function Error({
     useEffect(() => {
         Sentry.captureException(error);
 
-        console.log("Error: ", error.message);
+        console.error(JSON.stringify(error, null, 2));
     
         toast({
           variant: "destructive",

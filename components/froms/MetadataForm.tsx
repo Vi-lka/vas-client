@@ -15,6 +15,7 @@ import { SignUpError } from '../errors/ClerkErrors'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import MetadataNoReport from "./MetadataNoReport"
 import MetadataReport from './MetadataReport'
+import { completeOnboarding } from '@/app/actions'
 
 export default function MetadataForm() {
 
@@ -48,25 +49,33 @@ export default function MetadataForm() {
     mode: "onChange",
   })
 
-  const handleMetadata = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleMetadata = (formData: FormData) => {
 
     if (!user) return;
 
     const updateUser = user.update({
-      firstName: form.getValues("name"),
-      lastName: form.getValues("familyName"),
-      unsafeMetadata: form.getValues() 
+      firstName: formData.get("name") as string,
+      lastName: formData.get("familyName") as string,
+      unsafeMetadata: form.getValues(),
+    }).then(async () => {
+      const res = await completeOnboarding();
+      return res
+    }).then(async (data) => {
+      if (data?.message) {
+        await user?.reload();
+        return data?.message
+      } else {
+        return data
+      }
     })
 
     toast.promise(updateUser, {
       loading: 'Сохраняем данные...',
       success: () => {
-        router.push('/user');
+        router.push('/account');
         return `Успешно!`;
       },
       error: (err) => {
-        console.error(JSON.stringify(err, null, 2));
         return <SignUpError data={err as ClerkError} />
       }
     });
@@ -81,7 +90,7 @@ export default function MetadataForm() {
   return (
     <Form {...form}>
       <form 
-        onSubmit={handleMetadata}
+        action={handleMetadata}
         className="space-y-3 flex flex-col w-full"
       >
         <Tabs 

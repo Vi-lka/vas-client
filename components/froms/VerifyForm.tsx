@@ -53,39 +53,10 @@ export default function VerifyForm({
         return `Успешно!`;
       },
       error: (err) => {
-        console.error(JSON.stringify(err, null, 2));
         return <SignUpError data={err as ClerkError} />
       }
     });
   };
-
-  // const handleVerify = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   if (!isLoaded) return;
-
-  //   try {
-  //     // Use the code the user provided to attempt verification
-  //     const completeSignUp = await signUp.attemptEmailAddressVerification({
-  //       code,
-  //     });
-
-  //     // If verification was completed, set the session to active
-  //     // and redirect the user
-  //     if (completeSignUp.status === 'complete') {
-  //       await setActive({ session: completeSignUp.createdSessionId });
-  //       router.push('/');
-  //     } else {
-  //       // If the status is not complete, check why. User may need to
-  //       // complete further steps.
-  //       console.error(JSON.stringify(completeSignUp, null, 2));
-  //     }
-  //   } catch (err: unknown) {
-  //     // See https://clerk.com/docs/custom-flows/error-handling
-  //     // for more info on error handling
-  //     console.error('Error:', JSON.stringify(err, null, 2));
-  //   }
-  // };
 
   return (
     <Form {...form}>

@@ -15,6 +15,7 @@ export function SignUpError({
     data: ClerkError,
     title?: string
 }) {
+  console.error(JSON.stringify(data, null, 2));
   return (
     <div className='flex items-center gap-2'>
         <CircleAlert className='w-5 h-5' />

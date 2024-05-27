@@ -41,7 +41,7 @@ export default function ErrorToast({
   React.useEffect(() => {
     Sentry.captureException(error);
 
-    console.log("ErrorToast: ", messageError);
+    console.error("ErrorToast: ", JSON.stringify(messageError, null, 2));
 
     toast({
       variant: "destructive",

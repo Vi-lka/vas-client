@@ -51,7 +51,6 @@ export default function SignUpForm({
         return `На почту ${data.emailAddress} отправлен код`;
       },
       error: (err) => {
-        console.error(JSON.stringify(err, null, 2));
         return <SignUpError data={err as ClerkError} />
       }
     });
@@ -100,6 +99,9 @@ export default function SignUpForm({
             </FormItem>
           )}
         />
+
+        {/* CAPTCHA Widget */}
+        <div id="clerk-captcha"></div>
 
         <SubmitButton 
           disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting}

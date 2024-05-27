@@ -38,7 +38,6 @@ export default function DirectionSelect({
 
   if (isLoading) return <Skeleton className='rounded-lg border-border shadow h-10 w-full'/>
   if (error) {
-    console.error(JSON.stringify(error, null, 2))
     return <ErrorToast error={error.message} place="Направления" returnNull />;
   }
   if (!data || !data.direction.data || (data.direction.data.attributes.items.length === 0)) {
