@@ -14,9 +14,11 @@ import { useRouter } from "next/navigation";
 export default function ErrorToast({
   error,
   place,
+  returnNull,
 }: {
   error: string | ZodIssue[];
   place: string;
+  returnNull?: boolean,
 }) {
   const { toast } = useToast();
   const router = useRouter();
@@ -61,6 +63,8 @@ export default function ErrorToast({
       ),
     });
   }, [error, messageError, place, router, toast]);
+
+  if (returnNull) return null
 
   return (
     <div className="mx-auto my-10 flex flex-col items-center gap-10 text-center">

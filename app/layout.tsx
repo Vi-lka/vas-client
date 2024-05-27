@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs';
 import { ruRU } from "@clerk/localizations";
 import { Toaster } from "@/components/ui/toaster";
+import { Sonner } from "@/components/ui/sonner"
+import { SWRProvider } from "@/components/providers/swr-provider"
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import "./globals.css";
@@ -48,9 +50,12 @@ export default function RootLayout({
       >
         <body className="font-Inter bg-background scroll-smooth">
           <Header />
-          {children}
+          <SWRProvider>
+            {children}
+          </SWRProvider>
           <Footer />
           <Toaster />
+          <Sonner />
         </body>
       </html>
     </ClerkProvider>

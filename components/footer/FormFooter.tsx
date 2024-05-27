@@ -125,7 +125,7 @@ export default function FormFooter({
                     <TextareaField
                       placeholder={"Текст"}
                       disabled={form.formState.isSubmitting}
-                      className='bg-background rounded-lg border-border shadow'
+                      className='min-h-20 bg-background rounded-lg border-border shadow'
                       {...field}
                     />
                   </FormControl>

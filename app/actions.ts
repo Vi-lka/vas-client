@@ -10,7 +10,7 @@ import EmailContactTemplate from "@/components/emails/EmailContactTemplate";
 interface State {
     error: string | null
     success: boolean
-  }
+}
 
 export const sendEmail = async (prevState: State, formData: ContactFormT) => {
     try {
