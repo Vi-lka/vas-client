@@ -14,6 +14,7 @@ import { InputField } from '../froms/inputs/InputField'
 import { TextareaField } from '../froms/inputs/TextareaField'
 import SubmitButton from '../froms/inputs/SubmitButton'
 import type { z } from 'zod'
+import * as Sentry from "@sentry/nextjs";
 
 
 export default function FormFooter({
@@ -49,6 +50,7 @@ export default function FormFooter({
       form.reset()
     }
     if (sendEmailState.error) {
+      Sentry.captureException(sendEmailState.error);
       toast({
         variant: "destructive",
         title: "Ошибка!",

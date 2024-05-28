@@ -1,7 +1,10 @@
+"use client"
+
 import { translateClerkError } from '@/lib/utils'
 import { CircleAlert } from 'lucide-react'
 import React from 'react'
 import { z } from 'zod'
+import * as Sentry from "@sentry/nextjs";
 
 export const ClerkError = z.object({
     errors: z.object({
@@ -19,6 +22,8 @@ export function SignUpError({
     data: ClerkError | Error,
     title?: string
 }) {
+  
+  Sentry.captureException(data);
   console.error(JSON.stringify(data, null, 2));
 
   const clerkError = ClerkError.safeParse(data);
