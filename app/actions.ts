@@ -7,6 +7,7 @@ import { render } from "@react-email/render";
 import { v4 as uuid } from 'uuid';
 import EmailContactTemplate from "@/components/emails/EmailContactTemplate";
 import { auth, clerkClient } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export const completeOnboarding = async () => {
     const { userId } = auth();
@@ -21,6 +22,7 @@ export const completeOnboarding = async () => {
                 onboardingComplete: true,
             },
         });
+        revalidatePath('/account')
         return { message: res.publicMetadata };
     } catch (err) {
         throw new Error("There was an error updating the user metadata.");

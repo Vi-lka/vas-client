@@ -1,16 +1,23 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { InputField } from './inputs/InputField';
 import type { UseFormReturn } from 'react-hook-form'
 import type { MetadataFormT } from '@/lib/types/forms'
 
 export default function MetadataNoReport({
-  form
+  form,
+  isPending
 }: {
-  form: UseFormReturn<MetadataFormT>
+  form: UseFormReturn<MetadataFormT>,
+  isPending: boolean
 }) {
+
+  useEffect(() => {
+    form.setValue("report", false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+  }, [form])
+  
   return (
     <>
       <div className='sm:space-x-3 flex sm:flex-row flex-col items-center w-full'>
@@ -22,7 +29,7 @@ export default function MetadataNoReport({
               <FormLabel>Фамилия<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="family-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -40,7 +47,7 @@ export default function MetadataNoReport({
               <FormLabel>Имя<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="given-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -60,7 +67,7 @@ export default function MetadataNoReport({
               <FormLabel>Отчество (при наличии)</FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="additional-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -79,7 +86,7 @@ export default function MetadataNoReport({
               <FormControl>
                 <InputField
                   placeholder='+7 999 999-99-99'
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="tel"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -99,7 +106,7 @@ export default function MetadataNoReport({
               <FormLabel>Страна<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="country-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -117,7 +124,7 @@ export default function MetadataNoReport({
               <FormLabel>Город<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="home city"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -136,7 +143,7 @@ export default function MetadataNoReport({
             <FormLabel>Организация</FormLabel>
             <FormControl>
               <InputField
-                disabled={form.formState.isSubmitting}
+                disabled={form.formState.isSubmitting || isPending}
                 autoComplete="organization"
                 className='bg-background rounded-lg border-border shadow'
                 {...field}

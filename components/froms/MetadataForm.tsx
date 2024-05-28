@@ -17,16 +17,23 @@ import MetadataNoReport from "./MetadataNoReport"
 import MetadataReport from './MetadataReport'
 import { completeOnboarding } from '@/app/actions'
 
-export default function MetadataForm() {
+export default function MetadataForm({
+  defaultValues,
+  defaultTab = "report",
+}: {
+  defaultValues?: MetadataFormT,
+  defaultTab?: "report" | "no-report",
+}) {
 
   const router = useRouter()
   const { user } = useUser();
-  const [hasReport, setHasReport] = React.useState("report");
+  const [hasReport, setHasReport] = React.useState<string>(defaultTab);
+  const [isPending, setPending] = React.useState(false);
 
   const form = useForm<z.infer<typeof MetadataFormT>>({
     resolver: zodResolver(MetadataFormT), 
-    defaultValues: {
-      report: true,
+    defaultValues: defaultValues ?? {
+      report: defaultTab === "report" ? true : false,
       familyName: "",
       name: "",
       middleName: "",
@@ -53,10 +60,15 @@ export default function MetadataForm() {
 
     if (!user) return;
 
+    setPending(true)
+
     const updateUser = user.update({
       firstName: formData.get("name") as string,
       lastName: formData.get("familyName") as string,
-      unsafeMetadata: form.getValues(),
+      unsafeMetadata: {
+        ...form.getValues(),
+        report: hasReport === "report" ? true : false,
+      },
     }).then(async () => {
       const res = await completeOnboarding();
       return res
@@ -72,20 +84,16 @@ export default function MetadataForm() {
     toast.promise(updateUser, {
       loading: 'Сохраняем данные...',
       success: () => {
+        setPending(false)
         router.push('/account');
         return `Успешно!`;
       },
       error: (err) => {
+        setPending(false)
         return <SignUpError data={err as ClerkError} />
       }
     });
   };
-
-  const handleChangeTab = (value: string) => {
-    setHasReport(value)
-    if (value === "no-report") form.setValue("report", false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-    if (value === "report") form.setValue("report", true, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-  }
 
   return (
     <Form {...form}>
@@ -94,21 +102,33 @@ export default function MetadataForm() {
         className="space-y-3 flex flex-col w-full"
       >
         <Tabs 
-          defaultValue="report" 
+          defaultValue={defaultTab} 
           value={hasReport}
-          onValueChange={handleChangeTab}
+          onValueChange={(value: string) => setHasReport(value)}
           className="w-full"
         >
           <TabsList className='w-full h-fit flex flex-wrap items-center'>
-            <TabsTrigger value="report" className='px-6'>С докладом</TabsTrigger>
-            <TabsTrigger value="no-report" className='px-6'>Без доклада</TabsTrigger>
+            <TabsTrigger 
+              value="report" 
+              disabled={form.formState.isSubmitting || isPending} 
+              className='px-6'
+            >
+              С докладом
+            </TabsTrigger>
+            <TabsTrigger 
+              value="no-report"
+              disabled={form.formState.isSubmitting || isPending} 
+              className='px-6'
+            >
+              Без доклада
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="report" className='space-y-3 flex flex-col w-full'>
-            <MetadataReport form={form} />
+            <MetadataReport form={form} isPending={isPending} />
           </TabsContent>
           <TabsContent value="no-report" className='space-y-3 flex flex-col w-full'>
-            <MetadataNoReport form={form} />
+            <MetadataNoReport form={form} isPending={isPending} />
           </TabsContent>
         </Tabs>
 
@@ -116,8 +136,11 @@ export default function MetadataForm() {
           <span className='text-destructive font-semibold text-base'>*</span> - Обязательное поле
         </p>
 
+        {/* CAPTCHA Widget */}
+        <div id="clerk-captcha"></div>
+
         <SubmitButton 
-          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting}
+          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending}
           className='sm:px-12 px-6 mx-auto md:!mt-0'
         >
           Сохранить

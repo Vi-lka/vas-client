@@ -1,13 +1,13 @@
 import type { MetadataFormT } from "@/lib/types/forms";
-import type { ControllerRenderProps, UseFormReturn } from "react-hook-form";
+import type { ControllerRenderProps } from "react-hook-form";
 import MultipleSelectorField from "./MultipleSelectorField";
 
 export default function TableSelect({
-  form,
   field,
+  disabled
 }: {
-  form: UseFormReturn<MetadataFormT>,
-  field: ControllerRenderProps<MetadataFormT, "tables">
+  field: ControllerRenderProps<MetadataFormT, "tables">,
+  disabled: boolean
 }) {
 
   const dataForField = [
@@ -32,7 +32,7 @@ export default function TableSelect({
   return (
     <MultipleSelectorField
         {...field}
-        disabled={form.formState.isSubmitting}
+        disabled={disabled}
         defaultOptions={dataForField}
         placeholder="Выберите круглые столы..."
         emptyIndicator={<p className="py-6 text-center text-sm">Не найдено</p>}

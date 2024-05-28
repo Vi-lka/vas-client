@@ -18,9 +18,11 @@ type DirectionSelectData = {
 export default function DirectionSelect({
   form,
   field,
+  disabled,
 }: {
   form: UseFormReturn<MetadataFormT>,
-  field: ControllerRenderProps<MetadataFormT, "direction">
+  field: ControllerRenderProps<MetadataFormT, "direction">,
+  disabled: boolean
 }) {
 
   const { data, error, isLoading } = useSWR<DirectionSelectData, Error>(
@@ -51,7 +53,8 @@ export default function DirectionSelect({
   return (
     <ComboboxField
       data={dataForField}
-      disabled={form.formState.isSubmitting}
+      disabled={disabled}
+      defaultValue={field.value}
       placeholder="Выберите направление..."
       className='bg-background rounded-lg border-border shadow'
       onSelect={(value) => form.setValue(field.name, value, {shouldDirty: true, shouldTouch: true, shouldValidate: true})}

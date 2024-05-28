@@ -39,14 +39,25 @@ export default function RadioGroupInline({
       {data.map((item, indx) => (
         <div 
           key={indx} 
-          className="flex items-center space-x-2 w-full border-b sm:border-b-0 sm:border-l first:border-l-0 ps-3 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-all"
+          className={cn(
+            "flex items-center space-x-2 w-full border-b sm:border-b-0 sm:border-l first:border-l-0 ps-3 cursor-pointer hover:bg-accent hover:text-accent-foreground transition-all",
+            disabled && "cursor-not-allowed"
+          )}
           onMouseDown={() => {
-            setValue(item.value)
-            onValueChange(item.value)
+            if (!disabled) {
+              setValue(item.value)
+              onValueChange(item.value)
+            }
           }}
         >
-          <RadioGroupItem value={item.value} id={`r${indx}${item.value}`} />
-          <Label htmlFor={`r${indx}${item.value}`} className='flex-1 w-full py-3 cursor-pointer'>
+          <RadioGroupItem disabled={disabled} value={item.value} id={`r${indx}${item.value}`} />
+          <Label 
+            htmlFor={`r${indx}${item.value}`} 
+            className={cn(
+              'flex-1 w-full py-3 cursor-pointer', 
+              disabled && "text-muted-foreground cursor-not-allowed"
+            )}
+          >
             {item.label}
           </Label>
         </div>

@@ -12,6 +12,7 @@ type ComboboxFieldProps = {
     label: string,
   }[],
   disabled: boolean | undefined,
+  defaultValue: string,
   placeholder?: React.ReactNode,
   className?: string,
   onSelect: (value: string) => void
@@ -20,13 +21,14 @@ type ComboboxFieldProps = {
 export default function ComboboxField({
   data, 
   disabled,
+  defaultValue,
   placeholder,
   className, 
   onSelect,
 }: ComboboxFieldProps) {
   const { pending } = useFormStatus();
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
+  const [value, setValue] = React.useState(defaultValue)
  
   return (
     <Popover open={open} onOpenChange={setOpen}>

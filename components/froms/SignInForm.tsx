@@ -100,6 +100,9 @@ export default function SignInForm() {
           )}
         />
 
+        {/* CAPTCHA Widget */}
+        <div id="clerk-captcha"></div>
+
         <SubmitButton 
           disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting}
           className='sm:px-12 px-6 mx-auto !mt-6'

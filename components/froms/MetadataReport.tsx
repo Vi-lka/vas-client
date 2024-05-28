@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import type { MetadataFormT } from '@/lib/types/forms';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
@@ -12,10 +12,18 @@ import TableSelect from './inputs/TableSelect';
 import { AutosizeTextareaField } from './inputs/AutosizeTextareaField';
 
 export default function MetadataReport({
-  form
+  form,
+  isPending,
 }: {
-  form: UseFormReturn<MetadataFormT>
+  form: UseFormReturn<MetadataFormT>,
+  isPending: boolean
 }) {
+
+  useEffect(() => {
+    // if (hasReport === "no-report") form.setValue("report", false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+    form.setValue("report", true, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+  }, [form])
+
   return (
     <>
       <div className='sm:space-x-3 flex sm:flex-row flex-col items-center w-full'>
@@ -27,7 +35,7 @@ export default function MetadataReport({
               <FormLabel>Фамилия<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="family-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -45,7 +53,7 @@ export default function MetadataReport({
               <FormLabel>Имя<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="given-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -65,7 +73,7 @@ export default function MetadataReport({
               <FormLabel>Отчество (при наличии)</FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="additional-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -84,7 +92,7 @@ export default function MetadataReport({
               <FormControl>
                 <InputField
                   placeholder='+7 999 999-99-99'
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="tel"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -104,7 +112,7 @@ export default function MetadataReport({
               <FormLabel>Страна<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="country-name"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -122,7 +130,7 @@ export default function MetadataReport({
               <FormLabel>Город<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="home city"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -142,7 +150,7 @@ export default function MetadataReport({
               <FormLabel>Ученая степень<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
                 />
@@ -159,7 +167,7 @@ export default function MetadataReport({
               <FormLabel>Ученое звание<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
                 />
@@ -178,7 +186,7 @@ export default function MetadataReport({
               <FormLabel>Организация<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="organization"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -196,7 +204,7 @@ export default function MetadataReport({
               <FormLabel>Должность<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <InputField
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   autoComplete="organization-title"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -221,7 +229,7 @@ export default function MetadataReport({
                     {value: "дистанционно", label: "Дистанционно"},
                     {value: "стендовый доклад", label: "Стендовый доклад"},
                   ]}
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   placeholder="Выберите формат участия"
                   className='bg-background rounded-lg border-border shadow'
                   {...field}
@@ -238,7 +246,11 @@ export default function MetadataReport({
             <FormItem className='sm:w-[66%] w-full'>
               <FormLabel>Направление<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
-                <DirectionSelect form={form} field={field} />
+                <DirectionSelect 
+                  form={form} 
+                  field={field} 
+                  disabled={form.formState.isSubmitting || isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -253,7 +265,7 @@ export default function MetadataReport({
             <FormLabel>Название доклада<span className='text-destructive'>*</span></FormLabel>
             <FormControl>
               <InputField
-                disabled={form.formState.isSubmitting}
+                disabled={form.formState.isSubmitting || isPending}
                 className='bg-background rounded-lg border-border shadow'
                 {...field}
               />
@@ -271,7 +283,7 @@ export default function MetadataReport({
               <FormLabel>Требуется приглашение?<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <RadioField 
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   data={[
                     {value: "true", label: "Да"},
                     {value: "false", label: "Нет"}
@@ -301,7 +313,7 @@ export default function MetadataReport({
               <FormLabel>Требуется гостиница?<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <RadioField 
-                  disabled={form.formState.isSubmitting}
+                  disabled={form.formState.isSubmitting || isPending}
                   data={[
                     {value: "да", label: "Да"},
                     {value: "нет", label: "Нет"}
@@ -331,7 +343,7 @@ export default function MetadataReport({
           <FormItem className='w-full'>
             <FormLabel>Планируется участие в работе круглых столов?</FormLabel>
             <FormControl>
-              <TableSelect form={form} field={field} />
+              <TableSelect field={field} disabled={form.formState.isSubmitting || isPending} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -345,7 +357,7 @@ export default function MetadataReport({
             <FormLabel>Комментарии / пожелания / предложения</FormLabel>
             <FormControl>
               <AutosizeTextareaField
-                disabled={form.formState.isSubmitting}
+                disabled={form.formState.isSubmitting || isPending}
                 minHeight={112}
                 maxHeight={300}
                 className='bg-background rounded-lg border-border shadow'
