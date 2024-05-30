@@ -2,91 +2,88 @@ import { TypographyH3 } from '@/components/typography'
 import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import type { MetadataFormT } from '@/lib/types/forms'
-import type { User } from '@clerk/nextjs/server'
 import { Building2, MapPin, Phone, SquarePen } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
 export default function Profile({
-  user
+  username,
+  email,
+  metadata
 }: {
-  user: User
+  username: string,
+  email: string,
+  metadata: MetadataFormT
 }) {
-
-  const userMetadata = (user.unsafeMetadata as MetadataFormT)
-
-  const hasReport = userMetadata.report === true
-
-  const userName = user.lastName + " " + user.firstName + " " + userMetadata.middleName
 
   return (
     <div className='w-full'>
-      <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>{userName}</TypographyH3>
+      <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>{username}</TypographyH3>
       <p className='font-medium text-muted-foreground lg:text-xl md:text-base text-sm break-all'>
-        {user.primaryEmailAddress?.emailAddress}
+        {email}
       </p>
       <div className='mt-8 flex flex-col gap-6'>
         <p className='font-medium lg:text-xl md:text-lg text-base'>
-          {hasReport ? "С докладом" : "Без доклада (слушатель)"}
+          {metadata.report === true ? "С докладом" : "Без доклада (слушатель)"}
         </p>
 
         <ol className='text-sm flex flex-wrap gap-4'>
           <li className='inline-flex items-center gap-1'>
             <Phone className='w-4 h-4 flex-none'/>
-            <p className='break-all lg:break-normal'>{userMetadata.phone}</p>
+            <p className='break-all lg:break-normal'>{metadata.phone}</p>
           </li>
           <li className='inline-flex items-center gap-1'>
             <MapPin className='w-4 h-4 flex-none'/>
-            <p className='break-all lg:break-normal'>{userMetadata.country + ", " + userMetadata.city}</p>
+            <p className='break-all lg:break-normal'>{metadata.country + ", " + metadata.city}</p>
           </li>
-          {hasReport ? (
+          {metadata.report === true ? (
             <li className='inline-flex items-center gap-1'>
               <Building2 className='w-4 h-4 flex-none'/>
-              <p className='break-all lg:break-normal'>{userMetadata.organization + ", " + userMetadata.post}</p>
+              <p className='break-all lg:break-normal'>{metadata.organization + ", " + metadata.post}</p>
             </li>
           ) : (
             <li className='inline-flex items-center gap-1'>
               <Building2 className='w-4 h-4 flex-none'/>
-              <p className='break-all lg:break-normal'>{userMetadata.organization}</p>
+              <p className='break-all lg:break-normal'>{metadata.organization}</p>
             </li>
           )}
         </ol>
 
-        {hasReport && (
+        {metadata.report === true && (
           <Table>
             <TableBody>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Ученая степень:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs'>{userMetadata.degree}</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.degree}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Ученое звание:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs'>{userMetadata.rank}</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.rank}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Формат участия:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs capitalize'>{userMetadata.format}</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs capitalize'>{metadata.format}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Направление:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs'>{userMetadata.direction}</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.direction}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Название доклада:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs'>{userMetadata.reportName}</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.reportName}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Приглашение:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{userMetadata.invitation ? "Требуется" : "Не требуется"}</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{metadata.invitation ? "Требуется" : "Не требуется"}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Гостиница:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{userMetadata.hotel ? "Требуется" : "Не требуется"}</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{metadata.hotel ? "Требуется" : "Не требуется"}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Круглые столы:</TableCell>
                 <TableCell className='flex-1 lg:text-sm text-xs flex flex-col gap-2'>
-                  {userMetadata.tables.map((item, indx) => (
+                  {metadata.tables.map((item, indx) => (
                     <p key={indx}>{indx+1}. {item.label}</p>
                   ))}
                 </TableCell>

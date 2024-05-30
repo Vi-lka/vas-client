@@ -1,39 +1,297 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use server"
 
 import nodemailer from "nodemailer";
-import type { ContactFormT } from "@/lib/types/forms";
+import type { ContactFormT, NewConfirmRequestFormT, SignUpFormT, PasswordResetFormT, MetadataFormT } from "@/lib/types/forms";
 import { smtpOptions } from "@/lib/email";
 import { render } from "@react-email/render";
 import { v4 as uuid } from 'uuid';
 import EmailContactTemplate from "@/components/emails/EmailContactTemplate";
-import { auth, clerkClient } from "@clerk/nextjs/server";
-import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import type { StrapiErrorT } from '@/types/StrapiError';
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
+import { revalidatePath, revalidateTag } from "next/cache";
 
-export const completeOnboarding = async () => {
-    const { userId } = auth();
+export const signUpAction = async (data: SignUpFormT) => {
+  try {
+    const strapiResponse = await fetch(
+      process.env.NEXT_PUBLIC_STRAPI_API_URL + '/api/auth/local/register',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          username: data.emailAddress, 
+          email: data.emailAddress, 
+          password: data.password
+        }),
+        cache: 'no-cache',
+      }
+    );
+  
+    // handle strapi error
+    if (!strapiResponse.ok) {
+      // check if response in json-able
+      const contentType = strapiResponse.headers.get('content-type');
 
-    if (!userId) {
-        throw new Error("Пользователь не авторизирован");
+      if (contentType === 'application/json; charset=utf-8') {
+        const data: StrapiErrorT = await strapiResponse.json();
+
+        console.error(JSON.stringify(data, null, 2))
+        
+        if (data.error.message === 'Email or Username are already taken') {
+          throw new Error("Что-то пошло не так.");
+        } else {
+          throw new Error(data.error.message);
+        }
+      } else {
+        throw new Error(strapiResponse.statusText);
+      }
     }
-
-    try {
-        const res = await clerkClient.users.updateUser(userId, {
-            publicMetadata: {
-                onboardingComplete: true,
-            },
-        });
-        revalidatePath('/account')
-        return { message: res.publicMetadata };
-    } catch (err) {
-        throw new Error("There was an error updating the user metadata.");
-    }
-};
-
-interface State {
-    error: string | null
-    success: boolean
+  } catch (error) {
+    // network error or something
+    throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
+  }
 }
 
+
+
+
+export const confirmEmailAction = async (confirmationToken: string) => {
+  // send email validation request to strapi and wait for the response.
+  try {
+    const strapiResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/api/auth/email-confirmation?confirmation=${confirmationToken}`
+    );
+    // handle strapi error
+    if (!strapiResponse.ok) {
+      const response = {
+        error: true,
+        message: '',
+      };
+      // check if response in json-able
+      const contentType = strapiResponse.headers.get('content-type');
+      if (contentType === 'application/json; charset=utf-8') {
+        const data = await strapiResponse.json();
+        response.message = data.error.message;
+      } else {
+        response.message = strapiResponse.statusText;
+      }
+      return response;
+    }
+  } catch (error) {
+    // network error or something
+    return {
+      error: true,
+      message: (error as Error).message ? (error as Error).message : (error as Response).statusText,
+    };
+  }
+}
+
+
+
+
+export const confirmationNewRequestAction = async (data: NewConfirmRequestFormT) => {
+
+  const { email } = data
+
+  try {
+    const strapiResponse = await fetch(
+      process.env.NEXT_PUBLIC_STRAPI_API_URL + '/api/auth/send-email-confirmation',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+        cache: 'no-cache',
+      }
+    );
+
+    // handle strapi error
+    if (!strapiResponse.ok) {
+      // check if response in json-able
+      const contentType = strapiResponse.headers.get('content-type');
+      if (contentType === 'application/json; charset=utf-8') {
+        const data: StrapiErrorT = await strapiResponse.json();
+
+        console.error(JSON.stringify(data, null, 2))
+        
+        if (data.error.message === 'Already confirmed') {
+          throw new Error("Что-то пошло не так.");
+        } else {
+          throw new Error(data.error.message);
+        }
+      } else {
+        throw new Error(strapiResponse.statusText);
+      }
+    }
+  } catch (error) {
+    // network error or something
+    throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
+  }
+
+  redirect('/sign-up/confirmation');
+}
+
+
+
+
+export const requestPasswordResetAction = async (data: NewConfirmRequestFormT) => {
+
+  const { email } = data
+
+  try {
+    const strapiResponse = await fetch(
+      process.env.NEXT_PUBLIC_STRAPI_API_URL + '/api/auth/forgot-password',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+        cache: 'no-cache',
+      }
+    );
+
+    // handle strapi error
+    if (!strapiResponse.ok) {
+      // check if response in json-able
+      const contentType = strapiResponse.headers.get('content-type');
+      if (contentType === 'application/json; charset=utf-8') {
+        const data: StrapiErrorT = await strapiResponse.json();
+
+        console.error(JSON.stringify(data, null, 2))
+        
+        throw new Error(data.error.message);
+      } else {
+        throw new Error(strapiResponse.statusText);
+      }
+    }
+  } catch (error) {
+    // network error or something
+    throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
+  }
+}
+
+
+
+
+
+export const resetPasswordAction = async (data: PasswordResetFormT, code: string) => {
+
+  const { password, passwordConfirmation } = data;
+
+  try {
+    const strapiResponse = await fetch(
+      process.env.NEXT_PUBLIC_STRAPI_API_URL + '/api/auth/reset-password',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password,
+          passwordConfirmation,
+          code,
+        }),
+        cache: 'no-cache',
+      }
+    );
+
+
+    // handle strapi error
+    if (!strapiResponse.ok) {
+      // check if response in json-able
+      const contentType = strapiResponse.headers.get('content-type');
+      if (contentType === 'application/json; charset=utf-8') {
+        const data: StrapiErrorT = await strapiResponse.json();
+
+        console.error(JSON.stringify(data, null, 2))
+        
+        throw new Error(data.error.message);
+      } else {
+        throw new Error(strapiResponse.statusText);
+      }
+    }
+  } catch (error) {
+    // network error or something
+    throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
+  }
+}
+
+
+
+type UpdateUserT = {
+  username: string,
+  subscribed: boolean,
+  report: boolean,
+  metadata: MetadataFormT
+}
+export const updateUserAction = async ({
+  username,
+  subscribed,
+  metadata
+}: UpdateUserT) => {
+  const session = await getServerSession(authOptions);
+
+  try {
+    const strapiResponse = await fetch(
+      process.env.NEXT_PUBLIC_STRAPI_API_URL + '/api/user/me',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session?.strapiToken}`,
+        },
+        body: JSON.stringify({
+          username,
+          subscribed,
+          report: metadata.report,
+          metadata,
+        }),
+        cache: 'no-cache',
+      }
+    );
+
+    // handle strapi error
+    if (!strapiResponse.ok) {
+      // check if response in json-able
+      const contentType = strapiResponse.headers.get('content-type');
+      if (contentType === 'application/json; charset=utf-8') {
+        const data: StrapiErrorT = await strapiResponse.json();
+
+        console.error(JSON.stringify(data, null, 2))
+        
+        throw new Error(data.error.message);
+      } else {
+        throw new Error(strapiResponse.statusText);
+      }
+    }
+
+    // handle strapi success
+    revalidateTag('strapi-users-me');
+    revalidatePath('/account')
+    const data: UpdateUserT = await strapiResponse.json();
+    return data;
+
+  } catch (error) {
+    // network error or something
+    throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
+  }
+}
+
+
+
+
+interface State {
+  error: string | null
+  success: boolean
+}
 export const sendEmail = async (prevState: State, formData: ContactFormT) => {
     try {
         const transporter = nodemailer.createTransport({
@@ -46,7 +304,7 @@ export const sendEmail = async (prevState: State, formData: ContactFormT) => {
             subject: 'Обратная связь на сайте "Всероссийский Aрхеологический Cъезд"',
             html: render(EmailContactTemplate(formData)),
             headers: {
-                'X-Entity-Ref-ID': uuid(),
+              'X-Entity-Ref-ID': uuid(),
             },
         })
         return {

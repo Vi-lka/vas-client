@@ -1,23 +1,34 @@
 import { TypographyH2 } from "@/components/typography";
-import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Navigation from "./Navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { getCurrentUser } from '@/lib/queries/getCurrentUser'
+import { MetadataFormT } from "@/lib/types/forms";
 
 export const dynamic = 'force-dynamic'
 
-export default function AccountLayout({
+export default async function AccountLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { userId, sessionClaims } = auth();
+  const session = await getServerSession(authOptions);
 
-  if (!userId) {
+  if (!session) {
     redirect("/sign-in");
   }
 
-  if (!sessionClaims?.metadata?.onboardingComplete) {
+  const currentUser = await getCurrentUser(session.strapiToken!);
+
+  if (!currentUser.metadata) {
     redirect("/onboarding");
+  }
+
+  const metadataResult = MetadataFormT.safeParse(currentUser.metadata);
+
+  if (!metadataResult.success) {
+    redirect("/onboarding")
   }
 
   return (

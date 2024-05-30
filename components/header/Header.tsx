@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import Logo from './Logo'
 import NavSheet from './NavSheet'
-// import { Button } from '../ui/button'
 import AccountButton from './AccountButton'
 
 export default function Header() {

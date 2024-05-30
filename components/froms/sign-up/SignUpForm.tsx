@@ -1,26 +1,22 @@
 "use client"
 
-import type { ClerkError } from '@/components/errors/ClerkErrors';
-import { SignUpError } from '@/components/errors/ClerkErrors'
+import { signUpAction } from '@/app/actions';
+import AuthError from '@/components/errors/AuthError'
 import { InputField } from '@/components/froms/inputs/InputField'
 import { PasswordField } from '@/components/froms/inputs/PasswordField';
 import SubmitButton from '@/components/froms/inputs/SubmitButton';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { SignUpFormT } from '@/lib/types/forms'
-import { useSignUp } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import type { z } from 'zod'
 
-export default function SignUpForm({
-  setVerifying
-}: {
-  setVerifying: React.Dispatch<React.SetStateAction<boolean>>
-}) {
+export default function SignUpForm() {
 
-  const { isLoaded, signUp } = useSignUp();
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof SignUpFormT>>({
     resolver: zodResolver(SignUpFormT),
@@ -31,27 +27,18 @@ export default function SignUpForm({
     mode: "onChange",
   })
 
+  const handleSignUp = (formData: FormData) => {
 
-  const handleSignUp = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!isLoaded) return;
-
-    const createUser = signUp.create(form.getValues())
-    .then(() => 
-      signUp.prepareEmailAddressVerification({
-        strategy: 'email_code'
-      })
-    );
+    const createUser = signUpAction(form.getValues())
 
     toast.promise(createUser, {
       loading: 'Создаем пользователя...',
-      success: (data) => {
-        setVerifying(true)
-        return `На почту ${data.emailAddress} отправлен код`;
+      success: () => {
+        router.push("/sign-up/confirmation")
+        return `На почту ${formData.get("emailAddress")} отправлена ссылка для подтверждения`;
       },
       error: (err) => {
-        return <SignUpError data={err as ClerkError} />
+        return <AuthError data={err as Error} />
       }
     });
   };
@@ -59,7 +46,7 @@ export default function SignUpForm({
   return (
     <Form {...form}>
       <form 
-        onSubmit={handleSignUp}
+        action={handleSignUp}
         className="space-y-3 flex flex-col w-full"
       >
         <FormField
@@ -97,6 +84,25 @@ export default function SignUpForm({
                 />
               </FormControl>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="passwordConfirmation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Подтверждение Пароля</FormLabel>
+              <FormControl>
+                <PasswordField
+                  placeholder='Введите пароль снова'
+                  disabled={form.formState.isSubmitting}
+                  autoComplete="new-password"
+                  className='bg-background rounded-lg border-border shadow'
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
               <FormDescription className='text-xs text-center flex flex-wrap justify-center items-center gap-x-1'>
                 Советуем пользоваться
                 <a 
@@ -108,9 +114,6 @@ export default function SignUpForm({
             </FormItem>
           )}
         />
-
-        {/* CAPTCHA Widget */}
-        <div id="clerk-captcha"></div>
 
         <SubmitButton 
           disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting}

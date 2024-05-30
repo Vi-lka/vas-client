@@ -1,4 +1,3 @@
-import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import React from 'react'
 import Profile from './content/Profile';
@@ -10,6 +9,10 @@ import ArrivalDeparture from './content/ArrivalDeparture';
 import Fee from './content/Fee';
 import Info from './content/Info';
 import Programm from './content/Programm';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import { getServerSession } from 'next-auth';
+import { getCurrentUser } from '@/lib/queries/getCurrentUser'
+import { MetadataFormT } from '@/lib/types/forms';
 
 export const dynamic = 'force-dynamic'
 
@@ -18,29 +21,49 @@ export default async function AccountPage({
 }: { 
   params: { account: string[] | undefined } 
 }) {
-  const user = await currentUser();
+  const session = await getServerSession(authOptions);
 
-  if (!user) {
+  if (!session) {
     redirect("/sign-in");
   }
 
-  if (!params.account || params.account.length === 0) return <Profile user={user} />
+  const currentUser = await getCurrentUser(session.strapiToken!);
+
+  const metadataResult = MetadataFormT.safeParse(currentUser.metadata);
+
+  if (!metadataResult.success) {
+    redirect("/onboarding")
+  }
+
+  if (!params.account || params.account.length === 0) return (
+    <Profile 
+      username={currentUser.username} 
+      email={currentUser.email}
+      metadata={metadataResult.data} 
+    />
+  )
 
   switch (params.account[0] as NavigationHrefT) {
     case "":
-      return <Profile user={user} />
+      return (
+        <Profile 
+          username={currentUser.username} 
+          email={currentUser.email}
+          metadata={metadataResult.data} 
+        />
+      )
 
     case "data":
-      return <Data user={user} />
+      return <Data metadata={(currentUser.metadata as MetadataFormT)} />
 
     case "abstracts":
-      return <Abstracts user={user} />
+      return <Abstracts metadata={metadataResult.data} />
 
     case "arrival-departure":
-      return <ArrivalDeparture user={user} />
+      return <ArrivalDeparture metadata={metadataResult.data} />
     
     case "fee":
-      return <Fee user={user} />
+      return <Fee metadata={metadataResult.data} />
     
     case "info":
       return <Info />
