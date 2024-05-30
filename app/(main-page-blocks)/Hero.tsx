@@ -16,9 +16,8 @@ export default function Hero() {
           </h1>
         
           <p className="mt-6 text-sm sm:text-lg/relaxed z-10">
-            Примите участие во Всероссийском археологическом съезде, который состоится
-            <br/>
-            <span className='font-medium'>6 - 10 октября 2025 года</span>.
+            {/* <br/> */}
+            <span className='font-medium'>Красноярск, 6 - 10 октября 2025 года</span>.
           </p>
         
           <div className="mt-8 flex flex-wrap sm:flex-row flex-col justify-center gap-4">

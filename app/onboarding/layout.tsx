@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getCurrentUser } from "@/lib/queries/getCurrentUser";
+import { MetadataFormT } from "@/lib/types/forms";
 
 export default async function OnboardingLayout({
   children,
@@ -16,7 +17,9 @@ export default async function OnboardingLayout({
 
   const currentUser = await getCurrentUser(session.strapiToken!);
 
-  if (currentUser.metadata) {
+  const metadataResult = MetadataFormT.safeParse(currentUser.metadata);
+
+  if (metadataResult.success) {
     redirect("/account");
   }
 

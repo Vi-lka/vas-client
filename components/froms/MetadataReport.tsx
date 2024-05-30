@@ -305,36 +305,6 @@ export default function MetadataReport({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="hotel"
-          render={({ field }) => (
-            <FormItem className='w-full'>
-              <FormLabel>Требуется гостиница?<span className='text-destructive'>*</span></FormLabel>
-              <FormControl>
-                <RadioField 
-                  disabled={form.formState.isSubmitting || isPending}
-                  data={[
-                    {value: "да", label: "Да"},
-                    {value: "нет", label: "Нет"}
-                  ]}
-                  defaultValue={
-                    form.getValues(field.name) === true 
-                      ? "да" 
-                      : form.getValues(field.name) === false 
-                        ? "нет" : undefined
-                  }
-                  className='shadow'
-                  onValueChange={(value) => {
-                    if (value === "да") form.setValue(field.name, true, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-                    else form.setValue(field.name, false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
       </div>
       <FormField
         control={form.control}

@@ -238,9 +238,6 @@ export const MetadataReportFormT = z.object({
   invitation: z.boolean({
     required_error: "Это поле является обязательным"
   }),
-  hotel: z.boolean({
-    required_error: "Это поле является обязательным"
-  }),
   comment: z.string()
 })
 export type MetadataReportFormT = z.infer<typeof MetadataReportFormT>;

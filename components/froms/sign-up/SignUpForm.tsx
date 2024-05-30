@@ -22,7 +22,8 @@ export default function SignUpForm() {
     resolver: zodResolver(SignUpFormT),
     defaultValues: {
       emailAddress: "",
-      password: ""
+      password: "",
+      passwordConfirmation: "",
     },
     mode: "onChange",
   })

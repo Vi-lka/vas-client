@@ -17,7 +17,7 @@ export default function ArrivalDeparture({
 
   return (
     <div className='w-full'>
-      <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>Прибытие и отбытие</TypographyH3>
+      <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>Прибытие и отъезд</TypographyH3>
       <p className='font-medium text-muted-foreground lg:text-lg md:text-base text-sm'>
         
       </p>

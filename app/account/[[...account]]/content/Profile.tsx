@@ -77,10 +77,6 @@ export default function Profile({
                 <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{metadata.invitation ? "Требуется" : "Не требуется"}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
-                <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Гостиница:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{metadata.hotel ? "Требуется" : "Не требуется"}</TableCell>
-              </TableRow>
-              <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Круглые столы:</TableCell>
                 <TableCell className='flex-1 lg:text-sm text-xs flex flex-col gap-2'>
                   {metadata.tables.map((item, indx) => (

@@ -1,13 +1,13 @@
 import React from 'react'
 import NavigationLink from './NavigationLink'
-import { BadgeRussianRuble, CalendarDays, CircleUserRound, ClipboardList, FileType2, Plane } from 'lucide-react'
+import { BadgeRussianRuble, Bed, CalendarDays, CircleUserRound, ClipboardList, Compass, FileType2, Plane } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import { redirect } from 'next/navigation'
 
-export type NavigationHrefT = "" | "data" | "abstracts" | "arrival-departure" | "fee" | "info" | "programm"
+export type NavigationHrefT = "" | "data" | "abstracts" | "arrival-departure" | "fee" | "info" | "programm" | "excursions" | "hotel"
 
 export type NavigationItemT = {
   title: string,
@@ -32,7 +32,7 @@ export default async function Navigation({
   const navWhitReport: NavigationItemT[] = hasReport 
     ? [
       {title: "Тезисы", href: "abstracts", children: <FileType2 className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-      {title: "Прибытие и отбытие", href: "arrival-departure", children: <Plane className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+      {title: "Прибытие и отъезд", href: "arrival-departure", children: <Plane className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
       {title: "Организационный взнос", href: "fee", children: <BadgeRussianRuble className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     ] : []
 
@@ -42,6 +42,8 @@ export default async function Navigation({
     ...navWhitReport,
     {title: "Информационные письма", href: "info", children: <InfoCircledIcon className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     {title: "Программа съезда", href: "programm", children: <CalendarDays className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    {title: "Экскурсии", href: "excursions", children: <Compass className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    {title: "Гостиницы", href: "hotel", children: <Bed className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
   ]
 
   return (

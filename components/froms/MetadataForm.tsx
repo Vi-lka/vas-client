@@ -46,7 +46,6 @@ export default function MetadataForm({
       direction: "",
       reportName: "",
       invitation: undefined,
-      hotel: undefined,
       tables: [],
       tour: "",
       comment: "",

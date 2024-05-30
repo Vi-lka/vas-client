@@ -13,6 +13,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { getServerSession } from 'next-auth';
 import { getCurrentUser } from '@/lib/queries/getCurrentUser'
 import { MetadataFormT } from '@/lib/types/forms';
+import Excursions from './content/Excursions';
+import Hotel from './content/Hotel';
 
 export const dynamic = 'force-dynamic'
 
@@ -70,6 +72,12 @@ export default async function AccountPage({
 
     case "programm":
       return <Programm />
+
+    case "excursions":
+      return <Excursions />
+
+    case "hotel":
+      return <Hotel />
   
     default:
       return <NotFound goBack />
