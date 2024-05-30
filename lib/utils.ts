@@ -60,13 +60,19 @@ export function getValidChildren(children: React.ReactNode) {
   ) as React.ReactElement[]
 }
 
-export function translateClerkError(code: string, defaultMessage: string) {
+export function translateError(code: string, defaultMessage: string) {
   switch (code) {
-    case "form_identifier_not_found":
-      return "Не удалось найти ваш аккаунт."
-    
-    case "form_password_incorrect":
-      return "Неверный пароль. Попробуйте еще раз."
+    case "Invalid identifier or password":
+      return "Неверный email или пароль";
+
+    case "Your account email is not confirmed":
+      return "Адрес электронной почты вашего аккаунта не подтвержден. Проверьте почту."
+
+    case "Incorrect code provided":
+      return "Указан неверный код"
+
+    case "fetch failed":
+      return "Не удалось выполнить операцию, проблемы с сетью"
 
     default:
       return defaultMessage;

@@ -1,23 +1,23 @@
 "use client"
 
-import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 import React from 'react'
 import { Button } from '../ui/button';
 import { Skeleton } from '../ui/skeleton';
 import { Loader2 } from 'lucide-react';
 import AccountBar from './AccountBar';
+import { useSession } from 'next-auth/react';
 
 export default function AccountButton() {
-  const { sessionId, isLoaded } = useAuth();
+  const { data: session, status } = useSession();
 
-  if (!isLoaded) return (
-    <Skeleton className='flex items-center justify-center sm:w-28 w-20 sm:h-[42px] h-10'>
-      <Loader2 className='w-4 h-4 animate-spin transition-all'/>
+  if (status === "loading") return (
+    <Skeleton className='flex items-center justify-center h-11 w-11 rounded-full'>
+      <Loader2 className='w-7 h-7 animate-spin transition-all'/>
     </Skeleton>
   )
 
-  if (!sessionId) {
+  if (!session) {
     return (
       <Link href="/sign-in" passHref className=''>
         <Button variant="outline" className='font-medium text-base sm:px-8 sm:py-5 px-6 py-4'>
@@ -28,6 +28,6 @@ export default function AccountButton() {
   }
   
   return (
-    <AccountBar sessionId={sessionId} />
+    <AccountBar user={session.user} />
   );
 }

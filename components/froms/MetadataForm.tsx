@@ -7,15 +7,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { z } from 'zod'
 import { MetadataFormT } from '@/lib/types/forms'
-import { useUser } from '@clerk/nextjs'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import type { ClerkError } from '../errors/ClerkErrors';
-import { SignUpError } from '../errors/ClerkErrors'
+import AuthError from '../errors/AuthError'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 import MetadataNoReport from "./MetadataNoReport"
 import MetadataReport from './MetadataReport'
-import { completeOnboarding } from '@/app/actions'
+import { updateUserAction } from '@/app/actions'
+import { useSession } from 'next-auth/react'
 
 export default function MetadataForm({
   defaultValues,
@@ -26,9 +25,8 @@ export default function MetadataForm({
 }) {
 
   const router = useRouter()
-  const { user } = useUser();
-  const [hasReport, setHasReport] = React.useState<string>(defaultTab);
   const [isPending, setPending] = React.useState(false);
+  const { update } = useSession();
 
   const form = useForm<z.infer<typeof MetadataFormT>>({
     resolver: zodResolver(MetadataFormT), 
@@ -56,41 +54,35 @@ export default function MetadataForm({
     mode: "onChange",
   })
 
-  const handleMetadata = (formData: FormData) => {
-
-    if (!user) return;
+  const handleUpdateUser = () => {
 
     setPending(true)
 
-    const updateUser = user.update({
-      firstName: formData.get("name") as string,
-      lastName: formData.get("familyName") as string,
-      unsafeMetadata: {
-        ...form.getValues(),
-        report: hasReport === "report" ? true : false,
-      },
-    }).then(async () => {
-      const res = await completeOnboarding();
-      return res
-    }).then(async (data) => {
-      if (data?.message) {
-        await user?.reload();
-        return data?.message
-      } else {
-        return data
-      }
+    const username = form.getValues("familyName") + " " + form.getValues("name") + " " + form.getValues("middleName")
+
+    const updateUser = updateUserAction({
+      username: username,
+      subscribed: true,
+      report: form.getValues("report"),
+      metadata: form.getValues(),
+    })
+    .then(async (data) => {
+      // update NextAuth token
+      await update({ username: data.username, report: data.report });
     })
 
     toast.promise(updateUser, {
       loading: 'Сохраняем данные...',
       success: () => {
         setPending(false)
+        // refresh server components
+        router.refresh();
         router.push('/account');
         return `Успешно!`;
       },
       error: (err) => {
         setPending(false)
-        return <SignUpError data={err as ClerkError} />
+        return <AuthError data={err as Error} />
       }
     });
   };
@@ -98,13 +90,11 @@ export default function MetadataForm({
   return (
     <Form {...form}>
       <form 
-        action={handleMetadata}
+        action={handleUpdateUser}
         className="space-y-3 flex flex-col w-full"
       >
         <Tabs 
           defaultValue={defaultTab} 
-          value={hasReport}
-          onValueChange={(value: string) => setHasReport(value)}
           className="w-full"
         >
           <TabsList className='w-full h-fit flex flex-wrap items-center'>
@@ -135,9 +125,6 @@ export default function MetadataForm({
         <p className='text-right text-xs text-muted-foreground'>
           <span className='text-destructive font-semibold text-base'>*</span> - Обязательное поле
         </p>
-
-        {/* CAPTCHA Widget */}
-        <div id="clerk-captcha"></div>
 
         <SubmitButton 
           disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending}

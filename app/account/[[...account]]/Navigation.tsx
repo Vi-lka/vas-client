@@ -3,13 +3,13 @@ import NavigationLink from './NavigationLink'
 import { BadgeRussianRuble, CalendarDays, CircleUserRound, ClipboardList, FileType2, Plane } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
-import { currentUser } from '@clerk/nextjs/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import { redirect } from 'next/navigation'
-import type { MetadataFormT } from '@/lib/types/forms'
 
 export type NavigationHrefT = "" | "data" | "abstracts" | "arrival-departure" | "fee" | "info" | "programm"
 
-export type NavigationT = {
+export type NavigationItemT = {
   title: string,
   href: NavigationHrefT,
   children: React.ReactNode
@@ -20,23 +20,23 @@ export default async function Navigation({
 }: {
   className?: string
 }) {
-  const user = await currentUser();
 
-  if (!user) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
     redirect("/sign-in");
   }
 
-  const userMetadata = (user.unsafeMetadata as MetadataFormT)
-  const hasReport = userMetadata.report === true
+  const hasReport = session.user.report === true
 
-  const navWhitReport: NavigationT[] = hasReport 
+  const navWhitReport: NavigationItemT[] = hasReport 
     ? [
       {title: "Тезисы", href: "abstracts", children: <FileType2 className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
       {title: "Прибытие и отбытие", href: "arrival-departure", children: <Plane className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
       {title: "Организационный взнос", href: "fee", children: <BadgeRussianRuble className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     ] : []
 
-  const nav: NavigationT[] = [
+  const nav: NavigationItemT[] = [
     {title: "Профиль", href: "", children: <CircleUserRound className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     {title: "Заявка", href: "data", children: <ClipboardList className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     ...navWhitReport,

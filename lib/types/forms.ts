@@ -33,7 +33,10 @@ export const SignUpFormT = z.object({
   password: z.string().min(8, {
     message: "Введите не менее 8 символов",
   }),
-}).superRefine(({ password }, ctx) => {
+  passwordConfirmation: z.string().min(8, {
+    message: "Введите не менее 8 символов",
+  }),
+}).superRefine(({ password, passwordConfirmation }, ctx) => {
   const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
   const containsLowercase = (ch: string) => /[a-z]/.test(ch);
   const containsSpecialChar = (ch: string) =>
@@ -77,18 +80,87 @@ export const SignUpFormT = z.object({
       path: ['password']
     });
   }
+  if (password !== passwordConfirmation) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Пароли не совпадают",
+      path: ['passwordConfirmation']
+    });
+  }
 });
 export type SignUpFormT = z.infer<typeof SignUpFormT>;
 
 
 
 
-export const VerifyFormT = z.object({
-  code: z.string().min(6, {
-    message: "Код верификации должен содержать 6 цифр",
-  })
+export const NewConfirmRequestFormT = z.object({
+  email: z.string().email({ message: "Неверно введен Email" }),
 })
-export type VerifyFormT = z.infer<typeof VerifyFormT>;
+export type NewConfirmRequestFormT = z.infer<typeof NewConfirmRequestFormT>;
+
+
+
+
+export const PasswordResetFormT = z.object({
+  password: z.string().min(8, {
+    message: "Введите не менее 8 символов",
+  }),
+  passwordConfirmation: z.string().min(8, {
+    message: "Введите не менее 8 символов",
+  }),
+}).superRefine(({ password, passwordConfirmation }, ctx) => {
+  const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
+  const containsLowercase = (ch: string) => /[a-z]/.test(ch);
+  const containsSpecialChar = (ch: string) =>
+    /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
+  let countOfUpperCase = 0,
+      countOfLowerCase = 0,
+      countOfNumbers = 0,
+      countOfSpecialChar = 0;
+  for (let i = 0; i < password.length; i++) {
+    const ch = password.charAt(i);
+    if (!isNaN(+ch)) countOfNumbers++;
+    else if (containsUppercase(ch)) countOfUpperCase++;
+    else if (containsLowercase(ch)) countOfLowerCase++;
+    else if (containsSpecialChar(ch)) countOfSpecialChar++;
+  }
+  if (countOfLowerCase < 1) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Пароль должен содержать не менее 1 символа в нижнем регистре",
+      path: ['password']
+    });
+  }
+  if (countOfUpperCase < 1) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Пароль должен содержать не менее 1 символа в верхнем регистре",
+      path: ['password']
+    });
+  }
+  if (countOfSpecialChar < 1) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Пароль должен содержать не менее 1 спец. символа: !?@#$%&*^`'\"+=-~_(){}[]<>:;|\\/",
+      path: ['password']
+    });
+  }
+  if (countOfNumbers < 1) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Пароль должен содержать не менее 1 цифры",
+      path: ['password']
+    });
+  }
+  if (password !== passwordConfirmation) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Пароли не совпадают",
+      path: ['passwordConfirmation']
+    });
+  }
+});
+export type PasswordResetFormT = z.infer<typeof PasswordResetFormT>;
 
 
 

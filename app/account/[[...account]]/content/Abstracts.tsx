@@ -1,18 +1,15 @@
 import { TypographyH3 } from '@/components/typography'
 import type { MetadataFormT } from '@/lib/types/forms'
-import type { User } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
 export default function Abstracts({
-  user
+  metadata
 }: {
-  user: User
+  metadata: MetadataFormT
 }) {
 
-  const userMetadata = (user.unsafeMetadata as MetadataFormT)
-
-  const hasReport = userMetadata.report === true
+  const hasReport = metadata.report === true
 
   if (!hasReport) {
     redirect("/account");

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ClerkProvider } from '@clerk/nextjs';
-import { ruRU } from "@clerk/localizations";
 import { Toaster } from "@/components/ui/toaster";
 import { Sonner } from "@/components/ui/sonner"
 import { SWRProvider } from "@/components/providers/swr-provider"
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import "./globals.css";
+import SessionProvider from "@/components/providers/next-auth-provider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -35,13 +36,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+  
   return (
-    <ClerkProvider localization={ruRU}>
       <html 
         lang="ru"
         suppressHydrationWarning
@@ -49,15 +51,16 @@ export default function RootLayout({
         style={{scrollBehavior:'smooth'}}
       >
         <body className="font-Inter bg-background scroll-smooth">
-          <Header />
-          <SWRProvider>
-            {children}
-          </SWRProvider>
-          <Footer />
-          <Toaster />
-          <Sonner />
+          <SessionProvider session={session}>
+            <Header />
+            <SWRProvider>
+              {children}
+            </SWRProvider>
+            <Footer />
+            <Toaster />
+            <Sonner />
+          </SessionProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }

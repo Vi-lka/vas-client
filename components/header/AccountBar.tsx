@@ -3,38 +3,20 @@
 import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
-import { BadgeRussianRuble, CalendarDays, CircleUserRound, ClipboardList, FileType2, Loader2, Plane } from 'lucide-react'
-import { SignOutButton, useUser } from '@clerk/nextjs'
-import { Skeleton } from '../ui/skeleton'
+import { BadgeRussianRuble, CalendarDays, CircleUserRound, ClipboardList, FileType2, Plane } from 'lucide-react'
 import Link from 'next/link'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
-import type { MetadataFormT } from '@/lib/types/forms'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
+import type { User } from 'next-auth'
+import { signOut } from 'next-auth/react'
 
-export default function AccountBar({
-  sessionId,
-}: {
-  sessionId: string,
+export default function AccountBar({ 
+  user
+}: { 
+  user: User,
 }) {
-  const { user, isSignedIn, isLoaded } = useUser();
 
-  if (!isLoaded) return (
-    <Skeleton className='flex items-center justify-center h-11 w-11 rounded-full'>
-      <Loader2 className='w-7 h-7 animate-spin transition-all'/>
-    </Skeleton>
-  )
-
-  if (!isSignedIn) return (
-    <Link href="/sign-in" passHref className=''>
-      <Button variant="outline" className='font-medium text-base sm:px-8 sm:py-5 px-6 py-4'>
-        Вход
-      </Button>
-    </Link>
-  )
-
-  const userMetadata = (user.unsafeMetadata as MetadataFormT)
-  const hasReport = userMetadata.report === true
-
+  const hasReport = user.report === true
 
   const navWhitReport = hasReport 
     ? [
@@ -68,8 +50,8 @@ export default function AccountBar({
       </TooltipProvider>
       <DropdownMenuContent className='rounded-xl'>
         <DropdownMenuLabel>
-          {user.firstName + " " + user.lastName}
-          <p className='text-xs text-muted-foreground font-normal'>{user.primaryEmailAddress?.emailAddress}</p>
+          {user.name}
+          <p className='text-xs text-muted-foreground font-normal'>{user.email}</p>
         </DropdownMenuLabel>
 
         <DropdownMenuSeparator />
@@ -84,11 +66,12 @@ export default function AccountBar({
 
         <DropdownMenuSeparator />
         
-        <SignOutButton signOutOptions={{ sessionId }}>
-          <DropdownMenuItem className='cursor-pointer text-center justify-center rounded-lg hover:bg-destructive hover:text-destructive-foreground focus:bg-destructive focus:text-destructive-foreground'>
-            Выход
-          </DropdownMenuItem>
-        </SignOutButton>
+        <DropdownMenuItem 
+          className='cursor-pointer text-center justify-center rounded-lg hover:bg-destructive hover:text-destructive-foreground focus:bg-destructive focus:text-destructive-foreground'
+          onClick={() => void signOut()}
+        >
+          Выход
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
