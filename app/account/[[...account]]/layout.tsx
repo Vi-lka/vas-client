@@ -32,13 +32,13 @@ export default async function AccountLayout({
   }
 
   return (
-    <main className="container min-h-screen max-w-screen-xl mx-auto pt-28 flex flex-col">
+    <main className="container max-w-screen-xl mx-auto pt-28 flex flex-col">
       <div className='w-full mb-8'>
         <TypographyH2 className='border-none mb-1 pb-0'>Аккаунт</TypographyH2>
         <p className='text-sm text-muted-foreground'>Управляйте информацией своей учетной записи</p>
       </div>
-      <div className="flex lg:gap-3 gap-1.5">
-        <Navigation className='max-w-60 lg:w-1/3'/>
+      <div className="flex lg:gap-3 gap-1.5 min-h-screen">
+        <Navigation className='max-w-60 lg:w-1/3 sticky top-20 h-fit'/>
         <div className="lg:w-2/3 flex-1 py-3 pl-3 border-l">
           {children}
         </div>

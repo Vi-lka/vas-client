@@ -1,9 +1,7 @@
 import { TypographyH3 } from '@/components/typography'
-import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import type { MetadataFormT } from '@/lib/types/forms'
-import { Building2, MapPin, Phone, SquarePen } from 'lucide-react'
-import Link from 'next/link'
+import { Building2, MapPin, Phone } from 'lucide-react'
 import React from 'react'
 
 export default function Profile({
@@ -88,12 +86,6 @@ export default function Profile({
             </TableBody>
           </Table>
         )}
-
-        <Link href="/account/data" passHref className='w-fit h-fit mr-0 ml-auto'>
-          <Button className='font-medium shadow text-sm md:px-6 md:py-5 px-4 py-4 gap-2 border bg-background text-foreground hover:text-background'>
-            <SquarePen className='md:w-5 md:h-5 w-4 h-4'/>Редактировать
-          </Button>
-        </Link>
       </div>
     </div>
   )
