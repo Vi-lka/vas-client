@@ -16,10 +16,12 @@ export default async function Abstracts({
   metadata,
   status,
   fileUrl,
+  imageUrl
 }: {
   metadata: MetadataFormT,
   status: StatusEnum | null,
   fileUrl?: string,
+  imageUrl?: string,
 }) {
 
   const hasReport = metadata.report === true
@@ -91,7 +93,7 @@ export default async function Abstracts({
         )}
       </div>
       <div className='mt-12 w-full sm:max-w-3xl max-w-md mx-auto'>
-        <AbstractsForm defaultFileUrl={fileUrl}/>
+        <AbstractsForm defaultFileUrl={fileUrl} defaultImageUrl={imageUrl}/>
       </div>
       <div className='flex flex-col items-center justify-center mt-8'>
         {dataResult.value.attributes.text && (

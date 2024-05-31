@@ -24,6 +24,13 @@ export const CurrentUserT = z.object({
         })
       }).nullable()
     }),
+    image: z.object({
+      data: z.object({
+        attributes: z.object({
+          url: z.string()
+        })
+      }).nullable()
+    }),
     status: StatusEnum.nullable(),
   })
 export type CurrentUserT = z.infer<typeof CurrentUserT>;

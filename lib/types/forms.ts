@@ -190,12 +190,24 @@ export const MetadataNoReportFormT = z.object({
         ctx.addIssue({
           code: "custom",
           message: "Размер файла должен быть не более 5МБ",
-          path: ['file']
+          path: ['reportFile']
         });
       }
     }),
     url: z.string()
-  }).optional()
+  }).optional(),
+  imageFile: z.object({
+    file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+      if (file && (file.size > 10 * 1024 * 1024)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Размер файла должен быть не более 10МБ",
+          path: ['imageFile']
+        });
+      }
+    }),
+    url: z.string()
+  }).optional(),
 })
 export type MetadataNoReportFormT = z.infer<typeof MetadataNoReportFormT>;
 
@@ -250,7 +262,19 @@ export const MetadataReportFormT = z.object({
         ctx.addIssue({
           code: "custom",
           message: "Размер файла должен быть не более 5МБ",
-          path: ['file']
+          path: ['reportFile']
+        });
+      }
+    }),
+    url: z.string()
+  }).optional(),
+  imageFile: z.object({
+    file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+      if (file && (file.size > 10 * 1024 * 1024)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Размер файла должен быть не более 10МБ",
+          path: ['imageFile']
         });
       }
     }),
@@ -282,7 +306,19 @@ export const AbstractsFormT = z.object({
         ctx.addIssue({
           code: "custom",
           message: "Размер файла должен быть не более 5МБ",
-          path: ['file']
+          path: ['reportFile']
+        });
+      }
+    }),
+    url: z.string()
+  }).optional(),
+  imageFile: z.object({
+    file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+      if (file && (file.size > 10 * 1024 * 1024)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Размер файла должен быть не более 10МБ",
+          path: ['imageFile']
         });
       }
     }),

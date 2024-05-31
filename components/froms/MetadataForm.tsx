@@ -21,10 +21,12 @@ import { Progress } from '../ui/progress'
 export default function MetadataForm({
   defaultValues,
   defaultFileUrl,
+  defaultImageUrl,
   defaultTab = "report",
 }: {
   defaultValues?: MetadataFormT,
   defaultFileUrl?: string,
+  defaultImageUrl?: string,
   defaultTab?: "report" | "no-report",
 }) {
 
@@ -53,6 +55,10 @@ export default function MetadataForm({
         file: null,
         url: defaultFileUrl ? defaultFileUrl : "",
       },
+      imageFile: {
+        file: null,
+        url: defaultImageUrl ? defaultImageUrl : "",
+      },
       invitation: undefined,
       tables: [],
       tour: "",
@@ -61,7 +67,8 @@ export default function MetadataForm({
     mode: "onChange",
   })
 
-  const { upload, progress, isLoading } = usePutObjects();
+  const { upload: uploadFile, progress: progressFile, isLoading: isLoadingFile } = usePutObjects();
+  const { upload: uploadImage, progress: progressImage, isLoading: isLoadingImage } = usePutObjects();
 
   const handleUpdateUser = () => {
     const userId = session?.user.strapiUserId
@@ -73,14 +80,17 @@ export default function MetadataForm({
 
       const username = form.getValues("familyName") + " " + form.getValues("name") + " " + form.getValues("middleName")
   
-      const { reportFile, ...formData } = form.getValues()
+      const { reportFile, imageFile, ...formData } = form.getValues()
   
       let updateUser: Promise<void>
   
-      if (form.getValues("report") === true && reportFile && reportFile.file) {
+      if (form.getValues("report") === true) {
   
         // Upload file
-        updateUser = upload(userId.toString(), reportFile.file)
+        updateUser = uploadFile(userId.toString(), reportFile?.file, "file")
+        .then(async () => {
+          await uploadImage(userId.toString(), imageFile?.file, "image")
+        })
         .then(() => {
           return updateUserAction({
             username: username,
@@ -137,14 +147,14 @@ export default function MetadataForm({
           <TabsList className='w-full h-fit flex flex-wrap items-center'>
             <TabsTrigger 
               value="report" 
-              disabled={form.formState.isSubmitting || isPending || isLoading} 
+              disabled={form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage} 
               className='px-6'
             >
               С докладом
             </TabsTrigger>
             <TabsTrigger 
               value="no-report"
-              disabled={form.formState.isSubmitting || isPending || isLoading} 
+              disabled={form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage}
               className='px-6'
             >
               Без доклада
@@ -152,10 +162,15 @@ export default function MetadataForm({
           </TabsList>
 
           <TabsContent value="report" className='space-y-3 flex flex-col w-full'>
-            <MetadataReport form={form} isPending={isPending || isLoading} defaultFileUrl={defaultFileUrl} />
+            <MetadataReport 
+              form={form} 
+              isPending={isPending || isLoadingFile || isLoadingImage} 
+              defaultFileUrl={defaultFileUrl} 
+              defaultImageUrl={defaultImageUrl}
+            />
           </TabsContent>
           <TabsContent value="no-report" className='space-y-3 flex flex-col w-full'>
-            <MetadataNoReport form={form} isPending={isPending || isLoading} />
+            <MetadataNoReport form={form} isPending={isPending || isLoadingFile || isLoadingImage} />
           </TabsContent>
         </Tabs>
 
@@ -164,16 +179,22 @@ export default function MetadataForm({
         </p>
 
         <SubmitButton 
-          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoading}
+          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage}
           className='sm:px-12 px-6 mx-auto md:!mt-0'
         >
           Сохранить
         </SubmitButton>
       </form>
-      {(isLoading && (progress > 0)) && (
+      {(isLoadingFile && (progressFile > 0)) && (
         <div className='mt-6'>
           <p className='text-center text-sm'>Загружаем файл...</p>
-          <Progress value={progress} />
+          <Progress value={progressFile} />
+        </div>
+      )}
+      {(isLoadingImage && (progressImage > 0)) && (
+        <div className='mt-6'>
+          <p className='text-center text-sm'>Загружаем иллюстрацию...</p>
+          <Progress value={progressImage} />
         </div>
       )}
     </Form>

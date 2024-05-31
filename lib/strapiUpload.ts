@@ -32,25 +32,28 @@ export const usePutObjects = () => {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const upload = async (userId: string, file: File) => {
-    setIsLoading(true);
-    const formData = new FormData();
-    formData.append("files", file)
-    formData.append("ref", "plugin::users-permissions.user")
-    formData.append("refId", userId)
-    formData.append("field", "file")
-
-    return strapi.post("/api/upload", formData, {
-      headers: {
-        // "Content-Type": "multipart/form-data",
-      },
-      onUploadProgress: (progressEvent) => {
-        const progress = !!progressEvent.total
-          ? (progressEvent.loaded / progressEvent.total) * 100
-          : 0;
-        setProgress(progress);
-      },
-    });
+  const upload = async (userId: string, file: File | null | undefined, field: string) => {
+    if (!file) return
+    else {
+      setIsLoading(true);
+      const formData = new FormData();
+      formData.append("files", file)
+      formData.append("ref", "plugin::users-permissions.user")
+      formData.append("refId", userId)
+      formData.append("field", field)
+  
+      return strapi.post("/api/upload", formData, {
+        headers: {
+          // "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (progressEvent) => {
+          const progress = !!progressEvent.total
+            ? (progressEvent.loaded / progressEvent.total) * 100
+            : 0;
+          setProgress(progress);
+        },
+      });
+    }
   };
 
   return { upload, progress, isLoading };

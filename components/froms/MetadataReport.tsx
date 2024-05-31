@@ -15,11 +15,13 @@ import DropzoneFile from './inputs/DropzoneFile';
 export default function MetadataReport({
   form,
   isPending,
-  defaultFileUrl
+  defaultFileUrl,
+  defaultImageUrl
 }: {
   form: UseFormReturn<MetadataFormT>,
   isPending: boolean,
   defaultFileUrl?: string,
+  defaultImageUrl?: string,
 }) {
 
   useEffect(() => {
@@ -311,10 +313,11 @@ export default function MetadataReport({
         control={form.control}
         name="reportFile"
         render={({ field }) => (
-          <FormItem>
+          <FormItem className='w-full'>
             <FormLabel>Ваши материалы для публикации:</FormLabel>
             <FormControl>
               <DropzoneFile
+                isImage={false}
                 formValue={field.value ? field.value : {
                   file: null,
                   url: defaultFileUrl ? defaultFileUrl : "",
@@ -327,7 +330,39 @@ export default function MetadataReport({
                 maxSize={5 * 1024 * 1024} // 5Mb
                 disabled={form.formState.isSubmitting || isPending}
                 className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-              />
+              >
+                <p className="text-xs text-muted-foreground mt-2">
+                  DOC, DOCX (Max 5Mb)
+                </p>
+              </DropzoneFile>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="imageFile"
+        render={({ field }) => (
+          <FormItem className='w-full'>
+            <FormLabel>Иллюстрация:</FormLabel>
+            <FormControl>
+              <DropzoneFile
+                isImage
+                formValue={field.value ? field.value : {
+                  file: null,
+                  url: defaultImageUrl ? defaultImageUrl : "",
+                }}
+                formValueName={field.name}
+                accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                maxSize={10 * 1024 * 1024} // 10Mb
+                disabled={form.formState.isSubmitting || isPending}
+                className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+              >
+                <p className="text-xs text-muted-foreground mt-2">
+                  JPEG, JPG, PNG (Max 10Mb)
+                </p>
+              </DropzoneFile>
             </FormControl>
             <FormMessage />
           </FormItem>

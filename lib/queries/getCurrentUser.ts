@@ -25,6 +25,11 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
               attributes { url }
             }
           }
+          image {
+            data {
+              attributes { url }
+            }
+          }
           status
         }
       }

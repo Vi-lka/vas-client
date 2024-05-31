@@ -16,9 +16,11 @@ import { toast } from 'sonner';
 import AuthError from '../errors/AuthError';
 
 export default function AbstractsForm({
-  defaultFileUrl
+  defaultFileUrl,
+  defaultImageUrl
 }: {
   defaultFileUrl: string | undefined,
+  defaultImageUrl: string | undefined,
 }) {
   const router = useRouter()
   const [isPending, setPending] = React.useState(false);
@@ -31,11 +33,16 @@ export default function AbstractsForm({
         file: null,
         url: defaultFileUrl ? defaultFileUrl : "",
       },
+      imageFile: {
+        file: null,
+        url: defaultImageUrl ? defaultImageUrl : "",
+      },
     },
     mode: "onChange",
   })
 
-  const { upload, progress, isLoading } = usePutObjects();
+  const { upload: uploadFile, progress: progressFile, isLoading: isLoadingFile } = usePutObjects();
+  const { upload: uploadImage, progress: progressImage, isLoading: isLoadingImage } = usePutObjects();
 
   const handleUpdateUser = () => {
     const userId = session?.user.strapiUserId
@@ -45,29 +52,27 @@ export default function AbstractsForm({
     } else {
       setPending(true)
   
-      const { reportFile } = form.getValues()
-  
-      if (reportFile && reportFile.file) {
-        // Upload file
-        const updateUser = upload(userId.toString(), reportFile.file)
+      const { reportFile, imageFile } = form.getValues()
 
-        toast.promise(updateUser, {
-          loading: 'Сохраняем данные...',
-          success: () => {
-            setPending(false)
-            // refresh server components
-            router.refresh();
-            router.push('/account');
-            return `Успешно!`;
-          },
-          error: (err) => {
-            setPending(false)
-            return <AuthError data={err as Error} />
-          }
-        });
-      } else {
-        setPending(false)
-      }
+      // Upload file
+      const updateUser = uploadFile(userId.toString(), reportFile?.file, "file")
+      .then(async () => {
+        await uploadImage(userId.toString(), imageFile?.file, "image")
+      })
+      toast.promise(updateUser, {
+        loading: 'Сохраняем данные...',
+        success: () => {
+          setPending(false)
+          // refresh server components
+          router.refresh();
+          router.push('/account');
+          return `Успешно!`;
+        },
+        error: (err) => {
+          setPending(false)
+          return <AuthError data={err as Error} />
+        }
+      });
     }
   };
 
@@ -75,16 +80,17 @@ export default function AbstractsForm({
     <Form {...form}>
       <form 
         action={handleUpdateUser}
-        className="space-y-3 flex flex-col w-full gap-3"
+        className="sm:space-x-3 flex flex-col gap-6 items-center w-full"
       >
         <FormField
           control={form.control}
           name="reportFile"
           render={({ field }) => (
-            <FormItem className='text-center'>
+            <FormItem className='w-full mx-auto text-center'>
               <FormLabel className='lg:text-lg text-base'>Ваши материалы для публикации:</FormLabel>
               <FormControl>
                 <DropzoneFile
+                  isImage={false}
                   formValue={field.value ? field.value : {
                     file: null,
                     url: defaultFileUrl ? defaultFileUrl : "",
@@ -103,18 +109,48 @@ export default function AbstractsForm({
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="imageFile"
+          render={({ field }) => (
+            <FormItem className='w-full mx-auto text-center'>
+              <FormLabel className='lg:text-lg text-base'>Иллюстрация:</FormLabel>
+              <FormControl>
+                <DropzoneFile
+                  isImage
+                  formValue={field.value ? field.value : {
+                    file: null,
+                    url: defaultImageUrl ? defaultImageUrl : "",
+                  }}
+                  formValueName={field.name}
+                  accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                  maxSize={10 * 1024 * 1024} // 10Mb
+                  disabled={form.formState.isSubmitting || isPending}
+                  className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <SubmitButton 
-          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoading}
+          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage}
           className='sm:px-12 px-6 mx-auto md:!mt-0'
         >
           Сохранить
         </SubmitButton>
       </form>
-      {(isLoading && (progress > 0)) && (
+      {(isLoadingFile && (progressFile > 0)) && (
         <div className='mt-6'>
           <p className='text-center text-sm'>Загружаем файл...</p>
-          <Progress value={progress} />
+          <Progress value={progressFile} />
+        </div>
+      )}
+      {(isLoadingImage && (progressImage > 0)) && (
+        <div className='mt-6'>
+          <p className='text-center text-sm'>Загружаем иллюстрацию...</p>
+          <Progress value={progressImage} />
         </div>
       )}
     </Form>

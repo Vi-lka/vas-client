@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useFormStatus } from "react-dom";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image"
 
 type Value = {
   file?: File | null | undefined;
@@ -16,19 +17,23 @@ type Value = {
 };
 
 export default function DropzoneFile({
+  isImage,
   formValue,
   formValueName,
   accept,
   maxSize,
   disabled,
   className,
+  children,
 }: {
+  isImage: boolean,
   formValue: Value
   formValueName: string;
   accept: Accept;
   maxSize: number;
   disabled: boolean;
   className?: string;
+  children?: React.ReactNode
 }) {
   const [valueFile, setFile] = useState<File | null | undefined>();
   const [valueURL, setURL] = useState<string>();
@@ -95,9 +100,25 @@ export default function DropzoneFile({
           })}
         >
           <input {...getInputProps()} />
-          <p className="mt-3 md:max-w-96 max-w-28 break-words text-center text-xs font-light">
-            {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
-          </p>
+          {isImage
+            ? (<>
+                <Image
+                  src={valueURL}
+                  width={180}
+                  height={180}
+                  alt={!!valueFile ? valueFile.name : valueURL.split("/")[2]}
+                  className="mx-auto object-cover"
+                />
+                <p className="mt-3 md:max-w-96 max-w-28 break-words text-center text-xs font-light">
+                  {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
+                </p>
+            </>)
+            : (
+              <p className="mt-3 md:max-w-96 max-w-28 break-words text-center text-xs font-medium">
+                {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
+              </p>
+            )
+          }
         </div>
         <Link href={valueURL} className="w-fit h-fit" passHref target="_blank">
           <Button variant="link" type="button" className="w-full">
@@ -120,7 +141,7 @@ export default function DropzoneFile({
         })}
       >
         <input {...getInputProps()} />
-        <UploadCloud className="text-muted-foreground mx-auto" />
+        <UploadCloud className="text-muted-foreground mx-auto w-8 h-8" />
         {isDragActive ? (
           <p className="text-muted-foreground text-center text-xs">
             Скиньте файл сюда ...
@@ -134,6 +155,7 @@ export default function DropzoneFile({
             </span>
           </p>
         )}
+        {children}
       </div>
     );
 }
