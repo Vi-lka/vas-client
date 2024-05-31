@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { DynamicZoneT } from "./additionalPage";
 
 export const AboutT  = z.object({
     attributes: z.object({
-        text: z.any()
+        text: z.any(),
+        content: z.lazy(() => DynamicZoneT).array(),
     }),
 })
 export type AboutT = z.infer<typeof AboutT>;

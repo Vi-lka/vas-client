@@ -81,7 +81,7 @@ export default async function Abstracts({
         <div className=''>
           <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>Тезисы</TypographyH3>
           <p className='font-medium text-muted-foreground lg:text-lg md:text-base text-sm'>
-            Ознакомьтесь с требованиями к тезисам и отправьте свои
+            Ознакомьтесь с требованиями к оформлению тезисов и отправьте свои
           </p>
         </div>
         {status && (
@@ -101,7 +101,7 @@ export default async function Abstracts({
           </div>
         )}
         {dataResult.value.attributes.file.data && (
-          <div className='group lg:w-[calc(33%-1.3rem)] sm:w-[calc(50%-1.3rem)] w-full ring-primary/80 hover:ring ring-offset-2 rounded-xl transition-all duration-300 mt-8'>
+          <div className='group md:w-1/2 w-full ring-primary/80 hover:ring ring-offset-2 rounded-xl transition-all duration-300 mt-8'>
             <Link href={dataResult.value.attributes.file.data.attributes.url} target="_blank" className='w-full'>
               <Card className='w-full h-full flex flex-col justify-center overflow-hidden'>
                 <CardHeader className='pb-6'>
@@ -109,7 +109,7 @@ export default async function Abstracts({
                     <DownloadIcon className='w-8 h-8 mx-auto group-hover:translate-y-2 transition-all duration-300'/>
                   </CardTitle>
                   <CardDescription className='font-medium text-center text-card-foreground'>
-                    Требования к тезисам
+                    Требования к оформлению тезисов
                   </CardDescription>
                 </CardHeader>
               </Card>
