@@ -96,6 +96,7 @@ function ContactsItem({
                         <li key={indx} className="flex flex-col gap-0.5">
                             <Link 
                                 href={`https://maps.yandex.ru/?text=${place.address}`} 
+                                target="_blank"
                                 className="flex gap-2 font-medium underline-offset-2 hover:underline hover:underline-offset-4 transition-all duration-300"
                             >
                                 <MapPin className="w-5 h-5" />
@@ -104,6 +105,7 @@ function ContactsItem({
                             {place.link ? (
                                 <Link 
                                     href={place.link} 
+                                    target="_blank"
                                     className="ml-7 font-light underline-offset-2 hover:underline hover:underline-offset-4 transition-all duration-300"
                                 >
                                     {place.title}
@@ -125,7 +127,8 @@ function ContactsItem({
                                 </div>
                             </div>
                             <Link 
-                                href={`tel:${person.tel}`} 
+                                href={`tel:${person.tel}`}
+                                target="_blank"
                                 className="flex gap-2 underline-offset-2 hover:underline hover:underline-offset-4 transition-all duration-300"
                             >
                                 <PhoneCall className="w-5 h-5" />
@@ -133,6 +136,7 @@ function ContactsItem({
                             </Link>
                             <Link 
                                 href={`mailto:${person.email}`} 
+                                target="_blank"
                                 className="flex gap-2 underline-offset-2 hover:underline hover:underline-offset-4 transition-all duration-300"
                             >
                                 <AtSign className="w-5 h-5" />
