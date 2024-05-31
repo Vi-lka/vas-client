@@ -182,6 +182,18 @@ export const MetadataNoReportFormT = z.object({
     message: "Введите не менее 2х символов",
   }),
   organization: z.string(),
+  reportFile: z.object({
+    file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+      if (file && (file.size > 5 * 1024 * 1024)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Размер файла должен быть не более 5МБ",
+          path: ['file']
+        });
+      }
+    }),
+    url: z.string()
+  }).optional()
 })
 export type MetadataNoReportFormT = z.infer<typeof MetadataNoReportFormT>;
 
@@ -230,6 +242,18 @@ export const MetadataReportFormT = z.object({
   reportName: z.string().min(2, {
     message: "Введите не менее 2х символов",
   }),
+  reportFile: z.object({
+    file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+      if (file && (file.size > 5 * 1024 * 1024)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Размер файла должен быть не более 5МБ",
+          path: ['file']
+        });
+      }
+    }),
+    url: z.string()
+  }).optional(),
   tables: z.object({
     label: z.string(),
     value: z.string(),
@@ -248,5 +272,20 @@ export const MetadataFormT = z.discriminatedUnion( 'report', [
   MetadataReportFormT
 ])
 export type MetadataFormT = z.infer<typeof MetadataFormT>;
+
+export const AbstractsFormT = z.object({
+  reportFile: z.object({
+    file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+      if (file && (file.size > 5 * 1024 * 1024)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Размер файла должен быть не более 5МБ",
+          path: ['file']
+        });
+      }
+    }),
+    url: z.string()
+  }).optional(),
+})
 
 

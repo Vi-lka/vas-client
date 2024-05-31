@@ -56,10 +56,10 @@ export default async function AccountPage({
       )
 
     case "data":
-      return <Data metadata={(currentUser.metadata as MetadataFormT)} />
+      return <Data metadata={(currentUser.metadata as MetadataFormT)} fileUrl={currentUser.file.data?.attributes.url} />
 
     case "abstracts":
-      return <Abstracts metadata={metadataResult.data} />
+      return <Abstracts metadata={metadataResult.data} fileUrl={currentUser.file.data?.attributes.url} />
 
     case "arrival-departure":
       return <ArrivalDeparture metadata={metadataResult.data} />

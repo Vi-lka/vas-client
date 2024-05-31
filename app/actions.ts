@@ -285,6 +285,55 @@ export const updateUserAction = async ({
   }
 }
 
+// export const uploadUserFileAction = async (file: File) => {
+//   const session = await getServerSession(authOptions);
+
+//   if (!session) throw new Error("Вы не авторизированы")
+
+//   const formData = new FormData();
+//   formData.append("file", file)
+//   formData.append("ref", "plugin::users-permissions.user")
+//   formData.append("refId", session.user.id)
+//   formData.append("field", "file")
+
+//   try {
+//     const strapiResponse = await fetch(
+//       process.env.NEXT_PUBLIC_STRAPI_API_URL + '/api/upload',
+//       {
+//         method: 'POST',
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//           Authorization: `Bearer ${session?.strapiToken}`,
+//         },
+//         body: formData,
+//         cache: 'no-cache',
+//       }
+//     );
+
+//     // handle strapi error
+//     if (!strapiResponse.ok) {
+//       // check if response in json-able
+//       const contentType = strapiResponse.headers.get('content-type');
+//       if (contentType === 'application/json; charset=utf-8') {
+//         const data: StrapiErrorT = await strapiResponse.json();
+
+//         console.error(JSON.stringify(data, null, 2))
+        
+//         throw new Error(data.error.message);
+//       } else {
+//         throw new Error(strapiResponse.statusText);
+//       }
+//     }
+
+//     const data = await strapiResponse.json();
+//     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+//     return data;
+
+//   } catch (error) {
+//     // network error or something
+//     throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
+//   }
+// }
 
 
 

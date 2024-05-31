@@ -1,12 +1,15 @@
+import AbstractsForm from '@/components/froms/AbstractsForm'
 import { TypographyH3 } from '@/components/typography'
 import type { MetadataFormT } from '@/lib/types/forms'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
 export default function Abstracts({
-  metadata
+  metadata,
+  fileUrl,
 }: {
-  metadata: MetadataFormT
+  metadata: MetadataFormT,
+  fileUrl?: string,
 }) {
 
   const hasReport = metadata.report === true
@@ -21,7 +24,8 @@ export default function Abstracts({
       <p className='font-medium text-muted-foreground lg:text-lg md:text-base text-sm'>
         Ознакомьтесь с требованиями к тезисам и отправьте свои
       </p>
-      <div className='mt-8'>
+      <div className='mt-8 w-full sm:max-w-3xl max-w-md mx-auto'>
+        <AbstractsForm defaultFileUrl={fileUrl}/>
       </div>
     </div>
   )

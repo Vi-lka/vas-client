@@ -10,13 +10,16 @@ import DirectionSelect from './inputs/DirectionSelect'
 import RadioField from './inputs/RadioField';
 import TableSelect from './inputs/TableSelect';
 import { AutosizeTextareaField } from './inputs/AutosizeTextareaField';
+import DropzoneFile from './inputs/DropzoneFile';
 
 export default function MetadataReport({
   form,
   isPending,
+  defaultFileUrl
 }: {
   form: UseFormReturn<MetadataFormT>,
-  isPending: boolean
+  isPending: boolean,
+  defaultFileUrl?: string,
 }) {
 
   useEffect(() => {
@@ -274,38 +277,62 @@ export default function MetadataReport({
           </FormItem>
         )}
       />
-      <div className='sm:space-x-3 flex sm:flex-row flex-col items-center w-full'>
-        <FormField
-          control={form.control}
-          name="invitation"
-          render={({ field }) => (
-            <FormItem className='w-full'>
-              <FormLabel>Требуется приглашение?<span className='text-destructive'>*</span></FormLabel>
-              <FormControl>
-                <RadioField 
-                  disabled={form.formState.isSubmitting || isPending}
-                  data={[
-                    {value: "true", label: "Да"},
-                    {value: "false", label: "Нет"}
-                  ]}
-                  defaultValue={
-                    form.getValues(field.name) === true 
-                      ? "true" 
-                      : form.getValues(field.name) === false 
-                        ? "false" : undefined
-                  }
-                  className='shadow'
-                  onValueChange={(value) => {
-                    if (value === "true") form.setValue(field.name, true, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-                    else form.setValue(field.name, false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+      <FormField
+        control={form.control}
+        name="invitation"
+        render={({ field }) => (
+          <FormItem className='w-full'>
+            <FormLabel>Требуется приглашение?<span className='text-destructive'>*</span></FormLabel>
+            <FormControl>
+              <RadioField 
+                disabled={form.formState.isSubmitting || isPending}
+                data={[
+                  {value: "true", label: "Да"},
+                  {value: "false", label: "Нет"}
+                ]}
+                defaultValue={
+                  form.getValues(field.name) === true 
+                    ? "true" 
+                    : form.getValues(field.name) === false 
+                      ? "false" : undefined
+                }
+                className='shadow'
+                onValueChange={(value) => {
+                  if (value === "true") form.setValue(field.name, true, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+                  else form.setValue(field.name, false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+                }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="reportFile"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Тезисы</FormLabel>
+            <FormControl>
+              <DropzoneFile
+                formValue={field.value ? field.value : {
+                  file: null,
+                  url: defaultFileUrl ? defaultFileUrl : "",
+                }}
+                formValueName={field.name}
+                accept={{
+                  "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
+                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
+                }}
+                maxSize={5 * 1024 * 1024} // 5Mb
+                disabled={form.formState.isSubmitting || isPending}
+                className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
       <FormField
         control={form.control}
         name="tables"

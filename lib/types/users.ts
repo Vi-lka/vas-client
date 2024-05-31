@@ -13,6 +13,13 @@ export const CurrentUserT = z.object({
         name: z.string(),
         type: z.string().nullable(),
     }).nullable(),
-    metadata: z.any()
+    metadata: z.any(),
+    file: z.object({
+      data: z.object({
+        attributes: z.object({
+          url: z.string()
+        })
+      }).nullable()
+    })
   })
 export type CurrentUserT = z.infer<typeof CurrentUserT>;

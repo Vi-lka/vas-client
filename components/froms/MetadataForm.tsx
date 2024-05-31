@@ -15,18 +15,22 @@ import MetadataNoReport from "./MetadataNoReport"
 import MetadataReport from './MetadataReport'
 import { updateUserAction } from '@/app/actions'
 import { useSession } from 'next-auth/react'
+import { usePutObjects } from '@/lib/strapiUpload'
+import { Progress } from '../ui/progress'
 
 export default function MetadataForm({
   defaultValues,
+  defaultFileUrl,
   defaultTab = "report",
 }: {
   defaultValues?: MetadataFormT,
+  defaultFileUrl?: string,
   defaultTab?: "report" | "no-report",
 }) {
 
   const router = useRouter()
   const [isPending, setPending] = React.useState(false);
-  const { update } = useSession();
+  const { update, data: session } = useSession();
 
   const form = useForm<z.infer<typeof MetadataFormT>>({
     resolver: zodResolver(MetadataFormT), 
@@ -45,6 +49,10 @@ export default function MetadataForm({
       format: "очно",
       direction: "",
       reportName: "",
+      reportFile: {
+        file: null,
+        url: defaultFileUrl ? defaultFileUrl : "",
+      },
       invitation: undefined,
       tables: [],
       tour: "",
@@ -53,37 +61,67 @@ export default function MetadataForm({
     mode: "onChange",
   })
 
+  const { upload, progress, isLoading } = usePutObjects();
+
   const handleUpdateUser = () => {
+    const userId = session?.user.strapiUserId
 
-    setPending(true)
+    if (!userId) {
+      toast.error("Вы не авторизированы")
+    } else {
+      setPending(true)
 
-    const username = form.getValues("familyName") + " " + form.getValues("name") + " " + form.getValues("middleName")
-
-    const updateUser = updateUserAction({
-      username: username,
-      subscribed: true,
-      report: form.getValues("report"),
-      metadata: form.getValues(),
-    })
-    .then(async (data) => {
-      // update NextAuth token
-      await update({ username: data.username, report: data.report });
-    })
-
-    toast.promise(updateUser, {
-      loading: 'Сохраняем данные...',
-      success: () => {
-        setPending(false)
-        // refresh server components
-        router.refresh();
-        router.push('/account');
-        return `Успешно!`;
-      },
-      error: (err) => {
-        setPending(false)
-        return <AuthError data={err as Error} />
+      const username = form.getValues("familyName") + " " + form.getValues("name") + " " + form.getValues("middleName")
+  
+      const { reportFile, ...formData } = form.getValues()
+  
+      let updateUser: Promise<void>
+  
+      if (form.getValues("report") === true && reportFile && reportFile.file) {
+  
+        // Upload file
+        updateUser = upload(userId.toString(), reportFile.file)
+        .then(() => {
+          return updateUserAction({
+            username: username,
+            subscribed: true,
+            report: form.getValues("report"),
+            metadata: formData,
+          })
+        })
+        .then(async (data) => {
+          // update NextAuth token
+          await update({ username: data.username, report: data.report });
+        })
+  
+      } else {
+        updateUser = updateUserAction({
+          username: username,
+          subscribed: true,
+          report: form.getValues("report"),
+          metadata: formData,
+        })
+        .then(async (data) => {
+          // update NextAuth token
+          await update({ username: data.username, report: data.report });
+        })
       }
-    });
+  
+      toast.promise(updateUser, {
+        loading: 'Сохраняем данные...',
+        success: () => {
+          setPending(false)
+          // refresh server components
+          router.refresh();
+          router.push('/account');
+          return `Успешно!`;
+        },
+        error: (err) => {
+          setPending(false)
+          return <AuthError data={err as Error} />
+        }
+      });
+    }
   };
 
   return (
@@ -99,14 +137,14 @@ export default function MetadataForm({
           <TabsList className='w-full h-fit flex flex-wrap items-center'>
             <TabsTrigger 
               value="report" 
-              disabled={form.formState.isSubmitting || isPending} 
+              disabled={form.formState.isSubmitting || isPending || isLoading} 
               className='px-6'
             >
               С докладом
             </TabsTrigger>
             <TabsTrigger 
               value="no-report"
-              disabled={form.formState.isSubmitting || isPending} 
+              disabled={form.formState.isSubmitting || isPending || isLoading} 
               className='px-6'
             >
               Без доклада
@@ -114,10 +152,10 @@ export default function MetadataForm({
           </TabsList>
 
           <TabsContent value="report" className='space-y-3 flex flex-col w-full'>
-            <MetadataReport form={form} isPending={isPending} />
+            <MetadataReport form={form} isPending={isPending || isLoading} defaultFileUrl={defaultFileUrl} />
           </TabsContent>
           <TabsContent value="no-report" className='space-y-3 flex flex-col w-full'>
-            <MetadataNoReport form={form} isPending={isPending} />
+            <MetadataNoReport form={form} isPending={isPending || isLoading} />
           </TabsContent>
         </Tabs>
 
@@ -126,12 +164,18 @@ export default function MetadataForm({
         </p>
 
         <SubmitButton 
-          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending}
+          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoading}
           className='sm:px-12 px-6 mx-auto md:!mt-0'
         >
           Сохранить
         </SubmitButton>
       </form>
+      {(isLoading && (progress > 0)) && (
+        <div className='mt-6'>
+          <p className='text-center text-sm'>Загружаем файл...</p>
+          <Progress value={progress} />
+        </div>
+      )}
     </Form>
   )
 }

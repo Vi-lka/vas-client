@@ -20,6 +20,11 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
             type
           }
           metadata
+          file {
+            data {
+              attributes { url }
+            }
+          }
         }
       }
     `;

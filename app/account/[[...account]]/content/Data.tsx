@@ -5,9 +5,11 @@ import type { MetadataFormT } from '@/lib/types/forms'
 import React from 'react'
 
 export default function Data({
-  metadata
+  metadata,
+  fileUrl,
 }: {
-  metadata: MetadataFormT
+  metadata: MetadataFormT,
+  fileUrl?: string,
 }) {
 
   const hasReport = metadata.report === true
@@ -30,7 +32,11 @@ export default function Data({
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <MetadataForm defaultValues={metadata} defaultTab={hasReport ? "report" : "no-report"} />
+            <MetadataForm
+              defaultValues={metadata} 
+              defaultFileUrl={fileUrl}
+              defaultTab={hasReport ? "report" : "no-report"}
+            />
           </CardContent>
         </Card>
       </div>
