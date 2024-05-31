@@ -9,6 +9,7 @@ import type { MetadataFormT } from '@/lib/types/forms'
 import type { StatusEnum } from '@/lib/types/users'
 import { SquarePen } from 'lucide-react'
 import React from 'react'
+import Status from './Status'
 
 export default function Data({
   metadata,
@@ -33,11 +34,7 @@ export default function Data({
             {hasReport ? "Вы зарегистрированы с докладом" : "Вы зарегистрированы без доклада (слушатель)"}
           </p>
         </div>
-        {status && (
-          <p className=''>
-            Статус заявки: <span className='font-medium'>{status}</span>
-          </p>
-        )}
+        <Status status={status} />
       </div>
       <div className='mt-8'>
         <Card className='w-full sm:max-w-3xl max-w-md mx-auto md:block hidden'>

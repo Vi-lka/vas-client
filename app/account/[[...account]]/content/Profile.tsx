@@ -4,6 +4,7 @@ import type { MetadataFormT } from '@/lib/types/forms'
 import type { CurrentUserT } from '@/lib/types/users'
 import { Building2, MapPin, Phone } from 'lucide-react'
 import React from 'react'
+import Status from './Status'
 
 export default function Profile({
   user,
@@ -24,11 +25,7 @@ export default function Profile({
             {email}
           </p>
         </div>
-        {user.status && (
-          <p className=''>
-            Статус заявки: <span className='font-medium'>{user.status}</span>
-          </p>
-        )}
+        <Status status={user.status} />
       </div>
       <div className='mt-8 flex flex-col gap-6'>
         <p className='font-medium lg:text-xl md:text-lg text-base'>

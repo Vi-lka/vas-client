@@ -11,6 +11,7 @@ import { DownloadIcon } from 'lucide-react'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import React from 'react'
+import Status from './Status'
 
 export default async function Abstracts({
   metadata,
@@ -86,11 +87,7 @@ export default async function Abstracts({
             Ознакомьтесь с требованиями к оформлению тезисов и отправьте свои
           </p>
         </div>
-        {status && (
-          <p className=''>
-            Статус заявки: <span className='font-medium'>{status}</span>
-          </p>
-        )}
+        <Status status={status} />
       </div>
       <div className='mt-12 w-full sm:max-w-3xl max-w-md mx-auto'>
         <AbstractsForm defaultFileUrl={fileUrl} defaultImageUrl={imageUrl}/>
