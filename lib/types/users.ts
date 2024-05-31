@@ -1,6 +1,9 @@
 import { z } from "zod";
 
 
+export const StatusEnum = z.enum(["получена", "одобрена", "на доработке"]);
+export type StatusEnum = z.infer<typeof StatusEnum>;
+
 export const CurrentUserT = z.object({
     id: z.string().or(z.number()),
     username: z.string(),
@@ -20,6 +23,7 @@ export const CurrentUserT = z.object({
           url: z.string()
         })
       }).nullable()
-    })
+    }),
+    status: StatusEnum.nullable(),
   })
 export type CurrentUserT = z.infer<typeof CurrentUserT>;

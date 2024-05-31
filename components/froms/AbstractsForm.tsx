@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
 import DropzoneFile from './inputs/DropzoneFile';
 import SubmitButton from './inputs/SubmitButton';
 import { Progress } from '../ui/progress';
@@ -82,6 +82,7 @@ export default function AbstractsForm({
           name="reportFile"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Ваши материалы для публикации:</FormLabel>
               <FormControl>
                 <DropzoneFile
                   formValue={field.value ? field.value : {

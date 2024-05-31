@@ -25,6 +25,7 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
               attributes { url }
             }
           }
+          status
         }
       }
     `;

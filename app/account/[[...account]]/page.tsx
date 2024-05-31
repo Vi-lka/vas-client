@@ -38,28 +38,32 @@ export default async function AccountPage({
   }
 
   if (!params.account || params.account.length === 0) return (
-    <Profile 
-      username={currentUser.username} 
-      email={currentUser.email}
-      metadata={metadataResult.data} 
-    />
+    <Profile user={currentUser}/>
   )
 
   switch (params.account[0] as NavigationHrefT) {
     case "":
       return (
-        <Profile 
-          username={currentUser.username} 
-          email={currentUser.email}
-          metadata={metadataResult.data} 
-        />
+        <Profile user={currentUser}/>
       )
 
     case "data":
-      return <Data metadata={(currentUser.metadata as MetadataFormT)} fileUrl={currentUser.file.data?.attributes.url} />
+      return (
+        <Data 
+          metadata={(currentUser.metadata as MetadataFormT)} 
+          status={currentUser.status}
+          fileUrl={currentUser.file.data?.attributes.url} 
+        />
+      )
 
     case "abstracts":
-      return <Abstracts metadata={metadataResult.data} fileUrl={currentUser.file.data?.attributes.url} />
+      return (
+        <Abstracts 
+          metadata={metadataResult.data} 
+          status={currentUser.status}
+          fileUrl={currentUser.file.data?.attributes.url} 
+        />
+      )
 
     case "arrival-departure":
       return <ArrivalDeparture metadata={metadataResult.data} />

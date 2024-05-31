@@ -312,7 +312,7 @@ export default function MetadataReport({
         name="reportFile"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Тезисы</FormLabel>
+            <FormLabel>Ваши материалы для публикации:</FormLabel>
             <FormControl>
               <DropzoneFile
                 formValue={field.value ? field.value : {

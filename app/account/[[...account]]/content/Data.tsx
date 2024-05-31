@@ -6,14 +6,17 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import type { MetadataFormT } from '@/lib/types/forms'
+import type { StatusEnum } from '@/lib/types/users'
 import { SquarePen } from 'lucide-react'
 import React from 'react'
 
 export default function Data({
   metadata,
+  status,
   fileUrl,
 }: {
   metadata: MetadataFormT,
+  status: StatusEnum | null,
   fileUrl?: string,
 }) {
 
@@ -21,10 +24,19 @@ export default function Data({
 
   return (
     <div className='w-full'>
-      <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>Заявка</TypographyH3>
-      <p className='font-medium text-muted-foreground lg:text-lg md:text-base text-sm'>
-        {hasReport ? "Вы зарегистрированы с докладом" : "Вы зарегистрированы без доклада (слушатель)"}
-      </p>
+      <div className=' flex lg:flex-row flex-col justify-between gap-3'>
+        <div className=''>
+          <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>Заявка</TypographyH3>
+          <p className='font-medium text-muted-foreground lg:text-lg md:text-base text-sm'>
+            {hasReport ? "Вы зарегистрированы с докладом" : "Вы зарегистрированы без доклада (слушатель)"}
+          </p>
+        </div>
+        {status && (
+          <p className=''>
+            Статус заявки: <span className='font-medium'>{status}</span>
+          </p>
+        )}
+      </div>
       <div className='mt-8'>
         <Card className='w-full sm:max-w-3xl max-w-md mx-auto md:block hidden'>
           <CardHeader>
