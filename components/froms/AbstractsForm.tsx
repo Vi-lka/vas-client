@@ -81,8 +81,8 @@ export default function AbstractsForm({
           control={form.control}
           name="reportFile"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Ваши материалы для публикации:</FormLabel>
+            <FormItem className='text-center'>
+              <FormLabel className='lg:text-lg text-base'>Ваши материалы для публикации:</FormLabel>
               <FormControl>
                 <DropzoneFile
                   formValue={field.value ? field.value : {
