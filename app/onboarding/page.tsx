@@ -31,7 +31,7 @@ export default function OnBoarding() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <MetadataForm />
+                    <MetadataForm subscribedSwitch />
                 </CardContent>
             </Card>
         </div>

@@ -314,7 +314,7 @@ export default function MetadataReport({
         name="reportFile"
         render={({ field }) => (
           <FormItem className='w-full'>
-            <FormLabel>Ваши материалы для публикации:</FormLabel>
+            <FormLabel>Тезисы:</FormLabel>
             <FormControl>
               <DropzoneFile
                 isImage={false}
@@ -331,7 +331,7 @@ export default function MetadataReport({
                 disabled={form.formState.isSubmitting || isPending}
                 className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
               >
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs text-muted-foreground mt-2 text-center">
                   DOC, DOCX (Max 5Mb)
                 </p>
               </DropzoneFile>
@@ -359,7 +359,7 @@ export default function MetadataReport({
                 disabled={form.formState.isSubmitting || isPending}
                 className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
               >
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-xs text-muted-foreground mt-2 text-center">
                   JPEG, JPG, PNG (Max 10Mb)
                 </p>
               </DropzoneFile>

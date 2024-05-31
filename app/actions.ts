@@ -14,6 +14,7 @@ import type { StrapiErrorT } from '@/types/StrapiError';
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { revalidatePath, revalidateTag } from "next/cache";
+import type { CurrentUserT } from "@/lib/types/users";
 
 export const signUpAction = async (data: SignUpFormT) => {
   try {
@@ -227,14 +228,16 @@ export const resetPasswordAction = async (data: PasswordResetFormT, code: string
 
 
 type UpdateUserT = {
-  username: string,
-  subscribed: boolean,
-  report: boolean,
-  metadata: MetadataFormT
+  username?: string,
+  subscribedContent?: boolean | null,
+  subscribedReport?: boolean | null,
+  metadata?: MetadataFormT,
+  report?: boolean,
 }
 export const updateUserAction = async ({
   username,
-  subscribed,
+  subscribedContent,
+  subscribedReport,
   metadata
 }: UpdateUserT) => {
   const session = await getServerSession(authOptions);
@@ -250,8 +253,9 @@ export const updateUserAction = async ({
         },
         body: JSON.stringify({
           username,
-          subscribed,
-          report: metadata.report,
+          subscribedContent,
+          subscribedReport,
+          report: metadata?.report,
           metadata,
         }),
         cache: 'no-cache',
@@ -276,7 +280,7 @@ export const updateUserAction = async ({
     // handle strapi success
     revalidateTag('strapi-users-me');
     revalidatePath('/account')
-    const data: UpdateUserT = await strapiResponse.json();
+    const data: CurrentUserT = await strapiResponse.json();
     return data;
 
   } catch (error) {
@@ -284,58 +288,6 @@ export const updateUserAction = async ({
     throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
   }
 }
-
-// export const uploadUserFileAction = async (file: File) => {
-//   const session = await getServerSession(authOptions);
-
-//   if (!session) throw new Error("Вы не авторизированы")
-
-//   const formData = new FormData();
-//   formData.append("file", file)
-//   formData.append("ref", "plugin::users-permissions.user")
-//   formData.append("refId", session.user.id)
-//   formData.append("field", "file")
-
-//   try {
-//     const strapiResponse = await fetch(
-//       process.env.NEXT_PUBLIC_STRAPI_API_URL + '/api/upload',
-//       {
-//         method: 'POST',
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//           Authorization: `Bearer ${session?.strapiToken}`,
-//         },
-//         body: formData,
-//         cache: 'no-cache',
-//       }
-//     );
-
-//     // handle strapi error
-//     if (!strapiResponse.ok) {
-//       // check if response in json-able
-//       const contentType = strapiResponse.headers.get('content-type');
-//       if (contentType === 'application/json; charset=utf-8') {
-//         const data: StrapiErrorT = await strapiResponse.json();
-
-//         console.error(JSON.stringify(data, null, 2))
-        
-//         throw new Error(data.error.message);
-//       } else {
-//         throw new Error(strapiResponse.statusText);
-//       }
-//     }
-
-//     const data = await strapiResponse.json();
-//     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-//     return data;
-
-//   } catch (error) {
-//     // network error or something
-//     throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
-//   }
-// }
-
-
 
 interface State {
   error: string | null

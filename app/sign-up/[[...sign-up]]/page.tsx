@@ -55,7 +55,7 @@ export default function SignUpPage({ params, searchParams }: Props) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <MetadataForm />
+                <MetadataForm subscribedSwitch />
               </CardContent>
             </Card>
           )

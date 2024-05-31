@@ -4,7 +4,8 @@ import type { MetadataFormT } from '@/lib/types/forms'
 import type { CurrentUserT } from '@/lib/types/users'
 import { Building2, MapPin, Phone } from 'lucide-react'
 import React from 'react'
-import Status from './Status'
+import Status from '../Status'
+import EmailNotificationsForm from './EmailNotificationsForm'
 
 export default function Profile({
   user,
@@ -18,7 +19,7 @@ export default function Profile({
 
   return (
     <div className='w-full'>
-      <div className=' flex lg:flex-row flex-col justify-between gap-3'>
+      <div className='flex lg:flex-row flex-col justify-between gap-3'>
         <div className=''>
           <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>{username}</TypographyH3>
           <p className='font-medium text-muted-foreground lg:text-xl md:text-base text-sm break-all'>
@@ -93,6 +94,12 @@ export default function Profile({
             </TableBody>
           </Table>
         )}
+      </div>
+      <div className='mt-8'>
+        <EmailNotificationsForm 
+          subscribedContent={user.subscribedContent}
+          subscribedReport={user.subscribedReport}
+        />
       </div>
     </div>
   )

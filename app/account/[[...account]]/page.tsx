@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import React from 'react'
-import Profile from './content/Profile';
+import Profile from './content/profile/Profile';
 import Data from './content/Data';
 import NotFound from '@/components/errors/NotFound';
 import Abstracts from './content/Abstracts';

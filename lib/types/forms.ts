@@ -325,5 +325,12 @@ export const AbstractsFormT = z.object({
     url: z.string()
   }).optional(),
 })
+export type AbstractsFormT = z.infer<typeof AbstractsFormT>;
+
+export const EmailNotificationsFormT = z.object({
+  subscribedContent: z.boolean().nullable(),
+  subscribedReport: z.boolean().nullable()
+})
+export type EmailNotificationsFormT = z.infer<typeof EmailNotificationsFormT>;
 
 

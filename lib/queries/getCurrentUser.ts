@@ -13,7 +13,9 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
           email
           confirmed
           blocked
-          subscribed
+          report
+          subscribedContent
+          subscribedReport
           role {
             id
             name

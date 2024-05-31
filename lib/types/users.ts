@@ -10,7 +10,9 @@ export const CurrentUserT = z.object({
     email: z.string(),
     confirmed: z.boolean().nullable(),
     blocked: z.boolean().nullable(),
-    subscribed: z.boolean().nullable(),
+    report: z.boolean(),
+    subscribedContent: z.boolean().nullable(),
+    subscribedReport: z.boolean().nullable(),
     role:z.object({
         id: z.string().or(z.number()),
         name: z.string(),

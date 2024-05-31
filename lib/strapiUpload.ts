@@ -28,6 +28,10 @@ export const putObjects = (userId: string, file: File) => {
   });
 };
 
+type UploadFileT = {
+  url: string
+}
+
 export const usePutObjects = () => {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +46,7 @@ export const usePutObjects = () => {
       formData.append("refId", userId)
       formData.append("field", field)
   
-      return strapi.post("/api/upload", formData, {
+      return strapi.post<UploadFileT[]>("/api/upload", formData, {
         headers: {
           // "Content-Type": "multipart/form-data",
         },
@@ -51,6 +55,7 @@ export const usePutObjects = () => {
             ? (progressEvent.loaded / progressEvent.total) * 100
             : 0;
           setProgress(progress);
+          if (progress == 100) setIsLoading(false)
         },
       });
     }
