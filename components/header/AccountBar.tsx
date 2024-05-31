@@ -3,7 +3,16 @@
 import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import { Button } from '../ui/button'
-import { BadgeRussianRuble, Bed, CalendarDays, CircleUserRound, ClipboardList, Compass, FileType2, Plane } from 'lucide-react'
+import { 
+  // BadgeRussianRuble, 
+  // Bed, 
+  // CalendarDays, 
+  CircleUserRound, 
+  ClipboardList, 
+  // Compass, 
+  FileType2, 
+  // Plane 
+} from 'lucide-react'
 import Link from 'next/link'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
@@ -21,8 +30,8 @@ export default function AccountBar({
   const navWhitReport = hasReport 
     ? [
       {title: "Тезисы", href: "/account/abstracts", children: <FileType2 className="h-4 w-4 flex-none" />},
-      {title: "Прибытие и отъезд", href: "/account/arrival-departure", children: <Plane className="h-4 w-4 flex-none" />},
-      {title: "Организационный взнос", href: "/account/fee", children: <BadgeRussianRuble className="h-4 w-4 flex-none" />},
+      // {title: "Прибытие и отъезд", href: "/account/arrival-departure", children: <Plane className="h-4 w-4 flex-none" />},
+      // {title: "Организационный взнос", href: "/account/fee", children: <BadgeRussianRuble className="h-4 w-4 flex-none" />},
     ] : []
 
   const nav = [
@@ -30,9 +39,9 @@ export default function AccountBar({
     {title: "Заявка", href: "/account/data", children: <ClipboardList className="h-4 w-4 flex-none" />},
     ...navWhitReport,
     {title: "Информационные письма", href: "/account/info", children: <InfoCircledIcon className="h-4 w-4 flex-none" />},
-    {title: "Программа съезда", href: "/account/programm", children: <CalendarDays className="h-4 w-4 flex-none" />},
-    {title: "Экскурсии", href: "/account/excursions", children: <Compass className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-    {title: "Гостиницы", href: "/account/hotel", children: <Bed className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    // {title: "Программа съезда", href: "/account/programm", children: <CalendarDays className="h-4 w-4 flex-none" />},
+    // {title: "Экскурсии", href: "/account/excursions", children: <Compass className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    // {title: "Гостиницы", href: "/account/hotel", children: <Bed className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
   ]
 
   return (

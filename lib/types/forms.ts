@@ -181,7 +181,9 @@ export const MetadataNoReportFormT = z.object({
   city: z.string().min(2, {
     message: "Введите не менее 2х символов",
   }),
-  organization: z.string(),
+  organization: z.string().min(2, {
+    message: "Введите не менее 2х символов",
+  }),
   reportFile: z.object({
     file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
       if (file && (file.size > 5 * 1024 * 1024)) {

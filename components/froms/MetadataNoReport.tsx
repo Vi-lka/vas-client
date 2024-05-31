@@ -140,7 +140,7 @@ export default function MetadataNoReport({
         name="organization"
         render={({ field }) => (
           <FormItem className='w-full'>
-            <FormLabel>Организация</FormLabel>
+            <FormLabel>Организация<span className='text-destructive'>*</span></FormLabel>
             <FormControl>
               <InputField
                 disabled={form.formState.isSubmitting || isPending}

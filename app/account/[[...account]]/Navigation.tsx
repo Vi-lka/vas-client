@@ -1,6 +1,15 @@
 import React from 'react'
 import NavigationLink from './NavigationLink'
-import { BadgeRussianRuble, Bed, CalendarDays, CircleUserRound, ClipboardList, Compass, FileType2, Plane } from 'lucide-react'
+import { 
+  // BadgeRussianRuble, 
+  // Bed, 
+  // CalendarDays, 
+  CircleUserRound, 
+  ClipboardList, 
+  // Compass, 
+  FileType2, 
+  // Plane 
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { getServerSession } from 'next-auth'
@@ -32,8 +41,8 @@ export default async function Navigation({
   const navWhitReport: NavigationItemT[] = hasReport 
     ? [
       {title: "Тезисы", href: "abstracts", children: <FileType2 className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-      {title: "Прибытие и отъезд", href: "arrival-departure", children: <Plane className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-      {title: "Организационный взнос", href: "fee", children: <BadgeRussianRuble className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+      // {title: "Прибытие и отъезд", href: "arrival-departure", children: <Plane className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+      // {title: "Организационный взнос", href: "fee", children: <BadgeRussianRuble className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     ] : []
 
   const nav: NavigationItemT[] = [
@@ -41,9 +50,9 @@ export default async function Navigation({
     {title: "Заявка", href: "data", children: <ClipboardList className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     ...navWhitReport,
     {title: "Информационные письма", href: "info", children: <InfoCircledIcon className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-    {title: "Программа съезда", href: "programm", children: <CalendarDays className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-    {title: "Экскурсии", href: "excursions", children: <Compass className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-    {title: "Гостиницы", href: "hotel", children: <Bed className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    // {title: "Программа съезда", href: "programm", children: <CalendarDays className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    // {title: "Экскурсии", href: "excursions", children: <Compass className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    // {title: "Гостиницы", href: "hotel", children: <Bed className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
   ]
 
   return (
