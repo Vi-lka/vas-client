@@ -311,7 +311,7 @@ export const AbstractsFormT = z.object({
       }
     }),
     url: z.string()
-  }).optional(),
+  }),
   imageFile: z.object({
     file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
       if (file && (file.size > 10 * 1024 * 1024)) {
@@ -323,7 +323,7 @@ export const AbstractsFormT = z.object({
       }
     }),
     url: z.string()
-  }).optional(),
+  })
 })
 export type AbstractsFormT = z.infer<typeof AbstractsFormT>;
 

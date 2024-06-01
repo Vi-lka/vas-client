@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Form } from '../ui/form'
 import SubmitButton from './inputs/SubmitButton'
 import { useForm } from 'react-hook-form'
@@ -19,27 +19,26 @@ import { usePutObjects } from '@/lib/strapiUpload'
 import { Progress } from '../ui/progress'
 import EmailNotifications from './EmailNotifications'
 import type { CurrentUserT } from '@/lib/types/users'
+import { cn } from '@/lib/utils'
 
 export default function MetadataForm({
   defaultValues,
-  defaultFileUrl,
-  defaultImageUrl,
   defaultTab = "report",
   subscribedSwitch,
 }: {
   defaultValues?: MetadataFormT,
-  defaultFileUrl?: string,
-  defaultImageUrl?: string,
   defaultTab?: "report" | "no-report",
   subscribedSwitch?: boolean;
 }) {
 
   const router = useRouter()
+
+  const [tab, setTab] = React.useState<string>(defaultTab);
   const [isPending, setPending] = React.useState(false);
   const [contentNotifications, setContentNotifications] = React.useState(false);
   const [reportNotifications, setReportNotifications] = React.useState(true);
 
-  const { update, data: session } = useSession();
+  const { data: session, update } = useSession();
 
   const form = useForm<z.infer<typeof MetadataFormT>>({
     resolver: zodResolver(MetadataFormT), 
@@ -60,11 +59,11 @@ export default function MetadataForm({
       reportName: "",
       reportFile: {
         file: null,
-        url: defaultFileUrl ? defaultFileUrl : "",
+        url: "",
       },
       imageFile: {
         file: null,
-        url: defaultImageUrl ? defaultImageUrl : "",
+        url: "",
       },
       invitation: undefined,
       tables: [],
@@ -74,7 +73,11 @@ export default function MetadataForm({
     mode: "onChange",
   })
 
-  const { upload: uploadFile, progress: progressFile, isLoading: isLoadingFile } = usePutObjects();
+  useEffect(() => {
+    form.setValue("report", tab === "report" ? true : false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
+  }, [form, tab])
+
+  const { upload: uploadReport, progress: progressReport, isLoading: isLoadingReport } = usePutObjects();
   const { upload: uploadImage, progress: progressImage, isLoading: isLoadingImage } = usePutObjects();
 
   const handleUpdateUser = () => {
@@ -94,17 +97,39 @@ export default function MetadataForm({
       if (form.getValues("report") === true) {
   
         // Upload file
-        updateUser = uploadFile(userId.toString(), reportFile?.file, "file")
-        .then(async (data) => {
-          console.log(data?.data[0].url)
-          await uploadImage(userId.toString(), imageFile?.file, "image")
+        updateUser = uploadReport(userId.toString(), reportFile?.file, "file")
+        .then(async (dataReport) => {
+          const dataImage = await uploadImage(userId.toString(), imageFile?.file, "image")
+          return { 
+            reportUrl: dataReport ? dataReport.data[0].url : "",
+            imageUrl: dataImage ? dataImage.data[0].url : "",
+          }
         })
-        .then(() => {
+        .then((dataUpload) => {
+          const reportFileUrl = dataUpload.reportUrl.length > 0 
+            ? dataUpload.reportUrl 
+            : defaultValues?.reportFile 
+              ? defaultValues.reportFile.url : ""
+          const imageFileUrl = dataUpload.imageUrl.length > 0 
+            ? dataUpload.imageUrl
+            : defaultValues?.imageFile 
+              ? defaultValues.imageFile.url : ""
+
           return updateUserAction({
             username: username,
             subscribedContent: subscribedSwitch ? contentNotifications : undefined,
             subscribedReport: subscribedSwitch ? reportNotifications : undefined,
-            metadata: formData,
+            metadata: {
+              ...formData,
+              reportFile: {
+                file: null,
+                url:  reportFileUrl,
+              },
+              imageFile: {
+                file: null,
+                url: imageFileUrl
+              }
+            },
           })
         })
         .then(async (data) => {
@@ -118,7 +143,11 @@ export default function MetadataForm({
           username: username,
           subscribedContent: subscribedSwitch ? contentNotifications : undefined,
           subscribedReport: null,
-          metadata: formData,
+          metadata: {
+            ...formData,
+            reportFile: defaultValues?.reportFile,
+            imageFile: defaultValues?.imageFile
+          },
         })
         .then(async (data) => {
           // update NextAuth token
@@ -131,9 +160,9 @@ export default function MetadataForm({
         loading: 'Сохраняем данные...',
         success: (data) => {
           setPending(false)
+          form.reset(data.metadata as MetadataFormT);
           // refresh server components
           router.refresh();
-          form.reset(data.metadata as MetadataFormT);
           return `Успешно!`;
         },
         error: (err) => {
@@ -152,36 +181,50 @@ export default function MetadataForm({
           className="space-y-3 flex flex-col w-full"
         >
           <Tabs 
-            defaultValue={defaultTab} 
+            defaultValue={defaultTab}
+            value={tab}
+            onValueChange={(value) => setTab(value)}
             className="w-full"
           >
             <TabsList className='w-full h-fit flex flex-wrap items-center'>
               <TabsTrigger 
                 value="report" 
-                disabled={form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage} 
+                disabled={form.formState.isSubmitting || isPending || isLoadingReport || isLoadingImage} 
                 className='px-6'
               >
                 С докладом
               </TabsTrigger>
               <TabsTrigger 
                 value="no-report"
-                disabled={form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage}
+                disabled={form.formState.isSubmitting || isPending || isLoadingReport || isLoadingImage}
                 className='px-6'
               >
                 Без доклада
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="report" className='space-y-3 flex flex-col w-full'>
+            <TabsContent 
+              forceMount 
+              value="report" 
+              className={cn(
+                'space-y-3 flex flex-col w-full',
+                tab === 'report' ? "flex" : "hidden"
+              )}
+            >
               <MetadataReport 
                 form={form} 
-                isPending={isPending || isLoadingFile || isLoadingImage} 
-                defaultFileUrl={defaultFileUrl} 
-                defaultImageUrl={defaultImageUrl}
+                isPending={isPending || isLoadingReport || isLoadingImage} 
               />
             </TabsContent>
-            <TabsContent value="no-report" className='space-y-3 flex flex-col w-full'>
-              <MetadataNoReport form={form} isPending={isPending || isLoadingFile || isLoadingImage} />
+            <TabsContent 
+              forceMount 
+              value="no-report" 
+              className={cn(
+                'space-y-3 flex flex-col w-full',
+                tab === 'no-report' ? "flex" : "hidden"
+              )}
+            >
+              <MetadataNoReport form={form} isPending={isPending || isLoadingReport || isLoadingImage} />
             </TabsContent>
           </Tabs>
 
@@ -200,16 +243,16 @@ export default function MetadataForm({
           )}
 
           <SubmitButton 
-            disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage}
+            disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingReport || isLoadingImage}
             className='sm:px-12 px-6 mx-auto !mt-6'
           >
             Сохранить
           </SubmitButton>
         </form>
-        {(isLoadingFile && (progressFile > 0)) && (
+        {(isLoadingReport && (progressReport > 0)) && (
           <div className='mt-6'>
-            <p className='text-center text-sm'>Загружаем файл...</p>
-            <Progress value={progressFile} />
+            <p className='text-center text-sm'>Загружаем тезисы...</p>
+            <Progress value={progressReport} />
           </div>
         )}
         {(isLoadingImage && (progressImage > 0)) && (

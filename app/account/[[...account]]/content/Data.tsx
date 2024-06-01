@@ -50,8 +50,6 @@ export default function Data({
           <CardContent>
             <MetadataForm
               defaultValues={metadata} 
-              defaultFileUrl={fileUrl}
-              defaultImageUrl={imageUrl}
               defaultTab={hasReport ? "report" : "no-report"}
             />
           </CardContent>
@@ -79,8 +77,6 @@ export default function Data({
                 <div className='w-full h-full p-1'>
                   <MetadataForm
                     defaultValues={metadata} 
-                    defaultFileUrl={fileUrl}
-                    defaultImageUrl={imageUrl}
                     defaultTab={hasReport ? "report" : "no-report"}
                   />
                 </div>
@@ -136,11 +132,11 @@ export default function Data({
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Тезисы:</TableCell>
-                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{fileUrl ? fileUrl.split("/")[2] : "__"}</TableCell>
+                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center break-all'>{fileUrl ? fileUrl.split("/")[2] : "__"}</TableCell>
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Иллюстрация:</TableCell>
-                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{imageUrl ? imageUrl.split("/")[2] : "__"}</TableCell>
+                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center break-all'>{imageUrl ? imageUrl.split("/")[2] : "__"}</TableCell>
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Круглые столы:</TableCell>

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import type { UseFormReturn } from 'react-hook-form';
 import type { MetadataFormT } from '@/lib/types/forms';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
@@ -15,20 +15,10 @@ import DropzoneFile from './inputs/DropzoneFile';
 export default function MetadataReport({
   form,
   isPending,
-  defaultFileUrl,
-  defaultImageUrl
 }: {
   form: UseFormReturn<MetadataFormT>,
   isPending: boolean,
-  defaultFileUrl?: string,
-  defaultImageUrl?: string,
 }) {
-
-  useEffect(() => {
-    // if (hasReport === "no-report") form.setValue("report", false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-    form.setValue("report", true, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-  }, [form])
-
   return (
     <>
       <div className='sm:space-x-3 flex sm:flex-row flex-col items-center w-full'>
@@ -320,7 +310,7 @@ export default function MetadataReport({
                 isImage={false}
                 formValue={field.value ? field.value : {
                   file: null,
-                  url: defaultFileUrl ? defaultFileUrl : "",
+                  url: "",
                 }}
                 formValueName={field.name}
                 accept={{
@@ -351,7 +341,7 @@ export default function MetadataReport({
                 isImage
                 formValue={field.value ? field.value : {
                   file: null,
-                  url: defaultImageUrl ? defaultImageUrl : "",
+                  url: "",
                 }}
                 formValueName={field.name}
                 accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}

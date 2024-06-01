@@ -1,6 +1,7 @@
 "use client"
 
 import { usePutObjects } from '@/lib/strapiUpload';
+import type { MetadataFormT } from '@/lib/types/forms';
 import { AbstractsFormT } from '@/lib/types/forms';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
@@ -14,34 +15,36 @@ import SubmitButton from './inputs/SubmitButton';
 import { Progress } from '../ui/progress';
 import { toast } from 'sonner';
 import AuthError from '../errors/AuthError';
+import { updateUserAction } from '@/app/actions';
 
 export default function AbstractsForm({
-  defaultFileUrl,
-  defaultImageUrl
+  metadata
 }: {
-  defaultFileUrl: string | undefined,
-  defaultImageUrl: string | undefined,
+  metadata: MetadataFormT,
 }) {
   const router = useRouter()
   const [isPending, setPending] = React.useState(false);
-  const { data: session } = useSession();
+
+  const { data: session, update } = useSession();
 
   const form = useForm<z.infer<typeof AbstractsFormT>>({
     resolver: zodResolver(AbstractsFormT), 
     defaultValues: {
-      reportFile: {
-        file: null,
-        url: defaultFileUrl ? defaultFileUrl : "",
-      },
-      imageFile: {
-        file: null,
-        url: defaultImageUrl ? defaultImageUrl : "",
-      },
+      reportFile: metadata.reportFile ? metadata.reportFile 
+      : {
+          file: null,
+          url: ""
+        },
+      imageFile: metadata.imageFile ? metadata.imageFile 
+      : {
+          file: null,
+          url: ""
+        },
     },
     mode: "onChange",
   })
 
-  const { upload: uploadFile, progress: progressFile, isLoading: isLoadingFile } = usePutObjects();
+  const { upload: uploadReport, progress: progressReport, isLoading: isLoadingReport } = usePutObjects();
   const { upload: uploadImage, progress: progressImage, isLoading: isLoadingImage } = usePutObjects();
 
   const handleUpdateUser = () => {
@@ -55,17 +58,64 @@ export default function AbstractsForm({
       const { reportFile, imageFile } = form.getValues()
 
       // Upload file
-      const updateUser = uploadFile(userId.toString(), reportFile?.file, "file")
-      .then(async () => {
-        await uploadImage(userId.toString(), imageFile?.file, "image")
+      const updateUser = uploadReport(userId.toString(), reportFile?.file, "file")
+      .then(async (dataReport) => {
+        const dataImage = await uploadImage(userId.toString(), imageFile?.file, "image")
+        return { 
+          reportUrl: dataReport ? dataReport.data[0].url : "",
+          imageUrl: dataImage ? dataImage.data[0].url : "",
+        }
       })
+      .then((dataUpload) => {
+        const reportFileUrl = dataUpload.reportUrl.length > 0 
+          ? dataUpload.reportUrl 
+          : metadata.reportFile 
+            ? metadata.reportFile.url : ""
+        const imageFileUrl = dataUpload.imageUrl.length > 0 
+          ? dataUpload.imageUrl
+          : metadata.imageFile 
+            ? metadata.imageFile.url : ""
+
+        return updateUserAction({
+          metadata: {
+            ...metadata,
+            reportFile: {
+              file: null,
+              url:  reportFileUrl,
+            },
+            imageFile: {
+              file: null,
+              url: imageFileUrl
+            }
+          },
+        })
+      })
+      .then(async (data) => {
+        // update NextAuth token
+        await update({ username: data.username, report: data.report });
+        return data
+      })
+
+
       toast.promise(updateUser, {
         loading: 'Сохраняем данные...',
-        success: () => {
+        success: (data) => {
+          const reportUrl = (data.metadata as MetadataFormT).reportFile?.url 
+          const imageUrl = (data.metadata as MetadataFormT).imageFile?.url
+
           setPending(false)
+          form.reset({
+            reportFile: {
+              file: null,
+              url: reportUrl ?? ""
+            },
+            imageFile: {
+              file: null,
+              url: imageUrl ?? ""
+            }
+          });
           // refresh server components
           router.refresh();
-          router.push('/account');
           return `Успешно!`;
         },
         error: (err) => {
@@ -91,10 +141,7 @@ export default function AbstractsForm({
               <FormControl>
                 <DropzoneFile
                   isImage={false}
-                  formValue={field.value ? field.value : {
-                    file: null,
-                    url: defaultFileUrl ? defaultFileUrl : "",
-                  }}
+                  formValue={field.value}
                   formValueName={field.name}
                   accept={{
                     "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
@@ -118,10 +165,7 @@ export default function AbstractsForm({
               <FormControl>
                 <DropzoneFile
                   isImage
-                  formValue={field.value ? field.value : {
-                    file: null,
-                    url: defaultImageUrl ? defaultImageUrl : "",
-                  }}
+                  formValue={field.value}
                   formValueName={field.name}
                   accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
                   maxSize={10 * 1024 * 1024} // 10Mb
@@ -135,16 +179,16 @@ export default function AbstractsForm({
         />
 
         <SubmitButton 
-          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingFile || isLoadingImage}
+          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingReport || isLoadingImage}
           className='sm:px-12 px-6 mx-auto md:!mt-0'
         >
           Сохранить
         </SubmitButton>
       </form>
-      {(isLoadingFile && (progressFile > 0)) && (
+      {(isLoadingReport && (progressReport > 0)) && (
         <div className='mt-6'>
           <p className='text-center text-sm'>Загружаем файл...</p>
-          <Progress value={progressFile} />
+          <Progress value={progressReport} />
         </div>
       )}
       {(isLoadingImage && (progressImage > 0)) && (

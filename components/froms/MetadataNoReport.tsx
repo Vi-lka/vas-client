@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { InputField } from './inputs/InputField';
 import type { UseFormReturn } from 'react-hook-form'
@@ -13,11 +13,6 @@ export default function MetadataNoReport({
   form: UseFormReturn<MetadataFormT>,
   isPending: boolean
 }) {
-
-  useEffect(() => {
-    form.setValue("report", false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
-  }, [form])
-  
   return (
     <>
       <div className='sm:space-x-3 flex sm:flex-row flex-col items-center w-full'>

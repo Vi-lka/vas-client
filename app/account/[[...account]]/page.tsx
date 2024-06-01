@@ -58,14 +58,7 @@ export default async function AccountPage({
       )
 
     case "abstracts":
-      return (
-        <Abstracts 
-          metadata={metadataResult.data} 
-          status={currentUser.status}
-          fileUrl={currentUser.file.data?.attributes.url}
-          imageUrl={currentUser.image.data?.attributes.url}
-        />
-      )
+      return <Abstracts metadata={metadataResult.data} status={currentUser.status}/>
 
     case "arrival-departure":
       return <ArrivalDeparture metadata={metadataResult.data} />
