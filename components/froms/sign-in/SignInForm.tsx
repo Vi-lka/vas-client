@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { translateError } from '@/lib/utils';
 import Link from 'next/link'
-import { Button } from '@/components/ui/button';
 
 export default function SignInForm() {
   const router = useRouter()
@@ -96,10 +95,8 @@ export default function SignInForm() {
               </FormControl>
               <FormMessage />
               <FormDescription className='text-right'>
-                <Link href="/sign-in/forgot" passHref className=''>
-                  <Button variant="link" className='text-sm font-medium h-fit px-1 pt-0 m-0'>
-                    Забыли пароль?
-                  </Button>
+                <Link href="/sign-in/forgot" className='text-sm font-medium h-fit px-1 pt-0 m-0 text-primary underline-offset-4 hover:underline inline-flex items-center justify-center whitespace-nowrap rounded-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50'>
+                  Забыли пароль?
                 </Link>
               </FormDescription>
             </FormItem>

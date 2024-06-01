@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { CurrentUserT } from "../types/users";
 
 export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
@@ -51,9 +52,8 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
     if (!res.ok) {
       // Log the error to an error reporting service
       const err = await res.text();
-      console.error(JSON.stringify(err, null, 2));
-      // Throw an error
-      throw new Error("Failed to fetch data User");
+      console.error("Failed to fetch data User: ", JSON.stringify(err, null, 2));
+      redirect("/logout")
     }
   
     const json = (await res.json()) as {
@@ -62,7 +62,9 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
       };
     };
 
-    const data = CurrentUserT.parse(json.data.me);
+    const userResult = CurrentUserT.safeParse(json.data.me);
+
+    if (!userResult.success) redirect("/logout")
   
-    return data;
+    return userResult.data;
 };

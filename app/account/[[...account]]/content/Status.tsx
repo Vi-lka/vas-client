@@ -7,7 +7,7 @@ export default function Status({
     report,
     status,
 }: {
-    report: boolean,
+    report: boolean | null,
     status: StatusEnum | null,
 }) {
 

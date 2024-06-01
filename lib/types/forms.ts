@@ -166,7 +166,7 @@ export type PasswordResetFormT = z.infer<typeof PasswordResetFormT>;
 
 
 export const MetadataNoReportFormT = z.object({
-  report: z.literal(false),
+  report: z.literal(false).nullable(),
   familyName: z.string().min(2, {
     message: "Введите не менее 2х символов",
   }),
@@ -222,7 +222,7 @@ export type FormatEnum = z.infer<typeof FormatEnum>;
 
 
 export const MetadataReportFormT = z.object({
-  report: z.literal(true),
+  report: z.literal(true).nullable(),
   familyName: z.string().min(2, {
     message: "Введите не менее 2х символов",
   }),
@@ -293,7 +293,7 @@ export const MetadataReportFormT = z.object({
 export type MetadataReportFormT = z.infer<typeof MetadataReportFormT>;
 
 
-export const MetadataFormT = z.discriminatedUnion( 'report', [
+export const MetadataFormT = z.union([
   MetadataNoReportFormT,
   MetadataReportFormT
 ])

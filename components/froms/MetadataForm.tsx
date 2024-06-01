@@ -35,7 +35,7 @@ export default function MetadataForm({
 
   const [tab, setTab] = React.useState<string>(defaultTab);
   const [isPending, setPending] = React.useState(false);
-  const [contentNotifications, setContentNotifications] = React.useState(false);
+  const [contentNotifications, setContentNotifications] = React.useState(true);
   const [reportNotifications, setReportNotifications] = React.useState(true);
 
   const { data: session, update } = useSession();
@@ -234,7 +234,7 @@ export default function MetadataForm({
 
           {subscribedSwitch && (
             <EmailNotifications 
-              showReportSwitch={form.getValues("report")}
+              showReportSwitch={!!form.getValues("report")}
               content={contentNotifications}
               onContentChange={(cheched) => setContentNotifications(cheched)}
               report={reportNotifications}

@@ -18,7 +18,7 @@ export default function EmailNotificationsForm({
   subscribedContent,
   subscribedReport,
 }: {
-  report: boolean,
+  report: boolean | null,
   subscribedContent: boolean | null;
   subscribedReport: boolean | null;
 }) {

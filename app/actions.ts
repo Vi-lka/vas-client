@@ -232,7 +232,7 @@ type UpdateUserT = {
   subscribedContent?: boolean | null,
   subscribedReport?: boolean | null,
   metadata?: MetadataFormT,
-  report?: boolean,
+  report?: boolean | null,
 }
 export const updateUserAction = async ({
   username,
