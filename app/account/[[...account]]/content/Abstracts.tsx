@@ -87,7 +87,7 @@ export default async function Abstracts({
             Ознакомьтесь с требованиями к оформлению тезисов и отправьте свои
           </p>
         </div>
-        <Status status={status} />
+        <Status report={metadata.report} status={status} />
       </div>
       <div className='mt-12 w-full sm:max-w-3xl max-w-md mx-auto'>
         <AbstractsForm defaultFileUrl={fileUrl} defaultImageUrl={imageUrl}/>

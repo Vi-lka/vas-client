@@ -26,7 +26,7 @@ export default function Profile({
             {email}
           </p>
         </div>
-        <Status status={user.status} />
+        <Status report={user.report} status={user.status} />
       </div>
       <div className='mt-8 flex flex-col gap-6'>
         <p className='font-medium lg:text-xl md:text-lg text-base'>
@@ -97,6 +97,7 @@ export default function Profile({
       </div>
       <div className='mt-8'>
         <EmailNotificationsForm 
+          report={user.report}
           subscribedContent={user.subscribedContent}
           subscribedReport={user.subscribedReport}
         />

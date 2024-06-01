@@ -102,8 +102,8 @@ export default function MetadataForm({
         .then(() => {
           return updateUserAction({
             username: username,
-            subscribedContent: subscribedSwitch ? contentNotifications : null,
-            subscribedReport: subscribedSwitch ? reportNotifications : null,
+            subscribedContent: subscribedSwitch ? contentNotifications : undefined,
+            subscribedReport: subscribedSwitch ? reportNotifications : undefined,
             metadata: formData,
           })
         })
@@ -116,7 +116,7 @@ export default function MetadataForm({
       } else {
         updateUser = updateUserAction({
           username: username,
-          subscribedContent: subscribedSwitch ? contentNotifications : null,
+          subscribedContent: subscribedSwitch ? contentNotifications : undefined,
           subscribedReport: null,
           metadata: formData,
         })

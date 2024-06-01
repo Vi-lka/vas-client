@@ -4,12 +4,14 @@ import { Check, CircleAlert } from 'lucide-react'
 import React from 'react'
 
 export default function Status({
-    status
+    report,
+    status,
 }: {
+    report: boolean,
     status: StatusEnum | null,
 }) {
 
-    if (!status || status.length === 0) return null
+    if (!report || !status || status.length === 0) return null
 
     return (
         <p className='inline-flex items-center gap-2 md:text-base text-sm'>

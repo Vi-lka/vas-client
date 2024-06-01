@@ -14,9 +14,14 @@ import { toast } from 'sonner'
 import type { z } from 'zod'
 
 export default function EmailNotificationsForm({
+  report,
   subscribedContent,
   subscribedReport,
-}: EmailNotificationsFormT) {
+}: {
+  report: boolean,
+  subscribedContent: boolean | null;
+  subscribedReport: boolean | null;
+}) {
 
   const router = useRouter()
   const [isPending, setPending] = React.useState(false);
@@ -87,27 +92,29 @@ export default function EmailNotificationsForm({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="subscribedReport"
-              render={({ field }) => (
-                <FormItem className="flex flex-row md:gap-8 gap-1 items-center justify-between rounded-xl border p-3 shadow">
-                  <div className="space-y-0.5">
-                    <FormLabel className='font-medium'>Заявка</FormLabel>
-                    <FormDescription className='text-xs'>
-                      Получайте электронные письма о статусе вашей заявки.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      size="md"
-                      checked={!!field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            {report && (
+              <FormField
+                control={form.control}
+                name="subscribedReport"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row md:gap-8 gap-1 items-center justify-between rounded-xl border p-3 shadow">
+                    <div className="space-y-0.5">
+                      <FormLabel className='font-medium'>Заявка</FormLabel>
+                      <FormDescription className='text-xs'>
+                        Получайте электронные письма о статусе вашей заявки.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        size="md"
+                        checked={!!field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
         </div>
         <SubmitButton 

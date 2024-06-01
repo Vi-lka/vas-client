@@ -34,7 +34,7 @@ export default function Data({
             {hasReport ? "Вы зарегистрированы с докладом" : "Вы зарегистрированы без доклада (слушатель)"}
           </p>
         </div>
-        <Status status={status} />
+        <Status report={metadata.report} status={status} />
       </div>
       <div className='mt-8'>
         <Card className='w-full sm:max-w-3xl max-w-md mx-auto md:block hidden'>
