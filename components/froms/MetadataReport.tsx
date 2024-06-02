@@ -344,7 +344,11 @@ export default function MetadataReport({
                   url: "",
                 }}
                 formValueName={field.name}
-                accept={{ "image/*": [".jpeg", ".jpg", ".png"] }}
+                  accept={{
+                    'image/jpg': [],
+                    'image/jpeg': [],
+                    'image/png': [],
+                  }}
                 maxSize={10 * 1024 * 1024} // 10Mb
                 disabled={form.formState.isSubmitting || isPending}
                 className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
