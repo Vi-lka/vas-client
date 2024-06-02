@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { MousePointerClick, UploadCloud, X } from "lucide-react";
+import { MousePointerClick, UploadCloud } from "lucide-react";
 import type { Accept } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
@@ -69,25 +69,25 @@ export default function DropzoneFile({
     disabled: pending || disabled
   });
 
-  const handleDelete = () => {
-    setFile(undefined);
-    setURL(undefined);
-    form.setValue(
-      formValueName,
-      { file: undefined, url: "" },
-      { shouldDirty: true, shouldValidate: true, shouldTouch: true },
-    );
-  };
+  // const handleDelete = () => {
+  //   setFile(null);
+  //   setURL("");
+  //   form.setValue(
+  //     formValueName,
+  //     { file: null, url: "" },
+  //     { shouldDirty: true, shouldValidate: true, shouldTouch: true },
+  //   );
+  // };
 
   if (!!valueURL && valueURL.length > 0)
     return (
       <>
-        <span
+        {/* <span
           className="text-muted-foreground hover:text-foreground mx-auto my-1 flex w-fit cursor-pointer items-center justify-center text-xs transition-all hover:scale-110"
           onClick={handleDelete}
         >
           <X className="h-5 w-5" /> Удалить
-        </span>
+        </span> */}
         <div
           {...getRootProps({
             className: cn(
