@@ -1,5 +1,5 @@
 import { TypographyH3 } from '@/components/typography'
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
+// import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table'
 import type { MetadataFormT } from '@/lib/types/forms'
 import type { CurrentUserT } from '@/lib/types/users'
 import { Building2, MapPin, Phone } from 'lucide-react'
@@ -28,7 +28,7 @@ export default function Profile({
         </div>
         <Status report={user.report} status={user.status} />
       </div>
-      <div className='mt-8 flex flex-col gap-6'>
+      <div className='mt-8 flex flex-col gap-4'>
         <p className='font-medium lg:text-xl md:text-lg text-base'>
           {metadata.report === true ? "С докладом" : "Без доклада (слушатель)"}
         </p>
@@ -55,7 +55,7 @@ export default function Profile({
           )}
         </ol>
 
-        {metadata.report === true && (
+        {/* {metadata.report === true && (
           <Table>
             <TableBody>
               <TableRow className='flex w-full md:flex-row flex-col'>
@@ -75,12 +75,12 @@ export default function Profile({
                 <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.direction}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
-                <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Название доклада:</TableCell>
-                <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.reportName}</TableCell>
-              </TableRow>
-              <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Приглашение:</TableCell>
                 <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{metadata.invitation ? "Требуется" : "Не требуется"}</TableCell>
+              </TableRow>
+              <TableRow className='flex w-full md:flex-row flex-col'>
+                <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Название доклада:</TableCell>
+                <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.reportName}</TableCell>
               </TableRow>
               <TableRow className='flex w-full md:flex-row flex-col'>
                 <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Круглые столы:</TableCell>
@@ -93,7 +93,7 @@ export default function Profile({
 
             </TableBody>
           </Table>
-        )}
+        )} */}
       </div>
       <div className='mt-8'>
         <EmailNotificationsForm 

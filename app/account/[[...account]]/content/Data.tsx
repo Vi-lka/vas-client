@@ -123,12 +123,12 @@ export default function Data({
                     <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.direction}</TableCell>
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
-                    <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Название доклада:</TableCell>
-                    <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.reportName}</TableCell>
-                  </TableRow>
-                  <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Приглашение:</TableCell>
                     <TableCell className='flex-1 lg:text-sm text-xs flex items-center'>{metadata.invitation ? "Требуется" : "Не требуется"}</TableCell>
+                  </TableRow>
+                  <TableRow className='flex w-full md:flex-row flex-col'>
+                    <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Название доклада:</TableCell>
+                    <TableCell className='flex-1 lg:text-sm text-xs'>{metadata.reportName}</TableCell>
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Тезисы:</TableCell>

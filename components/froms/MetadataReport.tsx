@@ -254,23 +254,6 @@ export default function MetadataReport({
       </div>
       <FormField
         control={form.control}
-        name="reportName"
-        render={({ field }) => (
-          <FormItem className='w-full'>
-            <FormLabel>Название доклада<span className='text-destructive'>*</span></FormLabel>
-            <FormControl>
-              <InputField
-                disabled={form.formState.isSubmitting || isPending}
-                className='bg-background rounded-lg border-border shadow'
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
         name="invitation"
         render={({ field }) => (
           <FormItem className='w-full'>
@@ -293,6 +276,23 @@ export default function MetadataReport({
                   if (value === "true") form.setValue(field.name, true, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
                   else form.setValue(field.name, false, {shouldDirty: true, shouldTouch: true, shouldValidate: true})
                 }}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="reportName"
+        render={({ field }) => (
+          <FormItem className='w-full'>
+            <FormLabel>Название доклада<span className='text-destructive'>*</span></FormLabel>
+            <FormControl>
+              <InputField
+                disabled={form.formState.isSubmitting || isPending}
+                className='bg-background rounded-lg border-border shadow'
+                {...field}
               />
             </FormControl>
             <FormMessage />
