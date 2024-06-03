@@ -4,7 +4,7 @@ import { TypographyH2 } from '@/components/typography'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import type { CommitteeItemT } from '@/lib/types/mainPage'
-import { cn } from '@/lib/utils'
+import { cn, fixDanglingPre } from '@/lib/utils'
 import React from 'react'
 
 export default function CommitteeItem({
@@ -44,7 +44,7 @@ export default function CommitteeItem({
                                     {item.title}
                                 </h4>
                                 {item.description && (
-                                    <p className='mt-1 text-xs text-muted-foreground flex-1'>{item.description}</p>
+                                    <p className='mt-1 text-xs text-muted-foreground flex-1'>{fixDanglingPre(item.description)}</p>
                                 )}
                             </CardContent>
                         </Card>

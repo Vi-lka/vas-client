@@ -79,7 +79,7 @@ export default function EmailNotificationsForm({
                   <div className="space-y-0.5">
                     <FormLabel className='font-medium'>Контент</FormLabel>
                     <FormDescription className='text-xs'>
-                      Получайте электронные письма о новых материалах, изменениях в программе или направлениях и о многом другом.
+                      {"Получайте электронные письма о\u00A0новых материалах, изменениях в\u00A0программе или\u00A0направлениях и\u00A0о\u00A0многом другом."}
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -101,7 +101,7 @@ export default function EmailNotificationsForm({
                     <div className="space-y-0.5">
                       <FormLabel className='font-medium'>Заявка</FormLabel>
                       <FormDescription className='text-xs'>
-                        Получайте электронные письма о статусе вашей заявки.
+                        {"Получайте электронные письма о\u00A0статусе вашей заявки."}
                       </FormDescription>
                     </div>
                     <FormControl>

@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CalendarLink from "@/components/CalendarLink";
 import fetchData from "@/lib/fetchData";
+import { fixDanglingPre } from "@/lib/utils";
 
 export default async function AboutBento() {
 
@@ -53,7 +54,7 @@ export default async function AboutBento() {
     {
       Icon: LogIn,
       name: "Онлайн регистрация",
-      description: "Регистрируйтесь и получайте уведомления",
+      description: "Регистрируйтесь и\u00A0получайте уведомления",
       href: "/sign-up",
       cta: "Перейти",
       className: "col-span-3 lg:col-span-1",
@@ -73,7 +74,7 @@ export default async function AboutBento() {
     {
       Icon: Building2,
       name: "Организации",
-      description: "Организаторы съезда и партнеры",
+      description: "Организаторы съезда и\u00A0партнеры",
       href: "/#orgs",
       cta: "Подробнее",
       className: "col-span-3 lg:col-span-2",
@@ -83,8 +84,8 @@ export default async function AboutBento() {
       Icon: GlobeIcon,
       name: "Место проведения",
       description: addressResult.status !== "rejected" 
-        ? addressResult.value 
-        : "Ознакомьтесь с местом проведения съезда и городом Красноярск",
+        ? fixDanglingPre(addressResult.value) 
+        : "Ознакомьтесь с\u00A0местом проведения съезда и\u00A0городом Красноярск",
       href: "/#place",
       cta: "Подробнее",
       // href: `https://maps.yandex.ru/?text=г. Красноярск, пр. Свободный, 82`,

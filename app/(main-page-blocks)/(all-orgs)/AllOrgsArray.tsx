@@ -1,6 +1,6 @@
 import React from 'react';
 import type { OrgsItemT } from "@/lib/types/mainPage";
-import { cn } from "@/lib/utils";
+import { cn, fixDanglingPre } from "@/lib/utils";
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -56,7 +56,7 @@ export function AllOrgsItem({
           "font-medium text-center tracking-tight leading-5",
           data.url ? "group-hover:text-primary group-hover:-translate-y-1 transition-all duration-300" : ""
         )}>
-          {data.title}
+          {fixDanglingPre(data.title)}
         </figcaption>
       </div>
     </figure>

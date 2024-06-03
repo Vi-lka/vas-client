@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation';
 import React from 'react'
 import Image from "next/image";
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { fixDanglingPre } from '@/lib/utils';
 
 export default async function Place() {
 
@@ -126,11 +127,11 @@ export default async function Place() {
                 </CardContent>
                 <CardFooter className='flex flex-col flex-1 justify-center gap-2 pt-4 text-center'>
                   <TypographyH5 className='font-medium group-hover:text-primary group-hover:-translate-y-1 transition-all duration-300'>
-                    {item.title}
+                    {fixDanglingPre(item.title)}
                     </TypographyH5>
 
                   {item.description && (
-                    <p className='text-xs text-muted-foreground'>{item.description}</p>
+                    <p className='text-xs text-muted-foreground'>{fixDanglingPre(item.description)}</p>
                   )}
                 </CardFooter>
               </Card>

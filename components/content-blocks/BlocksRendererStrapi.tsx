@@ -8,6 +8,7 @@ import { TypographyBlockquote, TypographyH1, TypographyH2, TypographyH3, Typogra
 import Link from 'next/link';
 import { ClientHydration } from '../ClientHydration';
 import { Skeleton } from '../ui/skeleton';
+import { fixDanglingPre } from '@/lib/utils';
 
 interface TextInlineNode {
     type: 'text';
@@ -85,10 +86,30 @@ export default function BlocksRendererStrapi({
 }) {
 
   if (!content) return null
+
+  const spacedContent = (content as RootNode[]).map(item => {
+    if (item.type === "paragraph") {
+
+      const spacedText = item.children.map(textItem => {
+        if (textItem.type === "text") {
+
+          const fixedText = fixDanglingPre(textItem.text)
+
+          const result = {
+            ...textItem, 
+            text: fixedText
+          }
+          return result
+        } else return textItem
+      })
+      
+      return {...item, children: spacedText}
+    } else return item
+  })
   
   return (
     <BlocksRenderer 
-        content={content as RootNode[]}
+        content={spacedContent as RootNode[]}
         blocks={{
             paragraph: ({ children }) => <TypographyP>{children}</TypographyP>,
             heading: ({ children, level }) => {

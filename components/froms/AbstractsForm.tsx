@@ -137,7 +137,9 @@ export default function AbstractsForm({
           name="reportFile"
           render={({ field }) => (
             <FormItem className='w-full mx-auto text-center'>
-              <FormLabel className='lg:text-lg text-base'>Ваши материалы для публикации:</FormLabel>
+              <FormLabel className='lg:text-lg text-base'>
+                {"Ваши материалы для\u00A0публикации:"}
+              </FormLabel>
               <FormControl>
                 <DropzoneFile
                   isImage={false}

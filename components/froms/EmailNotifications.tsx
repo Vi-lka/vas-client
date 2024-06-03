@@ -31,7 +31,7 @@ export default function EmailNotifications(props: EmailNotificationsProps) {
             <div className="space-y-0.5">
               <CardTitle className='font-medium'>Контент</CardTitle>
               <CardDescription className='text-xs'>
-                Получайте электронные письма о новых материалах, изменениях в программе или направлениях и о многом другом.
+                {"Получайте электронные письма о\u00A0новых материалах, изменениях в\u00A0программе или\u00A0направлениях и\u00A0о\u00A0многом другом."}
               </CardDescription>
             </div>
             <Switch
@@ -48,7 +48,7 @@ export default function EmailNotifications(props: EmailNotificationsProps) {
               <div className="space-y-0.5">
                 <CardTitle className='font-medium'>Заявка</CardTitle>
                 <CardDescription className='text-xs'>
-                  Получайте электронные письма о статусе вашей заявки.
+                  {"Получайте электронные письма о\u00A0статусе вашей заявки."}
                 </CardDescription>
               </div>
               <Switch

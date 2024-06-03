@@ -3,7 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { DownloadIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn, fixDanglingPre } from '@/lib/utils'
 import { TypographyH3 } from '../typography'
 
 export default function FilesBlock({
@@ -30,11 +30,11 @@ export default function FilesBlock({
                         <CardTitle className='mb-1'>
                           <DownloadIcon className='w-8 h-8 mx-auto group-hover:translate-y-2 transition-all duration-300'/>
                         </CardTitle>
-                        <CardDescription className='font-medium text-center text-card-foreground'>{item.title}</CardDescription>
+                        <CardDescription className='font-medium text-center text-card-foreground'>{fixDanglingPre(item.title)}</CardDescription>
                       </CardHeader>
                       {item.description && (
                         <CardContent className='pt-0 text-center'>
-                          <p className='text-xs font-light text-muted-foreground'>{item.description}</p>
+                          <p className='text-xs font-light text-muted-foreground'>{fixDanglingPre(item.description)}</p>
                         </CardContent>
                       )}
                     </Card>

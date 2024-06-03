@@ -3,6 +3,7 @@ import ErrorHandler from '@/components/errors/ErrorHandler';
 import { TypographyH1 } from '@/components/typography';
 import fetchData from '@/lib/fetchData';
 import { AdditionalPageT } from '@/lib/types/additionalPage';
+import { fixDanglingPre } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 import React from 'react'
 
@@ -91,7 +92,7 @@ export default async function AdditionalPage({
     <main className="flex min-h-screen max-w-screen-xl mx-auto flex-col items-center justify-between pt-24">
       <div className='xl:w-3/5 lg:w-2/3 md:w-[70%] sm:w-3/4 w-5/6 mx-auto sm:px-8 px-2 pt-8'>
         <TypographyH1 className='mb-8'>
-          {dataResult.value.attributes.title}
+          {fixDanglingPre(dataResult.value.attributes.title)}
         </TypographyH1>
         
         <div className='flex flex-col gap-8'>

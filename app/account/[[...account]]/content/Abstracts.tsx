@@ -80,7 +80,7 @@ export default async function Abstracts({
         <div className=''>
           <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>Тезисы</TypographyH3>
           <p className='font-medium text-muted-foreground lg:text-lg md:text-base text-sm'>
-            Ознакомьтесь с требованиями к оформлению тезисов и отправьте свои
+            {"Ознакомьтесь с\u00A0требованиями к\u00A0оформлению тезисов и\u00A0отправьте свои"}
           </p>
         </div>
         <Status report={metadata.report} status={status} />

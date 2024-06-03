@@ -3,7 +3,7 @@ import { TypographyH1, TypographyH3 } from '@/components/typography';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import fetchData from '@/lib/fetchData';
 import { MaterialsT } from '@/lib/types/mainPage';
-import { cn, maxDifference } from '@/lib/utils';
+import { cn, fixDanglingPre, maxDifference } from '@/lib/utils';
 import { DownloadIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -93,7 +93,7 @@ export default async function Materials() {
           )}>
             {item.title && (
               <TypographyH3 className='text-foreground mb-4'>
-                {item.title}
+                {fixDanglingPre(item.title)}
               </TypographyH3>
             )}
             <ul className="grid lg:grid-cols-2 gap-4 auto-rows-fr">
@@ -109,7 +109,7 @@ export default async function Materials() {
                       </CardHeader>
                       {filesItem.description && (
                         <CardContent className='pt-0 text-center'>
-                          <p className='text-xs font-light text-muted-foreground'>{filesItem.description}</p>
+                          <p className='text-xs font-light text-muted-foreground'>{fixDanglingPre(filesItem.description)}</p>
                         </CardContent>
                       )}
                     </Card>
