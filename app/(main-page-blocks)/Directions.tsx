@@ -5,7 +5,7 @@ import { DirectionsT } from '@/lib/types/mainPage';
 import { notFound } from 'next/navigation';
 import React from 'react'
 import "./timeline.css";
-import { fixDanglingPre } from '@/lib/utils';
+import fixDanglingPrefix from "@/lib/fixDanglingPrefix";
 
 export default async function Directions() {
 
@@ -63,7 +63,7 @@ export default async function Directions() {
           <li key={index} data-custom-attribute={index + 1}>
             <div>
               <h4 className="whitespace-pre-wrap relative top-[-6px] w-fit border font-medium tracking-tight sm:text-lg text-base px-4 py-3 bg-background rounded-lg shadow">
-                {fixDanglingPre(item.title)}
+                {fixDanglingPrefix(item.title)}
               </h4>
             </div>
           </li>

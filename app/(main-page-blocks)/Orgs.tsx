@@ -1,7 +1,8 @@
 import ErrorHandler from '@/components/errors/ErrorHandler';
 import Marquee from '@/components/magic/marquee'
 import { getOrgs } from '@/lib/queries/getOrgs';
-import { cn, fixDanglingPre } from '@/lib/utils'
+import { cn } from '@/lib/utils'
+import fixDanglingPrefix from "@/lib/fixDanglingPrefix";
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -49,7 +50,7 @@ export default async function Orgs() {
               />
               <div className="flex flex-col justify-center">
                 <figcaption className="text-xs text-center font-light tracking-tighter leading-4">
-                  {fixDanglingPre(f.title)}
+                  {fixDanglingPrefix(f.title)}
                 </figcaption>
               </div>
             </figure>
@@ -72,7 +73,7 @@ export default async function Orgs() {
             />
             <div className="flex flex-col justify-center">
               <figcaption className="text-xs text-center font-light tracking-tighter leading-4">
-                {fixDanglingPre(f.title)}
+                {fixDanglingPrefix(f.title)}
               </figcaption>
             </div>
           </figure>

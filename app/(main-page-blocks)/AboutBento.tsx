@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import CalendarLink from "@/components/CalendarLink";
 import fetchData from "@/lib/fetchData";
-import { fixDanglingPre } from "@/lib/utils";
+import fixDanglingPrefix from "@/lib/fixDanglingPrefix";
 
 export default async function AboutBento() {
 
@@ -84,7 +84,7 @@ export default async function AboutBento() {
       Icon: GlobeIcon,
       name: "Место проведения",
       description: addressResult.status !== "rejected" 
-        ? fixDanglingPre(addressResult.value) 
+        ? fixDanglingPrefix(addressResult.value) 
         : "Ознакомьтесь с\u00A0местом проведения съезда и\u00A0городом Красноярск",
       href: "/#place",
       cta: "Подробнее",

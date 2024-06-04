@@ -20,13 +20,6 @@ export function getShortText(
   } else return array.join(" ");
 }
 
-export function fixDanglingPre(str: string) {
-  const replacedText = str.replace(/(?<=^|\s)[\p{L}(.]{1,3}(?=\s)/gu, '$&\u00A0')
-  const result = replacedText.replaceAll('\u00A0 ', '\u00A0')
-  
-  return result
-}
-
 export function calcWidth({index, current, count}: {index: number, current: number, count: number}) {
   const per = (100 / count) / count
   let perCount = 0

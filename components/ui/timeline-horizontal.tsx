@@ -1,4 +1,5 @@
-import { cn, fixDanglingPre, getValidChildren } from '@/lib/utils'
+import { cn, getValidChildren } from '@/lib/utils'
+import fixDanglingPrefix from "@/lib/fixDanglingPrefix";
 import { Circle } from 'lucide-react'
 import React from 'react'
 import "./timeline-horizontal.css"
@@ -41,7 +42,7 @@ export function TimelineHorizontalItem({
         <Circle />
       </span>
 
-      <span>{fixDanglingPre(title)}</span>
+      <span>{fixDanglingPrefix(title)}</span>
 
       {time && (
         <span className='text-base font-medium'>{time}</span>

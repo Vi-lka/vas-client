@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React from 'react'
@@ -8,7 +7,7 @@ import { TypographyBlockquote, TypographyH1, TypographyH2, TypographyH3, Typogra
 import Link from 'next/link';
 import { ClientHydration } from '../ClientHydration';
 import { Skeleton } from '../ui/skeleton';
-import { fixDanglingPre } from '@/lib/utils';
+import fixDanglingPrefix from "@/lib/fixDanglingPrefix";
 
 interface TextInlineNode {
     type: 'text';
@@ -82,6 +81,7 @@ type RootNode = ParagraphBlockNode | QuoteBlockNode | CodeBlockNode | HeadingBlo
 export default function BlocksRendererStrapi({
   content
 }: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   content: any
 }) {
 
@@ -93,7 +93,7 @@ export default function BlocksRendererStrapi({
       const spacedText = item.children.map(textItem => {
         if (textItem.type === "text") {
 
-          const fixedText = fixDanglingPre(textItem.text)
+          const fixedText = fixDanglingPrefix(textItem.text)
 
           const result = {
             ...textItem, 
@@ -109,7 +109,7 @@ export default function BlocksRendererStrapi({
   
   return (
     <BlocksRenderer 
-        content={spacedContent as RootNode[]}
+        content={spacedContent}
         blocks={{
             paragraph: ({ children }) => <TypographyP>{children}</TypographyP>,
             heading: ({ children, level }) => {
