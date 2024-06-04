@@ -95,7 +95,7 @@ export default async function AdditionalPage({
           {fixDanglingPre(dataResult.value.attributes.title)}
         </TypographyH1>
         
-        <div className='flex flex-col gap-8'>
+        <div className='flex flex-col gap-8 lg:text-justify'>
           {dataResult.value.attributes.content.map((item, indx) => (
             <DynamicZone key={indx} item={item} />
           ))}

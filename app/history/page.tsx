@@ -84,7 +84,7 @@ export default async function HistoryPage() {
           История съезда
         </TypographyH1>
         
-        <div className='flex flex-col gap-8'>
+        <div className='flex flex-col gap-8 lg:text-justify'>
           {dataResult.value.attributes.content.map((item, indx) => (
             <DynamicZone key={indx} item={item} />
           ))}

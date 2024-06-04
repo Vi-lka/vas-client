@@ -90,7 +90,7 @@ export default async function Abstracts({
       </div>
       <div className='flex flex-col items-center justify-center mt-8'>
         {dataResult.value.attributes.text && (
-          <div className='lg:text-base text-sm'>
+          <div className='lg:text-base text-sm lg:text-justify'>
             {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
             <BlocksRendererStrapi content={dataResult.value.attributes.text} />
           </div>

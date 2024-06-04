@@ -79,7 +79,7 @@ export default async function Place() {
       </TypographyH1>
 
       <div className='flex lg:flex-row flex-col-reverse gap-8'>
-        <div className='lg:w-3/4 w-full'>
+        <div className='lg:w-3/4 w-full lg:text-justify'>
           {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
           <BlocksRendererStrapi content={dataResult.value.attributes.description} />
         </div>
