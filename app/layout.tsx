@@ -46,6 +46,7 @@ export default async function RootLayout({
   return (
       <html 
         lang="ru"
+        translate="no"
         suppressHydrationWarning
         className={`${inter.variable} scroll-smooth`}
         style={{scrollBehavior:'smooth'}}

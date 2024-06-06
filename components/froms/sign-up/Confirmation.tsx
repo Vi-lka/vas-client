@@ -91,6 +91,7 @@ export default function Confirmation({ confirmationToken }: Props) {
           <Loader2 className=' animate-spin transition-all w-8 h-8'/>
         </CardDescription>
       </CardHeader>
+      <CardContent className='p-0'></CardContent>
     </Card>
   )
 
@@ -111,7 +112,7 @@ export default function Confirmation({ confirmationToken }: Props) {
   )
 
   return (
-    <Card className='relative sm:w-5/6 w-full sm:max-w-md max-w-sm mx-auto mt-20'>
+    <Card className='relative sm:w-5/6 w-full sm:max-w-md max-w-sm mx-auto'>
       <CardHeader>
         <CardTitle className='text-center lg:text-2xl text-xl'>Вход</CardTitle>
         <CardDescription className='text-center'>

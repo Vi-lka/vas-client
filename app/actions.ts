@@ -279,8 +279,8 @@ export const updateUserAction = async ({
 
     // handle strapi success
     revalidateTag('strapi-users-me');
-    revalidatePath('/account')
-    revalidatePath('/account/[[...account]]')
+    revalidatePath('/account');
+    revalidatePath('/account/[[...account]]', "page");
     const data: CurrentUserT = await strapiResponse.json();
     return data;
 

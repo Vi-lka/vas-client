@@ -85,7 +85,9 @@ export default async function AdditionalPage({
       place="Страница"
       notFound
       goBack
-    />
+    >
+      <div className='pt-24'></div>
+    </ErrorHandler>
   )
 
   return (
