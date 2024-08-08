@@ -14,7 +14,7 @@ export default function Status({
     if (!report || !status || status.length === 0) return null
 
     return (
-        <p className='inline-flex items-center gap-2 md:text-base text-sm min-w-60'>
+        <p className='inline-flex items-center sm:gap-2 gap-1 md:text-base text-sm lg:min-w-60'>
             Статус заявки: 
             <span className={cn(
                 'inline-flex items-center gap-1 font-medium px-3 py-1 rounded-3xl overflow-hidden shadow',

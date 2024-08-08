@@ -208,6 +208,38 @@ export const MetadataNoReportFormT = z.object({
     }),
     url: z.string()
   }).optional(),
+  additionalReports: z.object({
+    direction: z.string({
+      required_error: "Это поле является обязательным"
+    }),
+    reportName: z.string().min(1, {
+      message: "Введите не менее 1го символа",
+    }),
+    reportFile: z.object({
+      file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+        if (file && (file.size > 5 * 1024 * 1024)) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Размер файла должен быть не более 5МБ",
+            path: ['reportFile']
+          });
+        }
+      }),
+      url: z.string()
+    }).optional(),
+    imageFile: z.object({
+      file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+        if (file && (file.size > 10 * 1024 * 1024)) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Размер файла должен быть не более 10МБ",
+            path: ['imageFile']
+          });
+        }
+      }),
+      url: z.string()
+    }).optional(),
+  }).array().nullable().optional(),
 })
 export type MetadataNoReportFormT = z.infer<typeof MetadataNoReportFormT>;
 
@@ -280,6 +312,38 @@ export const MetadataReportFormT = z.object({
     }),
     url: z.string()
   }).optional(),
+  additionalReports: z.object({
+    direction: z.string({
+      required_error: "Это поле является обязательным"
+    }),
+    reportName: z.string().min(1, {
+      message: "Введите не менее 1го символа",
+    }),
+    reportFile: z.object({
+      file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+        if (file && (file.size > 5 * 1024 * 1024)) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Размер файла должен быть не более 5МБ",
+            path: ['reportFile']
+          });
+        }
+      }),
+      url: z.string()
+    }).optional(),
+    imageFile: z.object({
+      file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+        if (file && (file.size > 10 * 1024 * 1024)) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Размер файла должен быть не более 10МБ",
+            path: ['imageFile']
+          });
+        }
+      }),
+      url: z.string()
+    }).optional(),
+  }).array().nullable().optional(),
   tables: z.object({
     label: z.string(),
     value: z.string(),
@@ -323,7 +387,39 @@ export const AbstractsFormT = z.object({
       }
     }),
     url: z.string()
-  })
+  }),
+  additionalReports: z.object({
+    direction: z.string({
+      required_error: "Это поле является обязательным"
+    }),
+    reportName: z.string().min(1, {
+      message: "Введите не менее 1го символа",
+    }),
+    reportFile: z.object({
+      file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+        if (file && (file.size > 5 * 1024 * 1024)) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Размер файла должен быть не более 5МБ",
+            path: ['reportFile']
+          });
+        }
+      }),
+      url: z.string()
+    }).optional(),
+    imageFile: z.object({
+      file: z.custom<File>().nullable().optional().superRefine((file, ctx) => {
+        if (file && (file.size > 10 * 1024 * 1024)) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Размер файла должен быть не более 10МБ",
+            path: ['imageFile']
+          });
+        }
+      }),
+      url: z.string()
+    }).optional(),
+  }).array().nullable().optional(),
 })
 export type AbstractsFormT = z.infer<typeof AbstractsFormT>;
 

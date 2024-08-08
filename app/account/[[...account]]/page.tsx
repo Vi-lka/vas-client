@@ -52,8 +52,8 @@ export default async function AccountPage({
         <Data 
           metadata={(currentUser.metadata as MetadataFormT)} 
           status={currentUser.status}
-          fileUrl={currentUser.file.data?.attributes.url}
-          imageUrl={currentUser.image.data?.attributes.url}
+          fileUrl={(currentUser.metadata as MetadataFormT).reportFile?.url}
+          imageUrl={(currentUser.metadata as MetadataFormT).imageFile?.url}
         />
       )
 

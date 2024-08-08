@@ -65,6 +65,7 @@ export default function MetadataForm({
         file: null,
         url: "",
       },
+      additionalReports: [],
       invitation: undefined,
       tables: [],
       tour: "",
@@ -90,7 +91,7 @@ export default function MetadataForm({
 
       const username = form.getValues("familyName") + " " + form.getValues("name") + " " + form.getValues("middleName")
   
-      const { reportFile, imageFile, ...formData } = form.getValues()
+      const { reportFile, imageFile, additionalReports, ...formData } = form.getValues()
   
       let updateUser: Promise<CurrentUserT>
   
@@ -105,7 +106,7 @@ export default function MetadataForm({
             imageUrl: dataImage ? dataImage.data[0].url : "",
           }
         })
-        .then((dataUpload) => {
+        .then(async (dataUpload) => {
           const reportFileUrl = dataUpload.reportUrl.length > 0 
             ? dataUpload.reportUrl 
             : defaultValues?.reportFile 
@@ -114,6 +115,44 @@ export default function MetadataForm({
             ? dataUpload.imageUrl
             : defaultValues?.imageFile 
               ? defaultValues.imageFile.url : ""
+
+          const additionalReportsData = additionalReports ? additionalReports.map(async (item, indx) => {
+            const uploadAdditionalReport = await uploadReport(userId.toString(), item.reportFile?.file, "file")
+            .then(async (dataAdditionalReport) => {
+              const dataAdditionalImage = await uploadImage(userId.toString(), item.imageFile?.file, "image")
+              return { 
+                reportUrl: dataAdditionalReport ? dataAdditionalReport.data[0].url : "",
+                imageUrl: dataAdditionalImage ? dataAdditionalImage.data[0].url : "",
+              }
+            })
+            .then((dataAdditionalUpload) => {
+              const additionalReportFileUrl = dataAdditionalUpload.reportUrl.length > 0 
+                ? dataAdditionalUpload.reportUrl 
+                : (defaultValues?.additionalReports && defaultValues.additionalReports[indx].reportFile)
+                  ? defaultValues.additionalReports[indx].reportFile.url : ""
+              const additionalImageFileUrl = dataAdditionalUpload.imageUrl.length > 0 
+                ? dataAdditionalUpload.imageUrl
+                : defaultValues?.additionalReports && defaultValues.additionalReports[indx].imageFile 
+                  ? defaultValues.additionalReports[indx].imageFile.url : ""
+
+              return {
+                direction: item.direction,
+                reportName: item.reportName,
+                reportFile: {
+                  file: null,
+                  url:  additionalReportFileUrl,
+                },
+                imageFile: {
+                  file: null,
+                  url: additionalImageFileUrl
+                }
+              }
+            })
+
+            return uploadAdditionalReport
+          }) : []
+
+          const additionalReportsDataResult = await Promise.all(additionalReportsData)
 
           return updateUserAction({
             username: username,
@@ -128,7 +167,8 @@ export default function MetadataForm({
               imageFile: {
                 file: null,
                 url: imageFileUrl
-              }
+              },
+              additionalReports: additionalReportsDataResult
             },
           })
         })
@@ -146,7 +186,7 @@ export default function MetadataForm({
           metadata: {
             ...formData,
             reportFile: defaultValues?.reportFile,
-            imageFile: defaultValues?.imageFile
+            imageFile: defaultValues?.imageFile,
           },
         })
         .then(async (data) => {

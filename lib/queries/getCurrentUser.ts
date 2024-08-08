@@ -64,7 +64,10 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
 
     const userResult = CurrentUserT.safeParse(json.data.me);
 
-    if (!userResult.success) redirect("/logout")
+    if (!userResult.success) {
+      console.error("Failed to validate data User: ", JSON.stringify(userResult.error, null, 2));
+      redirect("/logout")
+    }
   
     return userResult.data;
 };

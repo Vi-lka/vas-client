@@ -75,17 +75,17 @@ export default async function Abstracts({
   )
 
   return (
-    <div className='w-full'>
-      <div className=' flex lg:flex-row flex-col justify-between gap-3'>
+    <div className='w-full flex flex-col'>
+      <div className='flex lg:flex-row flex-col justify-between gap-3'>
         <div className=''>
           <TypographyH3 className='lg:text-2xl md:text-xl text-lg'>Тезисы</TypographyH3>
           <p className='font-medium text-muted-foreground lg:text-lg md:text-base text-sm'>
-            {"Ознакомьтесь с\u00A0требованиями к\u00A0оформлению тезисов и\u00A0отправьте свои"}
+            {/* {"Ознакомьтесь с\u00A0требованиями к\u00A0оформлению тезисов и\u00A0отправьте свои"} */}
           </p>
         </div>
         <Status report={metadata.report} status={status} />
       </div>
-      <div className='mt-12 w-full sm:max-w-3xl max-w-md mx-auto'>
+      <div className='mt-12 w-full sm:max-w-2xl max-w-[240px] mx-auto'>
         <AbstractsForm metadata={metadata}/>
       </div>
       <div className='flex flex-col items-center justify-center mt-8'>

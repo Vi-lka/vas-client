@@ -109,12 +109,12 @@ export default function DropzoneFile({
                   alt={!!valueFile ? valueFile.name : valueURL.split("/")[2]}
                   className="mx-auto object-cover"
                 />
-                <p className="mt-3 md:max-w-96 max-w-28 break-words text-center text-xs font-light">
+                <p className="mt-3 w-full break-words text-center text-xs font-light">
                   {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
                 </p>
             </>)
             : (
-              <p className="mt-3 md:max-w-96 max-w-28 break-words text-center text-xs font-medium">
+              <p className="mt-3 w-full break-words text-center text-xs font-medium">
                 {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
               </p>
             )

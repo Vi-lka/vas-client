@@ -16,6 +16,7 @@ import { Progress } from '../ui/progress';
 import { toast } from 'sonner';
 import AuthError from '../errors/AuthError';
 import { updateUserAction } from '@/app/actions';
+import MetadataReportAdditional from './MetadataReportAdditional';
 
 export default function AbstractsForm({
   metadata
@@ -40,6 +41,8 @@ export default function AbstractsForm({
           file: null,
           url: ""
         },
+      additionalReports: metadata.additionalReports ? metadata.additionalReports
+      : [],
     },
     mode: "onChange",
   })
@@ -55,7 +58,7 @@ export default function AbstractsForm({
     } else {
       setPending(true)
   
-      const { reportFile, imageFile } = form.getValues()
+      const { reportFile, imageFile, additionalReports } = form.getValues()
 
       // Upload file
       const updateUser = uploadReport(userId.toString(), reportFile?.file, "file")
@@ -66,7 +69,7 @@ export default function AbstractsForm({
           imageUrl: dataImage ? dataImage.data[0].url : "",
         }
       })
-      .then((dataUpload) => {
+      .then(async (dataUpload) => {
         const reportFileUrl = dataUpload.reportUrl.length > 0 
           ? dataUpload.reportUrl 
           : metadata.reportFile 
@@ -75,6 +78,44 @@ export default function AbstractsForm({
           ? dataUpload.imageUrl
           : metadata.imageFile 
             ? metadata.imageFile.url : ""
+
+        const additionalReportsData = additionalReports ? additionalReports.map(async (item, indx) => {
+          const uploadAdditionalReport = await uploadReport(userId.toString(), item.reportFile?.file, "file")
+          .then(async (dataAdditionalReport) => {
+            const dataAdditionalImage = await uploadImage(userId.toString(), item.imageFile?.file, "image")
+            return { 
+              reportUrl: dataAdditionalReport ? dataAdditionalReport.data[0].url : "",
+              imageUrl: dataAdditionalImage ? dataAdditionalImage.data[0].url : "",
+            }
+          })
+          .then((dataAdditionalUpload) => {
+            const additionalReportFileUrl = dataAdditionalUpload.reportUrl.length > 0 
+              ? dataAdditionalUpload.reportUrl 
+              : (metadata?.additionalReports && metadata.additionalReports[indx].reportFile)
+                ? metadata.additionalReports[indx].reportFile.url : ""
+            const additionalImageFileUrl = dataAdditionalUpload.imageUrl.length > 0 
+              ? dataAdditionalUpload.imageUrl
+              : metadata?.additionalReports && metadata.additionalReports[indx].imageFile 
+                ? metadata.additionalReports[indx].imageFile.url : ""
+  
+            return {
+              direction: item.direction,
+              reportName: item.reportName,
+              reportFile: {
+                file: null,
+                url:  additionalReportFileUrl,
+              },
+              imageFile: {
+                file: null,
+                url: additionalImageFileUrl
+              }
+            }
+          })
+  
+          return uploadAdditionalReport
+        }) : []
+  
+        const additionalReportsDataResult = await Promise.all(additionalReportsData)
 
         return updateUserAction({
           metadata: {
@@ -86,7 +127,8 @@ export default function AbstractsForm({
             imageFile: {
               file: null,
               url: imageFileUrl
-            }
+            },
+            additionalReports: additionalReportsDataResult
           },
         })
       })
@@ -102,6 +144,7 @@ export default function AbstractsForm({
         success: (data) => {
           const reportUrl = (data.metadata as MetadataFormT).reportFile?.url 
           const imageUrl = (data.metadata as MetadataFormT).imageFile?.url
+          const additionalReports = (data.metadata as MetadataFormT).additionalReports
 
           setPending(false)
           form.reset({
@@ -112,7 +155,8 @@ export default function AbstractsForm({
             imageFile: {
               file: null,
               url: imageUrl ?? ""
-            }
+            },
+            additionalReports
           });
           // refresh server components
           router.refresh();
@@ -132,57 +176,64 @@ export default function AbstractsForm({
         action={handleUpdateUser}
         className="sm:space-x-3 flex flex-col gap-6 items-center w-full"
       >
-        <FormField
-          control={form.control}
-          name="reportFile"
-          render={({ field }) => (
-            <FormItem className='w-full mx-auto text-center'>
-              <FormLabel className='lg:text-lg text-base'>
-                {"Ваши материалы для\u00A0публикации:"}
-              </FormLabel>
-              <FormControl>
-                <DropzoneFile
-                  isImage={false}
-                  formValue={field.value}
-                  formValueName={field.name}
-                  accept={{
-                    "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
-                  }}
-                  maxSize={5 * 1024 * 1024} // 5Mb
-                  disabled={form.formState.isSubmitting || isPending}
-                  className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="imageFile"
-          render={({ field }) => (
-            <FormItem className='w-full mx-auto text-center'>
-              <FormLabel className='lg:text-lg text-base'>Иллюстрация:</FormLabel>
-              <FormControl>
-                <DropzoneFile
-                  isImage
-                  formValue={field.value}
-                  formValueName={field.name}
-                  accept={{
-                    'image/jpg': [],
-                    'image/jpeg': [],
-                    'image/png': [],
-                  }}
-                  maxSize={10 * 1024 * 1024} // 10Mb
-                  disabled={form.formState.isSubmitting || isPending}
-                  className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className='w-full flex lg:flex-row flex-col justify-between lg:gap-3 gap-2'>
+          <div className='lg:w-1/2 w-full'>
+            <FormField
+              control={form.control}
+              name="reportFile"
+              render={({ field }) => (
+                <FormItem className='w-full mx-auto text-center'>
+                  <FormLabel>Тезисы:</FormLabel>
+                  <FormControl>
+                    <DropzoneFile
+                      isImage={false}
+                      formValue={field.value}
+                      formValueName={field.name}
+                      accept={{
+                        "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
+                      }}
+                      maxSize={5 * 1024 * 1024} // 5Mb
+                      disabled={form.formState.isSubmitting || isPending}
+                      className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className='lg:w-1/2 w-full'>
+            <FormField
+              control={form.control}
+              name="imageFile"
+              render={({ field }) => (
+                <FormItem className='w-full mx-auto text-center'>
+                  <FormLabel>Иллюстрация:</FormLabel>
+                  <FormControl>
+                    <DropzoneFile
+                      isImage
+                      formValue={field.value}
+                      formValueName={field.name}
+                      accept={{
+                        'image/jpg': [],
+                        'image/jpeg': [],
+                        'image/png': [],
+                      }}
+                      maxSize={10 * 1024 * 1024} // 10Mb
+                      disabled={form.formState.isSubmitting || isPending}
+                      className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <MetadataReportAdditional isPending={isPending} />
 
         <SubmitButton 
           disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingReport || isLoadingImage}

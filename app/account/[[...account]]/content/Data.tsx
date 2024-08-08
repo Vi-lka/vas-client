@@ -73,7 +73,7 @@ export default function Data({
                   и заполните данные
                 </DialogDescription>
               </DialogHeader>
-              <ScrollArea className="h-[50vh] w-full">
+              <ScrollArea className="h-[50vh] w-full" classNameViewport='[&>div]:!block'>
                 <div className='w-full h-full p-1'>
                   <MetadataForm
                     defaultValues={metadata} 
@@ -137,6 +137,14 @@ export default function Data({
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Иллюстрация:</TableCell>
                     <TableCell className='flex-1 lg:text-sm text-xs flex items-center break-all'>{imageUrl ? imageUrl.split("/")[2] : "__"}</TableCell>
+                  </TableRow>
+                  <TableRow className='flex w-full md:flex-row flex-col'>
+                    <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Доп. доклады:</TableCell>
+                    <TableCell className='flex-1 lg:text-sm text-xs flex flex-col gap-2'>
+                      {metadata.additionalReports?.map((item, indx) => (
+                        <p key={indx}>{indx+1}. {item.reportName}</p>
+                      ))}
+                    </TableCell>
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Круглые столы:</TableCell>

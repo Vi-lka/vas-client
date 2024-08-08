@@ -1,13 +1,13 @@
 "use client"
 
 import React from 'react';
-import type { UseFormReturn, ControllerRenderProps } from 'react-hook-form';
-import type { MetadataFormT } from '@/lib/types/forms';
 import useSWR from 'swr';
 import type { DirectionsT } from '@/lib/types/mainPage';
 import { Skeleton } from '@/components/ui/skeleton';
 import ErrorToast from '@/components/errors/ErrorToast';
 import ComboboxField from './ComboboxField';
+import { useFormContext } from 'react-hook-form';
+import { cn } from '@/lib/utils';
 
 type DirectionSelectData = {
   direction: {
@@ -16,14 +16,18 @@ type DirectionSelectData = {
 }
 
 export default function DirectionSelect({
-  form,
-  field,
+  name,
+  defaultValue,
   disabled,
+  className
 }: {
-  form: UseFormReturn<MetadataFormT>,
-  field: ControllerRenderProps<MetadataFormT, "direction">,
-  disabled: boolean
+  name: string,
+  defaultValue: string,
+  disabled: boolean,
+  className?: string
 }) {
+
+  const form = useFormContext();
 
   const { data, error, isLoading } = useSWR<DirectionSelectData, Error>(
     `query Directions {
@@ -54,10 +58,10 @@ export default function DirectionSelect({
     <ComboboxField
       data={dataForField}
       disabled={disabled}
-      defaultValue={field.value}
+      defaultValue={defaultValue}
       placeholder="Выберите направление..."
-      className='bg-background rounded-lg border-border shadow'
-      onSelect={(value) => form.setValue(field.name, value, {shouldDirty: true, shouldTouch: true, shouldValidate: true})}
+      className={cn('bg-background rounded-lg border-border shadow', className)}
+      onSelect={(value) => form.setValue(name, value, {shouldDirty: true, shouldTouch: true, shouldValidate: true})}
     />
   )
 }

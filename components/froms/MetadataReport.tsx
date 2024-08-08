@@ -11,6 +11,7 @@ import RadioField from './inputs/RadioField';
 import TableSelect from './inputs/TableSelect';
 import { AutosizeTextareaField } from './inputs/AutosizeTextareaField';
 import DropzoneFile from './inputs/DropzoneFile';
+import MetadataReportAdditional from './MetadataReportAdditional';
 
 export default function MetadataReport({
   form,
@@ -242,8 +243,8 @@ export default function MetadataReport({
               <FormLabel>Направление<span className='text-destructive'>*</span></FormLabel>
               <FormControl>
                 <DirectionSelect 
-                  form={form} 
-                  field={field} 
+                  name="direction"
+                  defaultValue={field.value}
                   disabled={form.formState.isSubmitting || isPending}
                 />
               </FormControl>
@@ -299,69 +300,79 @@ export default function MetadataReport({
           </FormItem>
         )}
       />
-      <FormField
-        control={form.control}
-        name="reportFile"
-        render={({ field }) => (
-          <FormItem className='w-full'>
-            <FormLabel>Тезисы:</FormLabel>
-            <FormControl>
-              <DropzoneFile
-                isImage={false}
-                formValue={field.value ? field.value : {
-                  file: null,
-                  url: "",
-                }}
-                formValueName={field.name}
-                accept={{
-                  "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
-                  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
-                }}
-                maxSize={5 * 1024 * 1024} // 5Mb
-                disabled={form.formState.isSubmitting || isPending}
-                className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-              >
-                <p className="text-xs text-muted-foreground mt-2 text-center">
-                  DOC, DOCX (Max 5Mb)
-                </p>
-              </DropzoneFile>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        control={form.control}
-        name="imageFile"
-        render={({ field }) => (
-          <FormItem className='w-full'>
-            <FormLabel>Иллюстрация:</FormLabel>
-            <FormControl>
-              <DropzoneFile
-                isImage
-                formValue={field.value ? field.value : {
-                  file: null,
-                  url: "",
-                }}
-                formValueName={field.name}
-                  accept={{
-                    'image/jpg': [],
-                    'image/jpeg': [],
-                    'image/png': [],
-                  }}
-                maxSize={10 * 1024 * 1024} // 10Mb
-                disabled={form.formState.isSubmitting || isPending}
-                className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-              >
-                <p className="text-xs text-muted-foreground mt-2 text-center">
-                  JPEG, JPG, PNG (Max 10Mb)
-                </p>
-              </DropzoneFile>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+      <div className='w-full flex lg:flex-row flex-col justify-between lg:gap-3 gap-2'>
+        <div className='lg:w-1/2 w-full'>
+          <FormField
+            control={form.control}
+            name="reportFile"
+            render={({ field }) => (
+              <FormItem className='w-full'>
+                <FormLabel>Тезисы:</FormLabel>
+                <FormControl>
+                  <DropzoneFile
+                    isImage={false}
+                    formValue={field.value ? field.value : {
+                      file: null,
+                      url: "",
+                    }}
+                    formValueName={field.name}
+                    accept={{
+                      "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
+                      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
+                    }}
+                    maxSize={5 * 1024 * 1024} // 5Mb
+                    disabled={form.formState.isSubmitting || isPending}
+                    className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+                  >
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      DOC, DOCX (Max 5Mb)
+                    </p>
+                  </DropzoneFile>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className='lg:w-1/2 w-full'>
+          <FormField
+            control={form.control}
+            name="imageFile"
+            render={({ field }) => (
+              <FormItem className='w-full'>
+                <FormLabel>Иллюстрация:</FormLabel>
+                <FormControl>
+                  <DropzoneFile
+                    isImage
+                    formValue={field.value ? field.value : {
+                      file: null,
+                      url: "",
+                    }}
+                    formValueName={field.name}
+                      accept={{
+                        'image/jpg': [],
+                        'image/jpeg': [],
+                        'image/png': [],
+                      }}
+                    maxSize={10 * 1024 * 1024} // 10Mb
+                    disabled={form.formState.isSubmitting || isPending}
+                    className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+                  >
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      JPEG, JPG, PNG (Max 10Mb)
+                    </p>
+                  </DropzoneFile>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+      </div>
+
+      <MetadataReportAdditional isPending={isPending} />
+
       <FormField
         control={form.control}
         name="tables"

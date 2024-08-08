@@ -39,7 +39,7 @@ export default async function AccountLayout({
       </div>
       <div className="flex lg:gap-3 gap-1.5 min-h-screen">
         <Navigation className='max-w-60 lg:w-1/3 sticky top-20 h-fit'/>
-        <div className="lg:w-2/3 flex-1 py-3 pl-3 border-l">
+        <div className="lg:w-2/3 w-full flex-1 py-3 pl-3 border-l">
           {children}
         </div>
       </div>
