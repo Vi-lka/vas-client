@@ -91,12 +91,12 @@ export default function AbstractsForm({
           .then((dataAdditionalUpload) => {
             const additionalReportFileUrl = dataAdditionalUpload.reportUrl.length > 0 
               ? dataAdditionalUpload.reportUrl 
-              : (metadata && metadata.additionalReports && metadata.additionalReports[indx] && metadata.additionalReports[indx].reportFile)
+              : (metadata && metadata.additionalReports && metadata.additionalReports[indx] && (metadata.additionalReports[indx].reportFile))
                 ? metadata.additionalReports[indx].reportFile.url : ""
             const additionalImageFileUrl = dataAdditionalUpload.imageUrl.length > 0 
               ? dataAdditionalUpload.imageUrl
               : (metadata && metadata.additionalReports && metadata.additionalReports[indx] && metadata.additionalReports[indx].imageFile)
-                ? metadata.additionalReports[indx].imageFile.url : ""
+                ? metadata.additionalReports[indx].imageFile?.url : ""
   
             return {
               direction: item.direction,
