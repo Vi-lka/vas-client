@@ -52,6 +52,7 @@ export const authOptions: NextAuthOptions = {
       
           // success
           const data: StrapiLoginResponseT = await strapiResponse.json();
+
           return {
             name: data.user.username,
             email: data.user.email,

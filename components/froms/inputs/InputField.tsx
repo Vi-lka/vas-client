@@ -5,8 +5,7 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import { useFormStatus } from 'react-dom';
 
-interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 const InputField = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, disabled, ...props }, ref) => {

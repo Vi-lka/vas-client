@@ -32,6 +32,10 @@ export default async function AccountPage({
   const currentUser = await getCurrentUser(session.strapiToken!);
 
   const metadataResult = MetadataFormT.safeParse(currentUser.metadata);
+  
+  if (currentUser.role?.type === "admin") {
+    redirect("/admin")
+  }
 
   if (!metadataResult.success) {
     redirect("/onboarding")

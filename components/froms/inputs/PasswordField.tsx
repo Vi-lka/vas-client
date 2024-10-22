@@ -5,8 +5,7 @@ import { cn } from '@/lib/utils'
 import React from 'react'
 import { useFormStatus } from 'react-dom';
 
-interface PasswordInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+type PasswordInputProps = React.InputHTMLAttributes<HTMLInputElement>
 
 const PasswordField = React.forwardRef<HTMLInputElement, PasswordInputProps>(
   ({ className, disabled, ...props }, ref) => {

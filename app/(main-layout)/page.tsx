@@ -8,7 +8,7 @@ import Programm from "./(main-page-blocks)/Programm";
 import AllOrgs from  "./(main-page-blocks)/(all-orgs)/AllOrgs"
 import Committee from "./(main-page-blocks)/(committee)/Committee";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/authOptions";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import { getCurrentUser } from "@/lib/queries/getCurrentUser";
 import { redirect } from "next/navigation";
 

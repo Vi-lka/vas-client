@@ -1,5 +1,5 @@
 import * as React from 'react';
-import SignUpForm from '../../../components/froms/sign-up/SignUpForm';
+import SignUpForm from '../../../../components/froms/sign-up/SignUpForm';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Confirmation from '@/components/froms/sign-up/Confirmation';
 import Steps from './Steps';

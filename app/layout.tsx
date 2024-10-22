@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { Sonner } from "@/components/ui/sonner"
-import { SWRProvider } from "@/components/providers/swr-provider"
-import Header from "@/components/header/Header";
-import Footer from "@/components/footer/Footer";
 import "./globals.css";
 import SessionProvider from "@/components/providers/next-auth-provider";
 import { getServerSession } from "next-auth";
@@ -53,11 +50,7 @@ export default async function RootLayout({
       >
         <body className="font-Inter bg-background scroll-smooth">
           <SessionProvider session={session}>
-            <Header />
-            <SWRProvider>
-              {children}
-            </SWRProvider>
-            <Footer />
+            {children}
             <Toaster />
             <Sonner />
           </SessionProvider>
