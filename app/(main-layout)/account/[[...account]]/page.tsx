@@ -24,12 +24,11 @@ export default async function AccountPage({
   params: { account: string[] | undefined } 
 }) {
   const session = await getServerSession(authOptions);
-
-  if (!session) {
+  if (!session || !session.strapiToken) {
     redirect("/sign-in");
   }
 
-  const currentUser = await getCurrentUser(session.strapiToken!);
+  const currentUser = await getCurrentUser(session.strapiToken);
 
   const metadataResult = MetadataFormT.safeParse(currentUser.metadata);
   

@@ -4,13 +4,18 @@ export default async function fetchData<T>({
   query,
   error,
   variables,
+  token,
+  cache
 }: {
   query: string,
   error: string,
-  variables?: unknown
+  variables?: unknown,
+  token?: string,
+  cache?: RequestCache,
 }): Promise<T> {
   const headers = {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Authorization": token ? `Bearer ${token}` : ""
   };
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/graphql`, {
@@ -20,6 +25,7 @@ export default async function fetchData<T>({
       query,
       variables
     }),
+    cache,
     next: {
       tags: ["strapi"],
       // Next.js issue: if fetch in the component, not on the page, the cache is always MISS with tags, but with Time-based Revalidation both works correctly

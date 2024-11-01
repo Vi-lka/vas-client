@@ -78,3 +78,46 @@ export function translateError(code: string, defaultMessage: string) {
       return defaultMessage;
   }
 }
+
+export function csvMaker(data: { [key: string]: string }[]) {
+  const csvRows = [];
+
+  const headers = Object.keys(data[0]);
+
+  // For making csv format, headers must be
+  // separated by comma and pushing it into array
+  csvRows.push(headers.join(','));
+
+  // Looping through the data values and make
+  // sure to align values with respect to headers
+  for (const row of data) {
+    const values = headers.map(e => {
+        return row[e]
+    })
+    csvRows.push(values.join(','))
+  }
+
+  // returning the array joining with new line 
+  return csvRows.join('\n')
+}
+
+export function downloadCSV(csvString: string, fileName: string) {
+  // Create a Blob from the CSV string
+  const blob = new Blob([csvString], { type: 'text/csv' });
+
+  // Generate a download link and initiate the download
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName || 'download.csv';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+export function resetPaginationts(params: URLSearchParams) {
+  const hasPage = params.has("page");
+
+  if (hasPage) params.set("page", "1");
+}

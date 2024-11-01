@@ -40,10 +40,10 @@ const items = [
  
 export async function AppSidebar() {
   const session = await getServerSession(authOptions);
-  if (!session) {
+  if (!session || !session.strapiToken) {
     redirect("/sign-in");
   }
-  const currentUser = await getCurrentUser(session.strapiToken!);
+  const currentUser = await getCurrentUser(session.strapiToken);
 
   return (
     <Sidebar>

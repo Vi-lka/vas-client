@@ -10,12 +10,11 @@ export default async function OnboardingLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-
-  if (!session) {
+  if (!session || !session.strapiToken) {
     redirect("/sign-in");
   }
 
-  const currentUser = await getCurrentUser(session.strapiToken!);
+  const currentUser = await getCurrentUser(session.strapiToken);
 
   const metadataResult = MetadataFormT.safeParse(currentUser.metadata);
 

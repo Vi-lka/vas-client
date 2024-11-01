@@ -31,11 +31,10 @@ export default async function Navigation({
 }) {
 
   const session = await getServerSession(authOptions);
-
-  if (!session) {
+  if (!session || !session.strapiToken) {
     redirect("/sign-in");
   }
-
+  
   const hasReport = session.user.report === true
 
   const navWhitReport: NavigationItemT[] = hasReport 

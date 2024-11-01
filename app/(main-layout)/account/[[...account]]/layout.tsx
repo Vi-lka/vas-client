@@ -14,12 +14,11 @@ export default async function AccountLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-
-  if (!session) {
+  if (!session || !session.strapiToken) {
     redirect("/sign-in");
   }
 
-  const currentUser = await getCurrentUser(session.strapiToken!);
+  const currentUser = await getCurrentUser(session.strapiToken);
 
   if (!currentUser.metadata) {
     redirect("/onboarding");
