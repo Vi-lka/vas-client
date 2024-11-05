@@ -429,4 +429,15 @@ export const EmailNotificationsFormT = z.object({
 })
 export type EmailNotificationsFormT = z.infer<typeof EmailNotificationsFormT>;
 
+export const StatusFormT = z.object({
+  status: z.string().optional(),
+  statusComment: z.string().optional()
+});
+export type StatusFormT = z.infer<typeof StatusFormT>;
+
+export const ContentNotificationFormT = z.object({
+  text: z.string()
+});
+export type ContentNotificationFormT = z.infer<typeof ContentNotificationFormT>;
+
 

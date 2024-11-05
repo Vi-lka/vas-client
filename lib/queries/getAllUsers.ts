@@ -45,6 +45,7 @@ export const getAllUsers = async ({
                 blocked
                 report
                 status
+                statusComment
                 subscribedContent
                 subscribedReport
                 role {

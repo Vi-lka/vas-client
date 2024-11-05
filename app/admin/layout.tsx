@@ -11,7 +11,7 @@ export default function RootLayout({
     <SWRProvider>
       <SidebarProvider>
         <AppSidebar />
-        <main className="font-Inter overflow-hidden">
+        <main className="font-Inter overflow-hidden w-full">
           <SidebarTrigger />
           {children}
         </main>

@@ -46,7 +46,7 @@ export async function AppSidebar() {
   const currentUser = await getCurrentUser(session.strapiToken);
 
   return (
-    <Sidebar>
+    <Sidebar className="z-[1]">
       <SidebarHeader>
         <Link 
           href="/" 

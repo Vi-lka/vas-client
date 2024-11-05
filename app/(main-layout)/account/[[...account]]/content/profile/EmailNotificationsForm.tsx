@@ -7,6 +7,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } fr
 import { Switch } from '@/components/ui/switch'
 import { EmailNotificationsFormT } from '@/lib/types/forms'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { CircleAlert } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -69,8 +70,8 @@ export default function EmailNotificationsForm({
     <Form {...form}>
       <form action={handleEmailNotificationsUpdate} className="w-full space-y-6">
         <div>
-          <h3 className="mb-3 text-lg font-medium">Email Уведомления</h3>
-          <div className="space-y-3">
+          <h3 className="text-lg font-medium">Email Уведомления</h3>
+          <div className="space-y-3 mt-3">
             <FormField
               control={form.control}
               name="subscribedContent"
@@ -79,7 +80,7 @@ export default function EmailNotificationsForm({
                   <div className="space-y-0.5">
                     <FormLabel className='font-medium'>Контент</FormLabel>
                     <FormDescription className='text-xs'>
-                      {"Получайте электронные письма о\u00A0новых материалах, изменениях в\u00A0программе или\u00A0направлениях и\u00A0о\u00A0многом другом."}
+                      {`Получайте электронные письма о\u00A0новых материалах, изменениях в\u00A0программе или\u00A0направлениях и\u00A0о\u00A0многом другом.`}
                     </FormDescription>
                   </div>
                   <FormControl>
@@ -123,6 +124,10 @@ export default function EmailNotificationsForm({
         >
           Сохранить
         </SubmitButton>
+        <p className='text-muted-foreground text-xs flex gap-1 items-center'>
+          <CircleAlert className='w-4 h-4'/>
+          <span>{`Eсли вы не нашли письма,\u00A0пожалуйста, проверьте\u00A0папку со спамом`}</span>
+        </p>
       </form>
     </Form>
   )

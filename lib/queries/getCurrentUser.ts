@@ -34,6 +34,7 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
             }
           }
           status
+          statusComment
         }
       }
     `;

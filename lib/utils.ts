@@ -2,6 +2,7 @@ import { clsx } from "clsx"
 import type { ClassValue } from "clsx";
 import React from "react";
 import { twMerge } from "tailwind-merge"
+import type { StatusEnum, StatusTranslitEnum } from "./types/users";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -120,4 +121,20 @@ export function resetPaginationts(params: URLSearchParams) {
   const hasPage = params.has("page");
 
   if (hasPage) params.set("page", "1");
+}
+
+export function translitStatusToNormal(status: StatusTranslitEnum | null): StatusEnum | null {
+  switch (status) {
+    case "poluchena":
+      return "получена";
+
+    case "odobrena":
+      return "одобрена";
+
+    case "na_dorabotke":
+      return "на доработке";
+  
+    default:
+      return null;
+  }
 }

@@ -25,7 +25,7 @@ export const EmailContactTemplate = ({
   email,
   text
 }: ContactFormT) => {
-  const previewText = `Запрос на Сайте Гуманитарного Института`;
+  const previewText = `Запрос на Сайте "Всероссийский Aрхеологический Cъезд"`;
 
   return (
     <Html>

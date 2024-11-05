@@ -15,6 +15,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { revalidatePath, revalidateTag } from "next/cache";
 import type { CurrentUserT } from "@/lib/types/users";
+import fetchData from "@/lib/fetchData";
+import { getAllUsers } from "@/lib/queries/getAllUsers";
+import EmailContentNotificationTemplate from "@/components/emails/EmailContentNotificationTemplate";
 
 export const signUpAction = async (data: SignUpFormT) => {
   try {
@@ -289,6 +292,117 @@ export const updateUserAction = async ({
     throw new Error((error as Error).message ? (error as Error).message : (error as Response).statusText)
   }
 }
+
+export const updateStatusAction = async ({
+  token,
+  userId,
+  status,
+  statusComment
+}: {
+  token: string,
+  userId: string,
+  status: string | undefined,
+  statusComment: string | undefined,
+}) => {
+  const mutation = /* GraphGL */ `
+    mutation UpdateStatus($userId: ID!, $data: UsersPermissionsUserInput!) {
+      updateUsersPermissionsUser(id: $userId, data: $data) {
+        data {
+          id
+          attributes {
+            username
+            status
+            statusComment
+          }
+        }
+      }
+    }
+  `
+  const json = await fetchData<{ 
+    data: { 
+      updateUsersPermissionsUser: {
+        data: {
+          id: string,
+          attributes: {
+            username: string,
+            status: string,
+            statusComment: string | null
+          }
+        }
+      }
+    }; 
+  }>({ 
+    query: mutation, 
+    error: "Failed to fetch mutation updateUsersPermissionsUser",
+    token,
+    cache: 'no-store',
+    variables: {
+      userId,
+      data: {
+        status,
+        statusComment
+      }
+    }
+  })
+
+  revalidateTag('strapi-users-me');
+  revalidatePath('/account');
+  revalidatePath('/account/[[...account]]', "page");
+
+  return json.data.updateUsersPermissionsUser.data
+}
+
+export const sendEmailNotification = async ({
+  token,
+  text
+}: {
+  token: string,
+  text: string,
+}) => {
+  try {
+    const [ dataResult ] = await Promise.all([ 
+      getAllUsers({
+        token,
+        subscribedContent: true,
+      }) 
+    ]);
+
+    const transporter = nodemailer.createTransport({
+      ...smtpOptions,
+    })
+
+    if (dataResult.data.length > 0) {
+      const sendEmails = dataResult.data.map((user) => {
+        return transporter.sendMail({
+          from: process.env.SMTP_FROM_EMAIL,
+          to: user.attributes.email,
+          subject: 'VII (XXIII) Всероссийский Aрхеологический Cъезд',
+          html: render(EmailContentNotificationTemplate({ text })),
+          headers: {
+            'X-Entity-Ref-ID': uuid(),
+          },
+        })
+      })
+
+      await Promise.all(sendEmails);
+
+      return {
+        error: null,
+        success: true
+      }
+    } else return {
+      error: "Не найдет ни один пользователь, подписанный на рассылку.",
+      success: false
+    }
+  } catch (error) {
+    console.error(JSON.stringify(error, null, 2));
+    return {
+        error: (error as Error).message,
+        success: false
+    }
+  }
+}
+
 
 interface State {
   error: string | null

@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { getShortText } from '@/lib/utils';
+import { getShortText, translitStatusToNormal } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import DownloadCSV from './DownloadCSV';
 import PaginationControls from '@/components/PaginationControls';
@@ -166,7 +166,7 @@ async function DataTable({
               <TableCell>{data.email}</TableCell>
               <TableCell>{data.confirmed ? "Да" : "Нет"}</TableCell>
               <TableCell>{data.report ? "Да" : "Нет"}</TableCell>
-              <TableCell>{data.status}</TableCell>
+              <TableCell>{translitStatusToNormal(data.status)}</TableCell>
               <TableCell>{metadata?.phone}</TableCell>
               <TableCell>{metadata?.country}</TableCell>
               <TableCell>{metadata?.city}</TableCell>
@@ -180,7 +180,7 @@ async function DataTable({
               <TableCell>{hasReport && metadata.reportName}</TableCell>
               <TableCell className='text-center'>
                 {(hasReport && metadata.reportFile?.url) && (
-                  <Link href={metadata.reportFile.url} target='__blank'>
+                  <Link href={metadata.reportFile.url} target='__blank' passHref>
                     <Button variant="secondary" className=''>
                       Скачать
                     </Button>
@@ -189,7 +189,7 @@ async function DataTable({
               </TableCell>
               <TableCell className='text-center'>
                 {(hasReport && metadata.imageFile?.url) && (
-                  <Link href={metadata.imageFile.url} target='__blank'>
+                  <Link href={metadata.imageFile.url} target='__blank' passHref>
                     <Image
                       width={150}
                       height={150}
@@ -227,7 +227,7 @@ async function DataTable({
                                 <TableCell>{additionalReport.reportName}</TableCell>
                                 <TableCell className='text-center'>
                                   {(additionalReport.reportFile?.url) && (
-                                    <Link href={additionalReport.reportFile.url} target='__blank'>
+                                    <Link href={additionalReport.reportFile.url} target='__blank' passHref>
                                       <Button variant="secondary" className=''>
                                         Скачать
                                       </Button>
@@ -236,7 +236,7 @@ async function DataTable({
                                 </TableCell>
                                 <TableCell className='text-center'>
                                   {(additionalReport.imageFile?.url) && (
-                                    <Link href={additionalReport.imageFile.url} target='__blank'>
+                                    <Link href={additionalReport.imageFile.url} target='__blank' passHref>
                                       <Image
                                         width={100}
                                         height={100}
