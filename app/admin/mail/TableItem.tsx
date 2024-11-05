@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { TableCell, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { UserT } from '@/lib/types/users';
 import type { MetadataFormT } from '@/lib/types/forms';
 import StatusForm from '@/components/froms/admin/StatusForm';
 import { translitStatusToNormal } from '@/lib/utils';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function TableItem({
   item
@@ -21,7 +22,7 @@ export default function TableItem({
   const hasReport = metadata?.report
   
   return (
-    <Dialog>
+    <Dialog key={"item"}>
       <DialogTrigger asChild>
         <TableRow className='cursor-pointer hover:bg-secondary/90 ring-primary/80 hover:ring ring-offset-2 rounded-[0.15rem] transition-all duration-300'>
           <TableCell>{data.username}</TableCell>
@@ -52,6 +53,68 @@ export default function TableItem({
                   onClick={(e) => e.stopPropagation()}
                 />
               </Link>
+            )}
+          </TableCell>
+          <TableCell className='text-center'>
+            {(hasReport && metadata.additionalReports) && (
+              <Dialog key={"additionalReports"}>
+                <DialogTrigger asChild>
+                  <Button 
+                    variant="secondary" 
+                    className=''
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Открыть
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className=' max-w-[90vw]'>
+                  <DialogHeader>
+                    <DialogTitle>Доп. доклады:</DialogTitle>
+                  </DialogHeader>
+                  <ScrollArea className='max-h-[70vh]'>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className='min-w-48'>Направление</TableHead>
+                          <TableHead className='min-w-52'>Название доклада</TableHead>
+                          <TableHead className='min-w-24 text-center'>Тезисы</TableHead>
+                          <TableHead className='min-w-32 text-center'>Иллюстрация</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {metadata.additionalReports.map((additionalReport, indx) => (
+                          <TableRow key={indx}>
+                            <TableCell>{additionalReport.direction}</TableCell>
+                            <TableCell>{additionalReport.reportName}</TableCell>
+                            <TableCell className='text-center'>
+                              {(additionalReport.reportFile?.url) && (
+                                <Link href={additionalReport.reportFile.url} target='__blank' passHref>
+                                  <Button variant="secondary" className=''>
+                                    Скачать
+                                  </Button>
+                                </Link>
+                              )}
+                            </TableCell>
+                            <TableCell className='text-center'>
+                              {(additionalReport.imageFile?.url) && (
+                                <Link href={additionalReport.imageFile.url} target='__blank' passHref>
+                                  <Image
+                                    width={100}
+                                    height={100}
+                                    alt={additionalReport.imageFile.url}
+                                    src={additionalReport.imageFile.url}
+                                    className='ring-ring hover:ring ring-offset-2 transition-all duration-300 rounded-md object-contain mx-auto'
+                                  />
+                                </Link>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </ScrollArea>
+                </DialogContent>
+              </Dialog>
             )}
           </TableCell>
         </TableRow>

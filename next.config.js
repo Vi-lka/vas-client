@@ -5,6 +5,9 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const nextConfig = {
   output: "standalone",
   reactStrictMode: true,
+  experimental: {
+    webpackBuildWorker: true
+  },
   eslint: { ignoreDuringBuilds: true },
   env: {
     // Reference a variable that was defined in the .env file and make it available at Build Time

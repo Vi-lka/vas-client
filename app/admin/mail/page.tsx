@@ -118,6 +118,7 @@ async function DataTable({
           <TableHead className='min-w-52'>Название доклада</TableHead>
           <TableHead className='min-w-24 text-center'>Тезисы</TableHead>
           <TableHead className='min-w-32 text-center'>Иллюстрация</TableHead>
+          <TableHead className='min-w-32'>Доп. доклады</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
