@@ -17,6 +17,7 @@ export default async function DownloadCSV({
 }) {
 
     const search = searchParams["search"] as string | undefined;
+    const sort = searchParams["sort"] as string | undefined;
     const report = searchParams["report"] as string | undefined;
     const confirmed = searchParams["confirmed"] as string | undefined;
     const status = searchParams["status"] as StatusTranslitEnum | undefined;
@@ -28,6 +29,7 @@ export default async function DownloadCSV({
         getAllUsers({
           token,
           search,
+          sort,
           report: report
             ? report === "true" ? true : false
             : undefined,
