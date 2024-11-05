@@ -16,7 +16,7 @@ export const getAllUsers = async ({
     subscribedReport,
     metadata,
     search,
-    sort = "username:asc"
+    sort
 }: {
     token: string,
     page?: number;
