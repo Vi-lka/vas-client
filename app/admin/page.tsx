@@ -20,7 +20,7 @@ import PaginationControls from '@/components/PaginationControls';
 import Filters from './Filters';
 import SearchField from '@/components/filters/SearchField';
 
-const DEFAULT_PAGE_SIZE = 50
+const DEFAULT_PAGE_SIZE = 20
 
 export default async function AdminPage({
   searchParams
@@ -49,7 +49,7 @@ export default async function AdminPage({
   const metadata = searchParams["metadata"] as string | undefined;
 
   return (
-    <div className='w-full mt-6 md:px-8 px-6 overflow-hidden'>
+    <div className='w-full mt-6 md:px-8 px-6 pb-8 overflow-hidden'>
       <TypographyH4 className='border-none mb-3 pb-0'>Данные участников</TypographyH4>
       <Suspense 
         key={`${search}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`}
@@ -127,9 +127,11 @@ async function DataTable({
 
   return (
   <>
+    <p className='mb-3 text-sm'>Всего: {dataResult.value.meta.pagination.total}</p>
     <Table key={`${search}${page}${pageSize}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`}>
       <TableHeader>
         <TableRow>
+          <TableHead className='text-center'>№</TableHead>
           <TableHead className='min-w-48'>ФИО</TableHead>
           <TableHead>Email</TableHead>
           <TableHead className='min-w-40 text-center'>Подтвержден Email</TableHead>
@@ -162,6 +164,7 @@ async function DataTable({
           const hasReport = metadata?.report
           return (
             <TableRow key={indx}>
+              <TableHead className='text-center'>{indx+1}</TableHead>
               <TableCell>{data.username}</TableCell>
               <TableCell>{data.email}</TableCell>
               <TableCell>{data.confirmed ? "Да" : "Нет"}</TableCell>

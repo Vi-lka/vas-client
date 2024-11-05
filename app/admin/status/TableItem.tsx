@@ -13,9 +13,11 @@ import { translitStatusToNormal } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function TableItem({
-  item
+  item,
+  index
 }: {
   item: UserT,
+  index: number,
 }) {
   const data = item.attributes
   const metadata = data.metadata as MetadataFormT | null
@@ -25,6 +27,7 @@ export default function TableItem({
     <Dialog key={"item"}>
       <DialogTrigger asChild>
         <TableRow className='cursor-pointer hover:bg-secondary/90 ring-primary/80 hover:ring ring-offset-2 rounded-[0.15rem] transition-all duration-300'>
+          <TableHead className='text-center'>{index+1}</TableHead>
           <TableCell>{data.username}</TableCell>
           <TableCell>{data.email}</TableCell>
           <TableCell>{translitStatusToNormal(data.status)}</TableCell>

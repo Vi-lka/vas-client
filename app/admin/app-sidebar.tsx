@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Database, Home, Inbox } from "lucide-react"
+import { Database, Inbox, ListTodo } from "lucide-react"
 import { getServerSession } from "next-auth"
 import Link from "next/link"
 import { redirect } from "next/navigation"
@@ -22,14 +22,14 @@ import Footer from "./footer"
 // Menu items.
 const items = [
   {
-    title: "Главная",
-    url: "/",
-    icon: Home,
-  },
-  {
     title: "Данные участников",
     url: "/admin",
     icon: Database,
+  },
+  {
+    title: "Статус заявки",
+    url: "/admin/status",
+    icon: ListTodo,
   },
   {
     title: "Почта",

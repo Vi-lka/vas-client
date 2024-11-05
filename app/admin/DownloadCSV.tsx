@@ -4,7 +4,7 @@ import { getAllUsers } from '@/lib/queries/getAllUsers';
 import type { StatusTranslitEnum } from '@/lib/types/users';
 import ErrorHandler from '@/components/errors/ErrorHandler';
 import type { MetadataFormT } from '@/lib/types/forms';
-import { csvMaker } from '@/lib/utils';
+import { csvMaker, translitStatusToNormal } from '@/lib/utils';
 
 export default async function DownloadCSV({
     token,
@@ -71,7 +71,7 @@ export default async function DownloadCSV({
             "Почта": data.email,
             "Подтвержден Email": data.confirmed ? "Да" : "Нет",
             "С докладом": data.report ? "Да" : "Нет",
-            "Статус заявки": data.status ?? "",
+            "Статус заявки": translitStatusToNormal(data.status) ?? "",
             "Телефон": metadata?.phone ?? "",
             "Страна": metadata?.country ?? "",
             "Город": metadata?.city ?? "",
@@ -85,8 +85,8 @@ export default async function DownloadCSV({
                 : "",
             "Направление": hasReport ? metadata.direction : "",
             "Название доклада": hasReport ? metadata.reportName : "",
-            "Тезисы": hasReport ? `${process.env.NEXT_PUBLIC_URL}${metadata.reportFile?.url}` : "",
-            "Иллюстрация": hasReport ? `${process.env.NEXT_PUBLIC_URL}${metadata.imageFile?.url}` : "",
+            "Тезисы": (hasReport && metadata.reportFile?.url) ? `${process.env.NEXT_PUBLIC_URL}${metadata.reportFile.url}` : "",
+            "Иллюстрация": (hasReport && metadata.imageFile?.url) ? `${process.env.NEXT_PUBLIC_URL}${metadata.imageFile.url}` : "",
             "Доп. доклады": `"${additionalReports}"`,
             "Круглые столы": `"${tables}"`,
             "Комментарии": (hasReport && metadata.comment) ? `"${metadata.comment}"` : "",
