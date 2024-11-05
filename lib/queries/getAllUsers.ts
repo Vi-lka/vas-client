@@ -16,6 +16,7 @@ export const getAllUsers = async ({
     subscribedReport,
     metadata,
     search,
+    sort = "username:asc"
 }: {
     token: string,
     page?: number;
@@ -27,10 +28,11 @@ export const getAllUsers = async ({
     subscribedReport?: boolean;
     metadata?: boolean;
     search?: string;
+    sort?: string
 }): Promise<UsersT> => {
     const query = /* GraphGL */ `
-        query getAllUsers($filters: UsersPermissionsUserFiltersInput, $pagination: PaginationArg) {
-          usersPermissionsUsers(filters: $filters, pagination: $pagination) {
+        query getAllUsers($filters: UsersPermissionsUserFiltersInput, $pagination: PaginationArg, $sort: [String]) {
+          usersPermissionsUsers(filters: $filters, pagination: $pagination, sort: $sort) {
             meta {
               pagination {
                 total
@@ -89,6 +91,7 @@ export const getAllUsers = async ({
         cache: 'no-store',
         variables: {
             pagination: { page, pageSize },
+            sort,
             filters: {
                 role: {
                   name: { ne: "Admin" }

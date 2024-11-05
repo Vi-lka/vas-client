@@ -34,6 +34,7 @@ export default async function StatusPage({
   }
 
   const search = searchParams["search"] as string | undefined;
+  const sort = searchParams["sort"] as string | undefined;
   const page = searchParams["page"] ?? "1";
   const pageSize = searchParams["per"] ?? DEFAULT_PAGE_SIZE;
   const status = searchParams["status"] as StatusTranslitEnum | undefined;
@@ -48,7 +49,7 @@ export default async function StatusPage({
 
       <div className='mt-6 [&>div]:px-2 [&>div]:py-1'>
         <Suspense 
-          key={`${search}${page}${pageSize}${status}`}
+          key={`${search}${sort}${page}${pageSize}${status}`}
           fallback={"Loading..."}
         >
           <DataTable token={session.strapiToken} searchParams={searchParams} />
@@ -67,6 +68,7 @@ async function DataTable({
 }) {
 
   const search = searchParams["search"] as string | undefined;
+  const sort = searchParams["sort"] as string | undefined;
   const page = searchParams["page"] ?? "1";
   const pageSize = searchParams["per"] ?? DEFAULT_PAGE_SIZE;
   const status = searchParams["status"] as StatusTranslitEnum | undefined;
@@ -75,6 +77,7 @@ async function DataTable({
     getAllUsers({
       token,
       search,
+      sort,
       page: Number(page),
       pageSize: Number(pageSize),
       report: true,
@@ -95,7 +98,7 @@ async function DataTable({
   return (
   <>
     <p className='mb-3 text-sm'>Всего: {dataResult.value.meta.pagination.total}</p>
-    <Table key={`${search}${page}${pageSize}${status}`}>
+    <Table key={`${search}${sort}${page}${pageSize}${status}`}>
       <TableHeader>
         <TableRow>
           <TableHead className='text-center'>№</TableHead>

@@ -39,6 +39,7 @@ export default async function AdminPage({
   }
 
   const search = searchParams["search"] as string | undefined;
+  const sort = searchParams["sort"] as string | undefined;
   const page = searchParams["page"] ?? "1";
   const pageSize = searchParams["per"] ?? DEFAULT_PAGE_SIZE;
   const report = searchParams["report"] as string | undefined;
@@ -64,7 +65,7 @@ export default async function AdminPage({
 
       <div className='mt-6'>
         <Suspense 
-          key={`${search}${page}${pageSize}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`} 
+          key={`${search}${sort}${page}${pageSize}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`} 
           fallback={"Loading..."}
         >
           <DataTable token={session.strapiToken} searchParams={searchParams} />
@@ -83,6 +84,7 @@ async function DataTable({
 }) {
 
   const search = searchParams["search"] as string | undefined;
+  const sort = searchParams["sort"] as string | undefined;
   const page = searchParams["page"] ?? "1";
   const pageSize = searchParams["per"] ?? DEFAULT_PAGE_SIZE;
   const report = searchParams["report"] as string | undefined;
@@ -96,6 +98,7 @@ async function DataTable({
     getAllUsers({
       token,
       search,
+      sort,
       page: Number(page),
       pageSize: Number(pageSize),
       report: report
@@ -128,7 +131,7 @@ async function DataTable({
   return (
   <>
     <p className='mb-3 text-sm'>Всего: {dataResult.value.meta.pagination.total}</p>
-    <Table key={`${search}${page}${pageSize}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`}>
+    <Table key={`${search}${sort}${page}${pageSize}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`}>
       <TableHeader>
         <TableRow>
           <TableHead className='text-center'>№</TableHead>
