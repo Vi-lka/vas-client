@@ -13,6 +13,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components
 
 import PaginationControls from '@/components/PaginationControls';
 import TableItem from './TableItem';
+import Sort from '../Sort';
 
 const DEFAULT_PAGE_SIZE = 20
 
@@ -39,6 +40,25 @@ export default async function StatusPage({
   const pageSize = searchParams["per"] ?? DEFAULT_PAGE_SIZE;
   const status = searchParams["status"] as StatusTranslitEnum | undefined;
 
+  const sortData = [
+    {
+      val: "username:asc",
+      text: `ФИО: А-Я↓`,
+    },
+    {
+      val: "username:desc",
+      text: `ФИО: Я-А↑`,
+    },
+    {
+      val: "status:asc",
+      text: `Статус: ↓`,
+    },
+    {
+      val: "status:desc",
+      text: `Статус: ↑`,
+    },
+  ]
+
   return (
     <div className='w-full mt-6 md:px-8 px-6 pb-8 overflow-hidden'>
       <TypographyH4 className='border-none mb-3 pb-0'>Статус заявки</TypographyH4>
@@ -47,7 +67,11 @@ export default async function StatusPage({
 
       <SearchField placeholder="Поиск по ФИО..." param='search' className='mb-3' />
 
-      <div className='mt-6 [&>div]:px-2 [&>div]:py-1'>
+      <div className="flex items-center justify-end">
+        <Sort data={sortData} />
+      </div>
+
+      <div className='mt-1 [&>div]:px-2 [&>div]:py-1'>
         <Suspense 
           key={`${search}${sort}${page}${pageSize}${status}`}
           fallback={"Loading..."}

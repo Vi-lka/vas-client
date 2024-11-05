@@ -19,6 +19,7 @@ import DownloadCSV from './DownloadCSV';
 import PaginationControls from '@/components/PaginationControls';
 import Filters from './Filters';
 import SearchField from '@/components/filters/SearchField';
+import Sort from './Sort';
 
 const DEFAULT_PAGE_SIZE = 20
 
@@ -49,6 +50,33 @@ export default async function AdminPage({
   const subscribedReport = searchParams["subscribedReport"] as string | undefined;
   const metadata = searchParams["metadata"] as string | undefined;
 
+  const sortData = [
+    {
+      val: "username:asc",
+      text: `ФИО: А-Я↓`,
+    },
+    {
+      val: "username:desc",
+      text: `ФИО: Я-А↑`,
+    },
+    {
+      val: "report:asc",
+      text: `С Докладом: ↓`,
+    },
+    {
+      val: "report:desc",
+      text: `С Докладом: ↑`,
+    },
+    {
+      val: "status:asc",
+      text: `Статус: ↓`,
+    },
+    {
+      val: "status:desc",
+      text: `Статус: ↑`,
+    },
+  ]
+
   return (
     <div className='w-full mt-6 md:px-8 px-6 pb-8 overflow-hidden'>
       <TypographyH4 className='border-none mb-3 pb-0'>Данные участников</TypographyH4>
@@ -63,7 +91,11 @@ export default async function AdminPage({
 
       <SearchField placeholder="Поиск по ФИО..." param='search' className='mb-3' />
 
-      <div className='mt-6'>
+      <div className="flex items-center justify-end">
+        <Sort data={sortData} />
+      </div>
+
+      <div className='mt-1'>
         <Suspense 
           key={`${search}${sort}${page}${pageSize}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`} 
           fallback={"Loading..."}
