@@ -1,4 +1,4 @@
-FROM node:alpine AS base
+FROM node:22.11.0-alpine AS base
 
 RUN apk add --no-cache libc6-compat python3 g++ make
 RUN apk update
