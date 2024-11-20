@@ -1,4 +1,5 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { Sonner } from "@/components/ui/sonner";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -15,5 +16,6 @@ export default async function SignUpLayout({
 
   return (<>
     {children}
+    <Sonner />
   </>);
 }

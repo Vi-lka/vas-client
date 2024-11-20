@@ -1,6 +1,14 @@
 import { z } from "zod";
 import { DynamicZoneT } from "./additionalPage";
 
+export const NotificationT = z.object({
+    attributes: z.object({
+        title: z.string().nullable(),
+        description: z.any()
+    })
+}).nullable();
+export type NotificationT = z.infer<typeof NotificationT>;
+
 export const AboutT  = z.object({
     attributes: z.object({
         text: z.any(),

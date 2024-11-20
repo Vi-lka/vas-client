@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getCurrentUser } from "@/lib/queries/getCurrentUser";
 import { MetadataFormT } from "@/lib/types/forms";
+import { Sonner } from "@/components/ui/sonner";
 
 export default async function OnboardingLayout({
   children,
@@ -25,6 +26,7 @@ export default async function OnboardingLayout({
   return (
     <main className="container mx-auto pt-24">
       {children}
+      <Sonner />
     </main>
   );
 }

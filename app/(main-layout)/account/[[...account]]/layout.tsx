@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { getCurrentUser } from '@/lib/queries/getCurrentUser'
 import { MetadataFormT } from "@/lib/types/forms";
+import { Sonner } from "@/components/ui/sonner";
 
 export const dynamic = 'force-dynamic'
 
@@ -42,6 +43,7 @@ export default async function AccountLayout({
           {children}
         </div>
       </div>
+      <Sonner />
     </main>
   );
 }

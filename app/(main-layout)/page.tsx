@@ -1,3 +1,4 @@
+import Notification from "./(main-page-blocks)/Notification";
 import About from "./(main-page-blocks)/About";
 import AboutBento from "./(main-page-blocks)/AboutBento";
 import Directions from "./(main-page-blocks)/Directions";
@@ -26,6 +27,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen max-w-screen-xl mx-auto flex-col items-center justify-between">
+      <Notification />
       <Hero />
       <About />
       <AboutBento />
