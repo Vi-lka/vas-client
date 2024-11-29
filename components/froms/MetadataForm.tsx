@@ -128,11 +128,11 @@ export default function MetadataForm({
             .then((dataAdditionalUpload) => {
               const additionalReportFileUrl = dataAdditionalUpload.reportUrl.length > 0 
                 ? dataAdditionalUpload.reportUrl 
-                : (defaultValues?.additionalReports && defaultValues.additionalReports[indx].reportFile)
+                : (defaultValues?.additionalReports && defaultValues.additionalReports[indx] && defaultValues.additionalReports[indx].reportFile)
                   ? defaultValues.additionalReports[indx].reportFile.url : ""
               const additionalImageFileUrl = dataAdditionalUpload.imageUrl.length > 0 
                 ? dataAdditionalUpload.imageUrl
-                : defaultValues?.additionalReports && defaultValues.additionalReports[indx].imageFile 
+                : defaultValues?.additionalReports && defaultValues.additionalReports[indx] && defaultValues.additionalReports[indx].imageFile 
                   ? defaultValues.additionalReports[indx].imageFile.url : ""
 
               return {
@@ -191,7 +191,7 @@ export default function MetadataForm({
         })
         .then(async (data) => {
           // update NextAuth token
-          await update({ username: data.username, report: data.report });
+          await update({ username: data.username, rezport: data.report });
           return data
         })
       }

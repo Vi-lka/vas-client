@@ -13,6 +13,7 @@ export default function AuthError({
     title?: string
 }) {
   
+  console.error(data)
   Sentry.captureException(data);
 
   return (
