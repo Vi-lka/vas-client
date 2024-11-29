@@ -1,12 +1,12 @@
 import React from 'react'
-import DownloadCSVButton from './DownloadCSVButton'
+import DownloadTableButton from './DownloadTableButton'
 import { getAllUsers } from '@/lib/queries/getAllUsers';
 import type { StatusTranslitEnum } from '@/lib/types/users';
 import ErrorHandler from '@/components/errors/ErrorHandler';
 import type { MetadataFormT } from '@/lib/types/forms';
-import { csvMaker, translitStatusToNormal } from '@/lib/utils';
+import { translitStatusToNormal } from '@/lib/utils';
 
-export default async function DownloadCSV({
+export default async function DownloadTable({
     token,
     searchParams,
     className
@@ -63,43 +63,40 @@ export default async function DownloadCSV({
         const tables = hasReport && metadata.tables.length > 0 ? metadata.tables.map(item => item.value).join(", ") : ""
         const additionalReports = (metadata?.additionalReports && metadata.additionalReports.length > 0) 
             ? metadata.additionalReports.map(item => (
-                `Направление: ${item.direction},\n Название доклада: ${item.reportName},\n Тезисы: ${process.env.NEXT_PUBLIC_URL}${item.reportFile?.url}, \n Иллюстрация: ${process.env.NEXT_PUBLIC_URL}${item.imageFile?.url},\n
-                `
-            )).join("\n\n\n")
+                `Направление: ${item.direction},\n Название доклада: ${item.reportName},\n Тезисы: ${process.env.NEXT_PUBLIC_URL}${item.reportFile?.url}, \n Иллюстрация: ${process.env.NEXT_PUBLIC_URL}${item.imageFile?.url},\n`
+            )).join("\n")
             : ""
         
         return {
-            "ФИО": `"${data.username}"`,
-            "Почта": `"${data.email}"`,
+            "ФИО": `${data.username}`,
+            "Почта": `${data.email}`,
             "Подтвержден Email": data.confirmed ? "Да" : "Нет",
             "С докладом": data.report ? "Да" : "Нет",
             "Статус заявки": translitStatusToNormal(data.status) ?? "",
-            "Телефон": metadata?.phone ? `"${metadata.phone}"` : "",
-            "Страна": metadata?.country ? `"${metadata.country}"` : "",
-            "Город": metadata?.city ? `"${metadata.city}"` : "",
-            "Ученая степень": hasReport ? `"${metadata.degree}"` : "",
-            "Ученое звание": hasReport ? `"${metadata.rank}"` : "",
-            "Организация": metadata?.organization ? `"${metadata.organization}"` : "",
-            "Должность": hasReport ? `"${metadata.post}"` : "",
-            "Формат участия": hasReport ? `"${metadata.format}"` : "",
+            "Телефон": metadata?.phone ? `${metadata.phone}` : "",
+            "Страна": metadata?.country ? `${metadata.country}` : "",
+            "Город": metadata?.city ? `${metadata.city}` : "",
+            "Ученая степень": hasReport ? `${metadata.degree}` : "",
+            "Ученое звание": hasReport ? `${metadata.rank}` : "",
+            "Организация": metadata?.organization ? `${metadata.organization}` : "",
+            "Должность": hasReport ? `${metadata.post}` : "",
+            "Формат участия": hasReport ? `${metadata.format}` : "",
             "Требуется приглашение": hasReport 
                 ? metadata.invitation ? "Да" : "Нет"
                 : "",
-            "Направление": hasReport ? `"${metadata.direction}"` : "",
-            "Название доклада": hasReport ? `"${metadata.reportName}"` : "",
+            "Направление": hasReport ? `${metadata.direction}` : "",
+            "Название доклада": hasReport ? `${metadata.reportName}` : "",
             "Тезисы": (hasReport && metadata.reportFile?.url) ? `${process.env.NEXT_PUBLIC_URL}${metadata.reportFile.url}` : "",
             "Иллюстрация": (hasReport && metadata.imageFile?.url) ? `${process.env.NEXT_PUBLIC_URL}${metadata.imageFile.url}` : "",
-            "Доп. доклады": `"${additionalReports}"`,
-            "Круглые столы": `"${tables}"`,
-            "Комментарии": (hasReport && metadata.comment) ? `"${metadata.comment}"` : "",
+            "Доп. доклады": `${additionalReports}`,
+            "Круглые столы": `${tables}`,
+            "Комментарии": (hasReport && metadata.comment) ? `${metadata.comment}` : "",
             "Email Уведомления (Контент)": data.subscribedContent ? "Да" : "Нет",
             "Email Уведомления (Заявка)": data.subscribedReport ? "Да" : "Нет",
         }
     })
-    
-    const csvString = csvMaker(objectsToExport)
 
     return (
-        <DownloadCSVButton csvString={csvString} className={className} />
+        <DownloadTableButton table={objectsToExport} className={className} />
     )
 }

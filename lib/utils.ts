@@ -103,8 +103,11 @@ export function csvMaker(data: { [key: string]: string }[]) {
 }
 
 export function downloadCSV(csvString: string, fileName: string) {
+
+  const normalizeStr = csvString.replace("\n", " ")
+
   // Create a Blob from the CSV string
-  const blob = new Blob([csvString], { type: 'text/csv' });
+  const blob = new Blob([normalizeStr], { type: 'text/csv' });
 
   // Generate a download link and initiate the download
   const url = URL.createObjectURL(blob);

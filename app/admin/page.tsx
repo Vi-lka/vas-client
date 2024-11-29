@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { getShortText, translitStatusToNormal } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import DownloadCSV from './DownloadCSV';
+import DownloadTable from './DownloadTable';
 import PaginationControls from '@/components/PaginationControls';
 import Filters from './Filters';
 import SearchField from '@/components/filters/SearchField';
@@ -84,7 +84,7 @@ export default async function AdminPage({
         key={`${search}${report}${confirmed}${status}${subscribedContent}${subscribedReport}${metadata}`}
         fallback={"Loading..."}
       >
-        <DownloadCSV token={session.strapiToken} searchParams={searchParams} className="mb-3 ml-3 float-end" />
+        <DownloadTable token={session.strapiToken} searchParams={searchParams} className="mb-3 ml-3 float-end" />
       </Suspense>
 
       <Filters className='float-start sm:float-none mb-3' />
@@ -210,7 +210,7 @@ async function DataTable({
               <TableCell>{metadata?.city}</TableCell>
               <TableCell>{hasReport && metadata.degree}</TableCell>
               <TableCell>{hasReport && metadata.rank}</TableCell>
-              <TableCell>{hasReport && metadata.organization}</TableCell>
+              <TableCell>{metadata?.organization}</TableCell>
               <TableCell>{hasReport && metadata.post}</TableCell>
               <TableCell>{hasReport && metadata.format}</TableCell>
               <TableCell>{hasReport && (metadata.invitation ? "Да" : "Нет")}</TableCell>
