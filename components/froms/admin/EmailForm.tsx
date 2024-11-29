@@ -86,7 +86,7 @@ export default function EmailForm() {
 
   return (
     <div className='w-full flex xl:flex-row flex-col gap-3 justify-center'>
-      <Card className='h-fit mb-3'>
+      <Card className='h-fit mb-3 w-full xl:w-1/2'>
         <CardHeader>
           <CardTitle>Отправить Email</CardTitle>
           <CardDescription>
@@ -118,7 +118,7 @@ export default function EmailForm() {
           <p className='text-muted-foreground text-xs text-center'>Напишите вкратце об изменениях в контенте.</p>
         </CardFooter>
       </Card>
-      <div className='w-full max-w-[600px]'>
+      <div className='w-full xl:w-1/2 max-w-[600px]'>
         <TypographyH4 className='text-center'>Превью:</TypographyH4>
         {isPendingTransition 
           ? <div className='w-full h-full flex justify-center items-center'><Loader2 className='animate-spin w-8 h-8 mx-auto' /></div>
