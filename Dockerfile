@@ -58,6 +58,9 @@ ENV SENTRY_PROJECT=${SENTRY_PROJECT}
 ARG SENTRY_ORG
 ENV SENTRY_ORG=${SENTRY_ORG}
 
+ARG REG_KEY
+ENV REG_KEY=${REG_KEY}
+
 # Next.js collects completely anonymous telemetry data about general usage. Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line to disable telemetry at build time
 # ENV NEXT_TELEMETRY_DISABLED 1
@@ -129,6 +132,9 @@ ARG SENTRY_PROJECT
 ENV SENTRY_PROJECT=${SENTRY_PROJECT}
 ARG SENTRY_ORG
 ENV SENTRY_ORG=${SENTRY_ORG}
+
+ARG REG_KEY
+ENV REG_KEY=${REG_KEY}
 
 RUN chown -R nextjs ./.next/cache
 USER nextjs

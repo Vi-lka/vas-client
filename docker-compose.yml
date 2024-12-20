@@ -22,6 +22,7 @@ services:
         SENTRY_AUTH_TOKEN: ${SENTRY_AUTH_TOKEN}
         SENTRY_PROJECT: ${SENTRY_PROJECT}
         SENTRY_ORG: ${SENTRY_ORG}
+        REG_KEY: ${REG_KEY}
     restart: always
     volumes:
       - client_next_cache_vas:/app/.next/cache
