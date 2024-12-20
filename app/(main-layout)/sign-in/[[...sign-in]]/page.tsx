@@ -5,6 +5,7 @@ import ResetPassForm from '@/components/froms/sign-in/ResetPassForm'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import Link from 'next/link'
+import getRegistration from '@/lib/queries/getRegistration'
 
 type Props = {
   params: { 'sign-in': string[] | undefined } 
@@ -14,9 +15,12 @@ type Props = {
 };
 
 
-export default function SignInPage({ params, searchParams }: Props) {
+export default async function SignInPage({ params, searchParams }: Props) {
 
   const currentPage = params['sign-in'] ? params['sign-in'][0] : ""
+
+  const [ registration ] = await Promise.allSettled([ getRegistration() ]);
+  const registrationEnabled = registration.status === "fulfilled" ? registration.value : true
 
   return (
     <main className="container mx-auto pt-24">
@@ -41,14 +45,16 @@ export default function SignInPage({ params, searchParams }: Props) {
                 <CardContent>
                   <SignInForm />
                 </CardContent>
-                <CardFooter className='absolute -bottom-16 w-full flex items-center justify-center gap-1'>
-                  <p className='text-sm'>Нет аккаунта?</p>
-                  <Link href="/sign-up" passHref className=''>
-                    <Button variant="link" className='text-sm font-medium px-1'>
-                      Регистрация
-                    </Button>
-                  </Link>
-                </CardFooter>
+                {registrationEnabled && (
+                  <CardFooter className='absolute -bottom-16 w-full flex items-center justify-center gap-1'>
+                    <p className='text-sm'>Нет аккаунта?</p>
+                    <Link href="/sign-up" passHref className=''>
+                      <Button variant="link" className='text-sm font-medium px-1'>
+                        Регистрация
+                      </Button>
+                    </Link>
+                  </CardFooter>
+                )}
               </Card>
             </div>
           )

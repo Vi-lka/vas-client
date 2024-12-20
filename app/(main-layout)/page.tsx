@@ -12,6 +12,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 import { getCurrentUser } from "@/lib/queries/getCurrentUser";
 import { redirect } from "next/navigation";
+import getRegistration from "@/lib/queries/getRegistration";
 
 export default async function Home() {
 
@@ -24,11 +25,14 @@ export default async function Home() {
       redirect("/onboarding");
     }
   }
+  
+  const [ registration ] = await Promise.allSettled([ getRegistration() ]);
+  const registrationEnabled = registration.status === "fulfilled" ? registration.value : true
 
   return (
     <main className="flex min-h-screen max-w-screen-xl mx-auto flex-col items-center justify-between">
       <Notification />
-      <Hero />
+      <Hero registration={registrationEnabled} />
       <About />
       <AboutBento />
       <Directions />

@@ -7,16 +7,19 @@ import { Check, Database, LogIn } from 'lucide-react';
 import MetadataForm from '@/components/froms/MetadataForm';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import getRegistration from '@/lib/queries/getRegistration';
+import { redirect } from 'next/navigation';
 
 type Props = {
   params: { 'sign-up': string[] | undefined } 
   searchParams: {
     confirmation?: string,
+    key?: string
   },
 };
 
 
-export default function SignUpPage({ params, searchParams }: Props) {
+export default async function SignUpPage({ params, searchParams }: Props) {
 
   const currentPage = params['sign-up'] ? params['sign-up'][0] : ""
 
@@ -31,6 +34,13 @@ export default function SignUpPage({ params, searchParams }: Props) {
     : currentPage === "confirmation"
       ? 50
       : 5
+
+  const [ registration ] = await Promise.allSettled([ getRegistration() ]);
+  const registrationEnabled = registration.status === "fulfilled" ? registration.value : true
+
+  console.log(searchParams.key)
+
+  if (!registrationEnabled && !(searchParams.key === process.env.REG_KEY)) redirect("/sign-in")
 
   return (
     <main className="container mx-auto pt-24">

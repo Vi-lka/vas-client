@@ -3,7 +3,11 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import React from 'react'
 
-export default function Hero() {
+export default function Hero({
+  registration
+}: {
+  registration: boolean
+}) {
   return (
     <section id="top" className="w-full">
       <div className="relative overflow-hidden mx-auto max-w-screen-xl px-4 py-32 flex min-h-screen items-center">
@@ -21,13 +25,15 @@ export default function Hero() {
           </p>
         
           <div className="mt-8 flex flex-wrap sm:flex-row flex-col justify-center gap-4">
-            <div className='w-full sm:w-[calc(50%-1rem)] flex sm:justify-end justify-center'>
-              <Link href="/sign-up" passHref className='w-fit h-fit'>
-                <Button className='font-medium shadow text-base px-12 py-6'>
-                  Регистрация
-                </Button>
-              </Link>
-            </div>
+            {registration && (
+              <div className='w-full sm:w-[calc(50%-1rem)] flex sm:justify-end justify-center'>
+                <Link href="/sign-up" passHref className='w-fit h-fit'>
+                  <Button className='font-medium shadow text-base px-12 py-6'>
+                    Регистрация
+                  </Button>
+                </Link>
+              </div>
+            )}
 
             <div className='w-full sm:w-[calc(50%-1rem)] flex sm:justify-start justify-center'>
               <Link href="#about" passHref className='w-fit h-fit'>

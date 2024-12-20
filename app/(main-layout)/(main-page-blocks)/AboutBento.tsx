@@ -5,7 +5,7 @@ import {
   CalendarIcon,
   GlobeIcon,
 } from "@radix-ui/react-icons";
-import { Building2, LogIn } from "lucide-react";
+import { Building2, LogIn, User2 } from "lucide-react";
 import Image from 'next/image';
 import Orgs from "./Orgs";
 import Ripple from "@/components/magic/ripple";
@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import CalendarLink from "@/components/CalendarLink";
 import fetchData from "@/lib/fetchData";
 import fixDanglingPrefix from "@/lib/fixDanglingPrefix";
+import getRegistration from "@/lib/queries/getRegistration";
 
 export default async function AboutBento() {
 
@@ -48,9 +49,11 @@ export default async function AboutBento() {
     return address;
   };
   
-  const [ addressResult ] = await Promise.allSettled([ getAddress() ]);
+  const [ addressResult, registration ] = await Promise.allSettled([ getAddress(), getRegistration() ]);
+  const registrationEnabled = registration.status === "fulfilled" ? registration.value : true
 
-  const features: BentoCardProps[] = [
+  const features: Array<BentoCardProps | undefined> = [
+    registrationEnabled ? 
     {
       Icon: LogIn,
       name: "Онлайн регистрация",
@@ -64,6 +67,25 @@ export default async function AboutBento() {
             <Link href="/sign-up" passHref className='z-10'>
               <Button variant="secondary" className='font-medium text-base tracking-tighter bg-background/90 hover:text-background hover:bg-primary/90 p-6'>
                 Регистрация
+              </Button>
+            </Link>
+            <Ripple classNameItem="bg-foreground/10" />
+          </div>
+        </div>
+      ),
+    } : {
+      Icon: User2,
+      name: "Личный аккаунт",
+      description: "Позволяет редактировать заявку",
+      href: "/sign-in",
+      cta: "Перейти",
+      className: "col-span-3 lg:col-span-1",
+      background: (
+        <div className="absolute w-full [mask-image:linear-gradient(to_top,transparent_0%,#000_50%)]">
+          <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-lg bg-background p-20">
+            <Link href="/sign-in" passHref className='z-10'>
+              <Button variant="secondary" className='font-medium text-base tracking-tighter bg-background/90 hover:text-background hover:bg-primary/90 p-6'>
+                Вход
               </Button>
             </Link>
             <Ripple classNameItem="bg-foreground/10" />
@@ -136,12 +158,13 @@ export default async function AboutBento() {
         </CalendarLink>
       ),
     },
-  ];
+  ]
+  const filteredFeatures = features.filter(item => !!item);
 
   return (
     <div className='flex items-center pt-24 container'>
       <BentoGrid>
-        {features.map((feature, idx) => (
+        {filteredFeatures.map((feature, idx) => (
           <BentoCard key={idx} {...feature} />
         ))}
       </BentoGrid>
