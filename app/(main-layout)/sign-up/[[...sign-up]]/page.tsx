@@ -40,7 +40,7 @@ export default async function SignUpPage({ params, searchParams }: Props) {
 
   console.log(searchParams.key)
 
-  if (!registrationEnabled && !(searchParams.key === process.env.REG_KEY)) redirect("/sign-in")
+  if (!registrationEnabled && !(searchParams.key === process.env.REG_KEY) && currentPage.length === 0) redirect("/sign-in")
 
   return (
     <main className="container mx-auto pt-24">
