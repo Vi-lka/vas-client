@@ -47,11 +47,11 @@ export const signUpAction = async (data: SignUpFormT) => {
 
         console.error(JSON.stringify(data, null, 2))
         
-        if (data.error.message === 'Email or Username are already taken') {
-          throw new Error("Что-то пошло не так.");
-        } else {
+        // if (data.error.message === 'Email or Username are already taken') {
+        //   throw new Error("Что-то пошло не так.");
+        // } else {
           throw new Error(data.error.message);
-        }
+        // }
       } else {
         throw new Error(strapiResponse.statusText);
       }

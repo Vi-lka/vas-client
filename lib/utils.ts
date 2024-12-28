@@ -62,7 +62,11 @@ export function getValidChildren(children: React.ReactNode) {
 }
 
 export function translateError(code: string, defaultMessage: string) {
+  console.log("code: ", code)
   switch (code) {
+    case "Email or Username are already taken":
+      return "Адрес электронной почты уже занят, проверьте почту или войдите если уже подтвердили почту";
+
     case "Invalid identifier or password":
       return "Неверный email или пароль";
 
