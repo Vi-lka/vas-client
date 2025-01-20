@@ -130,12 +130,12 @@ export default function MetadataReportAdditional({
                             'image/jpeg': [],
                             'image/png': [],
                           }}
-                        maxSize={10 * 1024 * 1024} // 10Mb
+                        maxSize={20 * 1024 * 1024} // 20Mb
                         disabled={form.formState.isSubmitting || isPending}
                         className="mt-1 min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
                       >
                         <p className="text-xs text-muted-foreground mt-2 text-center">
-                          JPEG, JPG, PNG (Max 10Mb)
+                          JPEG, JPG, PNG (Max 20Mb)
                         </p>
                       </DropzoneFile>
                     </div>

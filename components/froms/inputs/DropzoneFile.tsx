@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { MousePointerClick, UploadCloud } from "lucide-react";
+import { MousePointerClick, UploadCloud, X } from "lucide-react";
 import type { Accept } from "react-dropzone";
 import { useDropzone } from "react-dropzone";
 import { useFormContext } from "react-hook-form";
@@ -10,6 +10,8 @@ import { useFormStatus } from "react-dom";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 type Value = {
   file?: File | null | undefined;
@@ -69,25 +71,48 @@ export default function DropzoneFile({
     disabled: pending || disabled
   });
 
-  // const handleDelete = () => {
-  //   setFile(null);
-  //   setURL("");
-  //   form.setValue(
-  //     formValueName,
-  //     { file: null, url: "" },
-  //     { shouldDirty: true, shouldValidate: true, shouldTouch: true },
-  //   );
-  // };
+  const handleDelete = () => {
+    setFile(null);
+    setURL("");
+    form.setValue(
+      formValueName,
+      { file: null, url: "" },
+      { shouldDirty: true, shouldValidate: true, shouldTouch: true },
+    );
+  };
 
   if (!!valueURL && valueURL.length > 0)
     return (
       <>
-        {/* <span
-          className="text-muted-foreground hover:text-foreground mx-auto my-1 flex w-fit cursor-pointer items-center justify-center text-xs transition-all hover:scale-110"
-          onClick={handleDelete}
-        >
-          <X className="h-5 w-5" /> Удалить
-        </span> */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <span
+              className="text-muted-foreground hover:text-foreground mx-auto my-1 flex w-fit cursor-pointer items-center justify-center text-xs transition-all hover:scale-110"
+            >
+              <X className="h-5 w-5" /> Удалить
+            </span>
+          </PopoverTrigger>
+          <PopoverContent>
+            <p className="text-center mb-3 text-sm">Вы уверены?</p>
+            <div className="flex justify-center gap-3">
+              <PopoverClose asChild>
+                <Button
+                  variant="destructive"
+                  onClick={handleDelete}
+                >
+                  Удалить
+                </Button>
+              </PopoverClose>
+              <PopoverClose asChild>
+                <Button
+                  variant="secondary"
+                >
+                  Отмена
+                </Button>
+              </PopoverClose>
+            </div>
+          </PopoverContent>
+        </Popover>
         <div
           {...getRootProps({
             className: cn(
@@ -112,11 +137,15 @@ export default function DropzoneFile({
                 <p className="mt-3 w-full break-words text-center text-xs font-light">
                   {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
                 </p>
+                {children}
             </>)
             : (
-              <p className="mt-3 w-full break-words text-center text-xs font-medium">
-                {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
-              </p>
+              <>
+                <p className="mt-3 w-full break-words text-center text-xs font-medium">
+                  {!!valueFile ? valueFile.name : valueURL.split("/")[2]}
+                </p>
+                {children}
+              </>
             )
           }
         </div>

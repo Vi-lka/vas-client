@@ -92,6 +92,8 @@ export default function MetadataForm({
       const username = form.getValues("familyName") + " " + form.getValues("name") + " " + form.getValues("middleName")
   
       const { reportFile, imageFile, additionalReports, ...formData } = form.getValues()
+
+      console.log(reportFile, imageFile)
   
       let updateUser: Promise<CurrentUserT>
   
@@ -109,12 +111,12 @@ export default function MetadataForm({
         .then(async (dataUpload) => {
           const reportFileUrl = dataUpload.reportUrl.length > 0 
             ? dataUpload.reportUrl 
-            : defaultValues?.reportFile 
-              ? defaultValues.reportFile.url : ""
+            : reportFile 
+              ? reportFile.url : ""
           const imageFileUrl = dataUpload.imageUrl.length > 0 
             ? dataUpload.imageUrl
-            : defaultValues?.imageFile 
-              ? defaultValues.imageFile.url : ""
+            : imageFile 
+              ? imageFile.url : ""
 
           const additionalReportsData = additionalReports ? additionalReports.map(async (item, indx) => {
             const uploadAdditionalReport = await uploadReport(userId.toString(), item.reportFile?.file, "file")
@@ -128,12 +130,12 @@ export default function MetadataForm({
             .then((dataAdditionalUpload) => {
               const additionalReportFileUrl = dataAdditionalUpload.reportUrl.length > 0 
                 ? dataAdditionalUpload.reportUrl 
-                : (defaultValues?.additionalReports && defaultValues.additionalReports[indx] && defaultValues.additionalReports[indx].reportFile)
-                  ? defaultValues.additionalReports[indx].reportFile.url : ""
+                : (additionalReports && additionalReports[indx] && additionalReports[indx].reportFile)
+                  ? additionalReports[indx].reportFile.url : ""
               const additionalImageFileUrl = dataAdditionalUpload.imageUrl.length > 0 
                 ? dataAdditionalUpload.imageUrl
-                : defaultValues?.additionalReports && defaultValues.additionalReports[indx] && defaultValues.additionalReports[indx].imageFile 
-                  ? defaultValues.additionalReports[indx].imageFile.url : ""
+                : additionalReports && additionalReports[indx] && additionalReports[indx].imageFile 
+                  ? additionalReports[indx].imageFile.url : ""
 
               return {
                 direction: item.direction,

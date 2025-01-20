@@ -72,12 +72,12 @@ export default function AbstractsForm({
       .then(async (dataUpload) => {
         const reportFileUrl = dataUpload.reportUrl.length > 0 
           ? dataUpload.reportUrl 
-          : metadata.reportFile 
-            ? metadata.reportFile.url : ""
+          : reportFile 
+            ? reportFile.url : ""
         const imageFileUrl = dataUpload.imageUrl.length > 0 
           ? dataUpload.imageUrl
-          : metadata.imageFile 
-            ? metadata.imageFile.url : ""
+          : imageFile 
+            ? imageFile.url : ""
 
         const additionalReportsData = additionalReports ? additionalReports.map(async (item, indx) => {
           const uploadAdditionalReport = await uploadReport(userId.toString(), item.reportFile?.file, "file")
@@ -91,12 +91,12 @@ export default function AbstractsForm({
           .then((dataAdditionalUpload) => {
             const additionalReportFileUrl = dataAdditionalUpload.reportUrl.length > 0 
               ? dataAdditionalUpload.reportUrl 
-              : (metadata && metadata.additionalReports && metadata.additionalReports[indx] && (metadata.additionalReports[indx].reportFile))
-                ? metadata.additionalReports[indx].reportFile.url : ""
+              : (metadata && additionalReports && additionalReports[indx] && (additionalReports[indx].reportFile))
+                ? additionalReports[indx].reportFile.url : ""
             const additionalImageFileUrl = dataAdditionalUpload.imageUrl.length > 0 
               ? dataAdditionalUpload.imageUrl
-              : (metadata && metadata.additionalReports && metadata.additionalReports[indx] && metadata.additionalReports[indx].imageFile)
-                ? metadata.additionalReports[indx].imageFile?.url : ""
+              : (metadata && additionalReports && additionalReports[indx] && additionalReports[indx].imageFile)
+                ? additionalReports[indx].imageFile?.url : ""
   
             return {
               direction: item.direction,
@@ -196,7 +196,11 @@ export default function AbstractsForm({
                       maxSize={5 * 1024 * 1024} // 5Mb
                       disabled={form.formState.isSubmitting || isPending}
                       className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-                    />
+                    >
+                      <p className="text-xs text-muted-foreground mt-2 text-center">
+                        DOC, DOCX (Max 5Mb)
+                      </p>
+                    </DropzoneFile>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -221,10 +225,14 @@ export default function AbstractsForm({
                         'image/jpeg': [],
                         'image/png': [],
                       }}
-                      maxSize={10 * 1024 * 1024} // 10Mb
+                      maxSize={20 * 1024 * 1024} // 20Mb
                       disabled={form.formState.isSubmitting || isPending}
                       className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-                    />
+                    >
+                      <p className="text-xs text-muted-foreground mt-2 text-center">
+                        JPEG, JPG, PNG (Max 20Mb)
+                      </p>
+                    </DropzoneFile>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
