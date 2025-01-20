@@ -63,3 +63,11 @@ export const usePutObjects = () => {
 
   return { upload, progress, isLoading };
 };
+
+export const useDeleteObject = () => {
+  const deleteFile = async (fileId: string) => {
+    return strapi.delete(`/api/upload/files/${fileId}`)
+  }
+
+  return { deleteFile };
+}

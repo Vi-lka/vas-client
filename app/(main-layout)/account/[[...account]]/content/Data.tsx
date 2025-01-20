@@ -14,13 +14,19 @@ import Status from './Status'
 export default function Data({
   metadata,
   status,
-  fileUrl,
-  imageUrl
+  file,
+  image
 }: {
   metadata: MetadataFormT,
   status: StatusEnum | null,
-  fileUrl?: string,
-  imageUrl?: string,
+  file?: {
+    id: string,
+    url: string
+  }
+  image?: {
+    id: string,
+    url: string
+  }
 }) {
 
   const hasReport = metadata.report === true
@@ -51,6 +57,8 @@ export default function Data({
             <MetadataForm
               defaultValues={metadata} 
               defaultTab={hasReport ? "report" : "no-report"}
+              fileId={file?.id}
+              imageId={image?.id}
             />
           </CardContent>
         </Card>
@@ -78,6 +86,8 @@ export default function Data({
                   <MetadataForm
                     defaultValues={metadata} 
                     defaultTab={hasReport ? "report" : "no-report"}
+                    fileId={file?.id}
+                    imageId={image?.id}      
                   />
                 </div>
               </ScrollArea>
@@ -132,11 +142,11 @@ export default function Data({
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Тезисы:</TableCell>
-                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center break-all'>{fileUrl ? fileUrl.split("/")[2] : "__"}</TableCell>
+                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center break-all'>{file ? file.url.split("/")[2] : "__"}</TableCell>
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Иллюстрация:</TableCell>
-                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center break-all'>{imageUrl ? imageUrl.split("/")[2] : "__"}</TableCell>
+                    <TableCell className='flex-1 lg:text-sm text-xs flex items-center break-all'>{image ? image.url.split("/")[2] : "__"}</TableCell>
                   </TableRow>
                   <TableRow className='flex w-full md:flex-row flex-col'>
                     <TableCell className="font-semibold md:w-[9.5rem] md:pb-2 pb-0">Доп. доклады:</TableCell>

@@ -16,9 +16,13 @@ import MetadataReportAdditional from './MetadataReportAdditional';
 export default function MetadataReport({
   form,
   isPending,
+  fileId,
+  imageId,
 }: {
   form: UseFormReturn<MetadataFormT>,
   isPending: boolean,
+  fileId: string | undefined,
+  imageId: string | undefined,
 }) {
   return (
     <>
@@ -310,6 +314,7 @@ export default function MetadataReport({
                 <FormLabel>Тезисы:</FormLabel>
                 <FormControl>
                   <DropzoneFile
+                    id={fileId}
                     isImage={false}
                     formValue={field.value ? field.value : {
                       file: null,
@@ -344,6 +349,7 @@ export default function MetadataReport({
                 <FormLabel>Иллюстрация:</FormLabel>
                 <FormControl>
                   <DropzoneFile
+                    id={imageId}
                     isImage
                     formValue={field.value ? field.value : {
                       file: null,

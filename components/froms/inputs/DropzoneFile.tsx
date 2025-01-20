@@ -12,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { useDeleteObject } from "@/lib/strapiUpload";
+import { toast } from "sonner";
+import AuthError from "@/components/errors/AuthError";
 
 type Value = {
   file?: File | null | undefined;
@@ -25,6 +28,7 @@ export default function DropzoneFile({
   accept,
   maxSize,
   disabled,
+  id,
   className,
   children,
 }: {
@@ -34,13 +38,17 @@ export default function DropzoneFile({
   accept: Accept;
   maxSize: number;
   disabled: boolean;
+  id?: string,
   className?: string;
   children?: React.ReactNode
 }) {
   const [valueFile, setFile] = useState<File | null | undefined>();
   const [valueURL, setURL] = useState<string>();
-
+  const [popoverOpen, setPopoverOpen] = useState(false)
+ 
   const { pending } = useFormStatus();
+
+  const { deleteFile } = useDeleteObject();
 
   const form = useFormContext();
 
@@ -72,19 +80,41 @@ export default function DropzoneFile({
   });
 
   const handleDelete = () => {
-    setFile(null);
-    setURL("");
-    form.setValue(
-      formValueName,
-      { file: null, url: "" },
-      { shouldDirty: true, shouldValidate: true, shouldTouch: true },
-    );
+    if (id) {
+      toast.promise(deleteFile(id), {
+        loading: 'Удаляем файл...',
+        success: () => {
+          setFile(null);
+          setURL("");
+          form.setValue(
+            formValueName,
+            { file: null, url: "" },
+            { shouldDirty: true, shouldValidate: true, shouldTouch: true },
+          );
+          setPopoverOpen(false);
+
+          return `Успешно!`;
+        },
+        error: (err) => {
+          return <AuthError data={err as Error} />
+        }
+      });
+    } else {
+      setFile(null);
+      setURL("");
+      form.setValue(
+        formValueName,
+        { file: null, url: "" },
+        { shouldDirty: true, shouldValidate: true, shouldTouch: true },
+      );
+      setPopoverOpen(false)
+    }
   };
 
   if (!!valueURL && valueURL.length > 0)
     return (
       <>
-        <Popover>
+        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger asChild>
             <span
               className="text-muted-foreground hover:text-foreground mx-auto my-1 flex w-fit cursor-pointer items-center justify-center text-xs transition-all hover:scale-110"
@@ -93,16 +123,21 @@ export default function DropzoneFile({
             </span>
           </PopoverTrigger>
           <PopoverContent>
-            <p className="text-center mb-3 text-sm">Вы уверены?</p>
+            <p className="text-center mb-1 text-sm">
+              Вы уверены?
+            </p>
+            {id && (
+              <p className="text-center mb-3 text-xs text-destructive">
+                Обязательно сохраните изменения после удаления!
+              </p>
+            )}
             <div className="flex justify-center gap-3">
-              <PopoverClose asChild>
-                <Button
-                  variant="destructive"
-                  onClick={handleDelete}
-                >
-                  Удалить
-                </Button>
-              </PopoverClose>
+              <Button
+                variant="destructive"
+                onClick={handleDelete}
+              >
+                Удалить
+              </Button>
               <PopoverClose asChild>
                 <Button
                   variant="secondary"

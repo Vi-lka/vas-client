@@ -16,9 +16,13 @@ import Status from './Status'
 export default async function Abstracts({
   metadata,
   status,
+  fileId,
+  imageId
 }: {
   metadata: MetadataFormT,
   status: StatusEnum | null,
+  fileId: string | undefined,
+  imageId: string | undefined,
 }) {
 
   const hasReport = metadata.report === true
@@ -86,7 +90,11 @@ export default async function Abstracts({
         <Status report={metadata.report} status={status} />
       </div>
       <div className='mt-12 w-full sm:max-w-2xl max-w-[240px] mx-auto'>
-        <AbstractsForm metadata={metadata}/>
+        <AbstractsForm 
+          metadata={metadata}
+          fileId={fileId}
+          imageId={imageId}
+        />
       </div>
       <div className='flex flex-col items-center justify-center mt-8'>
         {dataResult.value.attributes.text && (

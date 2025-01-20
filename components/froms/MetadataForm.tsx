@@ -25,10 +25,14 @@ export default function MetadataForm({
   defaultValues,
   defaultTab = "report",
   subscribedSwitch,
+  fileId,
+  imageId
 }: {
   defaultValues?: MetadataFormT,
   defaultTab?: "report" | "no-report",
   subscribedSwitch?: boolean;
+  fileId: string | undefined,
+  imageId: string | undefined,
 }) {
 
   const router = useRouter()
@@ -92,8 +96,6 @@ export default function MetadataForm({
       const username = form.getValues("familyName") + " " + form.getValues("name") + " " + form.getValues("middleName")
   
       const { reportFile, imageFile, additionalReports, ...formData } = form.getValues()
-
-      console.log(reportFile, imageFile)
   
       let updateUser: Promise<CurrentUserT>
   
@@ -253,9 +255,11 @@ export default function MetadataForm({
                 tab === 'report' ? "flex" : "hidden"
               )}
             >
-              <MetadataReport 
+              <MetadataReport
                 form={form} 
-                isPending={isPending || isLoadingReport || isLoadingImage} 
+                isPending={isPending || isLoadingReport || isLoadingImage}
+                fileId={fileId}
+                imageId={imageId}
               />
             </TabsContent>
             <TabsContent 

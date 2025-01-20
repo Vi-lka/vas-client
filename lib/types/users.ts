@@ -26,6 +26,7 @@ export const CurrentUserT = z.object({
     metadata: z.any(),
     file: z.object({
       data: z.object({
+        id: z.string(),
         attributes: z.object({
           url: z.string()
         })
@@ -33,6 +34,7 @@ export const CurrentUserT = z.object({
     }),
     image: z.object({
       data: z.object({
+        id: z.string(),
         attributes: z.object({
           url: z.string()
         })

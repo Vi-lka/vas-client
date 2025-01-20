@@ -19,9 +19,13 @@ import { updateUserAction } from '@/app/actions';
 import MetadataReportAdditional from './MetadataReportAdditional';
 
 export default function AbstractsForm({
-  metadata
+  metadata,
+  fileId,
+  imageId
 }: {
   metadata: MetadataFormT,
+  fileId: string | undefined,
+  imageId: string | undefined,
 }) {
   const router = useRouter()
   const [isPending, setPending] = React.useState(false);
@@ -186,6 +190,7 @@ export default function AbstractsForm({
                   <FormLabel>Тезисы:</FormLabel>
                   <FormControl>
                     <DropzoneFile
+                      id={fileId}
                       isImage={false}
                       formValue={field.value}
                       formValueName={field.name}
@@ -217,6 +222,7 @@ export default function AbstractsForm({
                   <FormLabel>Иллюстрация:</FormLabel>
                   <FormControl>
                     <DropzoneFile
+                      id={imageId}
                       isImage
                       formValue={field.value}
                       formValueName={field.name}

@@ -25,11 +25,13 @@ export const getCurrentUser = async (token: string): Promise<CurrentUserT> => {
           metadata
           file {
             data {
+              id
               attributes { url }
             }
           }
           image {
             data {
+              id
               attributes { url }
             }
           }

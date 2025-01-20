@@ -38,8 +38,6 @@ export default async function SignUpPage({ params, searchParams }: Props) {
   const [ registration ] = await Promise.allSettled([ getRegistration() ]);
   const registrationEnabled = registration.status === "fulfilled" ? registration.value : true
 
-  console.log(searchParams.key)
-
   if (!registrationEnabled && !(searchParams.key === process.env.REG_KEY) && currentPage.length === 0) redirect("/sign-in")
 
   return (
@@ -65,7 +63,7 @@ export default async function SignUpPage({ params, searchParams }: Props) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <MetadataForm subscribedSwitch />
+                <MetadataForm subscribedSwitch fileId={undefined} imageId={undefined} />
               </CardContent>
             </Card>
           )

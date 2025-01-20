@@ -44,6 +44,18 @@ export default async function AccountPage({
     <Profile user={currentUser}/>
   )
 
+  const file = currentUser.file.data && (currentUser.metadata as MetadataFormT).reportFile
+    ? {
+      id: currentUser.file.data.id,
+      url: (currentUser.metadata as MetadataFormT).reportFile!.url
+    } : undefined
+
+  const image = currentUser.image.data && (currentUser.metadata as MetadataFormT).imageFile
+    ? {
+      id: currentUser.image.data.id,
+      url: (currentUser.metadata as MetadataFormT).imageFile!.url
+    } : undefined
+
   switch (params.account[0] as NavigationHrefT) {
     case "":
       return (
@@ -55,13 +67,20 @@ export default async function AccountPage({
         <Data 
           metadata={(currentUser.metadata as MetadataFormT)} 
           status={currentUser.status}
-          fileUrl={(currentUser.metadata as MetadataFormT).reportFile?.url}
-          imageUrl={(currentUser.metadata as MetadataFormT).imageFile?.url}
+          file={file}
+          image={image}
         />
       )
 
     case "abstracts":
-      return <Abstracts metadata={metadataResult.data} status={currentUser.status}/>
+      return (
+        <Abstracts 
+          metadata={metadataResult.data} 
+          status={currentUser.status}
+          fileId={file?.id}
+          imageId={image?.id}
+        />
+      )
 
     case "arrival-departure":
       return <ArrivalDeparture metadata={metadataResult.data} />
