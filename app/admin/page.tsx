@@ -193,7 +193,7 @@ async function DataTable({
           <TableHead className='min-w-52'>Название доклада</TableHead>
           <TableHead className='min-w-24 text-center'>Тезисы</TableHead>
           <TableHead className='min-w-32 text-center'>Иллюстрация</TableHead>
-          {/* <TableHead className='min-w-32'>Доп. доклады</TableHead> */}
+          <TableHead className='min-w-32'>Доп. доклады</TableHead>
           <TableHead className='min-w-52'>Круглые столы</TableHead>
           <TableHead className='min-w-40'>Комментарии</TableHead>
           <TableHead className='min-w-40 text-center'>Email Уведомления (Контент)</TableHead>
@@ -247,7 +247,7 @@ async function DataTable({
                   </Link>
                 )}
               </TableCell>
-              {/* <TableCell className='text-center'>
+              <TableCell className='text-center'>
                 {(hasReport && metadata.additionalReports) && (
                   <Dialog>
                     <DialogTrigger asChild>
@@ -302,7 +302,7 @@ async function DataTable({
                     </DialogContent>
                   </Dialog>
                 )}
-              </TableCell> */}
+              </TableCell>
               <TableCell className='text-xs'>
                 {(hasReport && metadata.tables) && (
                   <div className='flex flex-col gap-0.5'>

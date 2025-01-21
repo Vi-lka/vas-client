@@ -61,11 +61,11 @@ export default async function DownloadTable({
         const metadata = data.metadata as MetadataFormT | null
         const hasReport = metadata?.report
         const tables = hasReport && metadata.tables.length > 0 ? metadata.tables.map(item => item.value).join(", ") : ""
-        // const additionalReports = (metadata?.additionalReports && metadata.additionalReports.length > 0) 
-        //     ? metadata.additionalReports.map(item => (
-        //         `Направление: ${item.direction},\n Название доклада: ${item.reportName},\n Тезисы: ${process.env.NEXT_PUBLIC_URL}${item.reportFile?.url}, \n Иллюстрация: ${process.env.NEXT_PUBLIC_URL}${item.imageFile?.url},\n`
-        //     )).join("\n")
-        //     : ""
+        const additionalReports = (metadata?.additionalReports && metadata.additionalReports.length > 0) 
+            ? metadata.additionalReports.map(item => (
+                `Направление: ${item.direction},\n Название доклада: ${item.reportName},\n Тезисы: ${process.env.NEXT_PUBLIC_URL}${item.reportFile?.url}, \n Иллюстрация: ${process.env.NEXT_PUBLIC_URL}${item.imageFile?.url},\n`
+            )).join("\n")
+            : ""
         
         return {
             "ФИО": `${data.username}`,
@@ -88,7 +88,7 @@ export default async function DownloadTable({
             "Название доклада": hasReport ? `${metadata.reportName}` : "",
             "Тезисы": (hasReport && metadata.reportFile?.url) ? `${process.env.NEXT_PUBLIC_URL}${metadata.reportFile.url}` : "",
             "Иллюстрация": (hasReport && metadata.imageFile?.url) ? `${process.env.NEXT_PUBLIC_URL}${metadata.imageFile.url}` : "",
-            // "Доп. доклады": `${additionalReports}`,
+            "Доп. доклады": `${additionalReports}`,
             "Круглые столы": `${tables}`,
             "Комментарии": (hasReport && metadata.comment) ? `${metadata.comment}` : "",
             "Email Уведомления (Контент)": data.subscribedContent ? "Да" : "Нет",

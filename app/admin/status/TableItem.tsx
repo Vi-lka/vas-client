@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { TableCell, TableHead, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { UserT } from '@/lib/types/users';
 import type { MetadataFormT } from '@/lib/types/forms';
 import StatusForm from '@/components/froms/admin/StatusForm';
 import { formatDate, translitStatusToNormal } from '@/lib/utils';
-// import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function TableItem({
   item,
@@ -58,7 +58,7 @@ export default function TableItem({
               </Link>
             )}
           </TableCell>
-          {/* <TableCell className='text-center'>
+          <TableCell className='text-center'>
             {(hasReport && metadata.additionalReports) && (
               <Dialog key={"additionalReports"}>
                 <DialogTrigger asChild>
@@ -119,7 +119,7 @@ export default function TableItem({
                 </DialogContent>
               </Dialog>
             )}
-          </TableCell> */}
+          </TableCell>
           <TableCell>{data.createdAt && formatDate(data.createdAt, {hour: "numeric", minute: "numeric"})}</TableCell>
         </TableRow>
       </DialogTrigger>
