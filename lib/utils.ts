@@ -145,3 +145,17 @@ export function translitStatusToNormal(status: StatusTranslitEnum | null): Statu
       return null;
   }
 }
+
+export function formatDate(
+  date: Date | string | number,
+  opts: Intl.DateTimeFormatOptions = {
+    timeZone: "GMT"
+  }
+) {
+  return new Intl.DateTimeFormat("ru-RU", {
+    month: opts.month ?? "long",
+    day: opts.day ?? "numeric",
+    year: opts.year ?? "numeric",
+    ...opts,
+  }).format(new Date(date))
+}

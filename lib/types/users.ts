@@ -79,6 +79,7 @@ export const UserT = z.object({
         })
       }).nullable()
     }),
+    createdAt: z.string().optional()
   })
 })
 export type UserT = z.infer<typeof UserT>;

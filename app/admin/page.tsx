@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { getShortText, translitStatusToNormal } from '@/lib/utils';
+import { formatDate, getShortText, translitStatusToNormal } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import DownloadTable from './DownloadTable';
 import PaginationControls from '@/components/PaginationControls';
@@ -75,6 +75,14 @@ export default async function AdminPage({
       val: "status:desc",
       text: `Статус: ↑`,
     },
+    {
+      val: "createdAt:asc",
+      text: `Создано в: ↑`,
+    },
+    {
+      val: "createdAt:desc",
+      text: `Создано в: ↓`,
+    }
   ]
 
   return (
@@ -185,11 +193,12 @@ async function DataTable({
           <TableHead className='min-w-52'>Название доклада</TableHead>
           <TableHead className='min-w-24 text-center'>Тезисы</TableHead>
           <TableHead className='min-w-32 text-center'>Иллюстрация</TableHead>
-          <TableHead className='min-w-32'>Доп. доклады</TableHead>
+          {/* <TableHead className='min-w-32'>Доп. доклады</TableHead> */}
           <TableHead className='min-w-52'>Круглые столы</TableHead>
           <TableHead className='min-w-40'>Комментарии</TableHead>
           <TableHead className='min-w-40 text-center'>Email Уведомления (Контент)</TableHead>
           <TableHead className='min-w-40 text-center'>Email Уведомления (Заявка)</TableHead>
+          <TableHead className='min-w-32'>Создано в</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -238,7 +247,7 @@ async function DataTable({
                   </Link>
                 )}
               </TableCell>
-              <TableCell className='text-center'>
+              {/* <TableCell className='text-center'>
                 {(hasReport && metadata.additionalReports) && (
                   <Dialog>
                     <DialogTrigger asChild>
@@ -293,7 +302,7 @@ async function DataTable({
                     </DialogContent>
                   </Dialog>
                 )}
-              </TableCell>
+              </TableCell> */}
               <TableCell className='text-xs'>
                 {(hasReport && metadata.tables) && (
                   <div className='flex flex-col gap-0.5'>
@@ -324,6 +333,7 @@ async function DataTable({
               </TableCell>
               <TableCell>{data.subscribedContent ? "Да" : "Нет"}</TableCell>
               <TableCell>{data.subscribedReport ? "Да" : "Нет"}</TableCell>
+              <TableCell>{data.createdAt && formatDate(data.createdAt, {hour: "numeric", minute: "numeric"})}</TableCell>
             </TableRow>
           )
         })}
