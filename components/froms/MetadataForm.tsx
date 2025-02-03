@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import React, { useEffect } from 'react'
@@ -219,7 +220,8 @@ export default function MetadataForm({
 
   return (
     <>
-      <Form {...form}>
+      <h1 className='text-center'>Изменение данных закрыто</h1>
+      {/* <Form {...form}>
         <form 
           action={handleUpdateUser}
           className="space-y-3 flex flex-col w-full"
@@ -307,7 +309,7 @@ export default function MetadataForm({
             <Progress value={progressImage} />
           </div>
         )}
-      </Form>
+      </Form> */}
     </>
   )
 }

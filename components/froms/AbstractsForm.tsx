@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { usePutObjects } from '@/lib/strapiUpload';
@@ -175,99 +176,100 @@ export default function AbstractsForm({
   };
 
   return (
-    <Form {...form}>
-      <form 
-        action={handleUpdateUser}
-        className="sm:space-x-3 flex flex-col gap-6 items-center w-full"
-      >
-        <div className='w-full flex lg:flex-row flex-col justify-between lg:gap-3 gap-2'>
-          <div className='lg:w-1/2 w-full'>
-            <FormField
-              control={form.control}
-              name="reportFile"
-              render={({ field }) => (
-                <FormItem className='w-full mx-auto text-center'>
-                  <FormLabel>Тезисы:</FormLabel>
-                  <FormControl>
-                    <DropzoneFile
-                      id={fileId}
-                      isImage={false}
-                      formValue={field.value}
-                      formValueName={field.name}
-                      accept={{
-                        "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
-                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
-                      }}
-                      maxSize={5 * 1024 * 1024} // 5Mb
-                      disabled={form.formState.isSubmitting || isPending}
-                      className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-                    >
-                      <p className="text-xs text-muted-foreground mt-2 text-center">
-                        DOC, DOCX (Max 5Mb)
-                      </p>
-                    </DropzoneFile>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+    <h1 className='text-center'>Изменение данных закрыто</h1>
+    // <Form {...form}>
+    //   <form 
+    //     action={handleUpdateUser}
+    //     className="sm:space-x-3 flex flex-col gap-6 items-center w-full"
+    //   >
+    //     <div className='w-full flex lg:flex-row flex-col justify-between lg:gap-3 gap-2'>
+    //       <div className='lg:w-1/2 w-full'>
+    //         <FormField
+    //           control={form.control}
+    //           name="reportFile"
+    //           render={({ field }) => (
+    //             <FormItem className='w-full mx-auto text-center'>
+    //               <FormLabel>Тезисы:</FormLabel>
+    //               <FormControl>
+    //                 <DropzoneFile
+    //                   id={fileId}
+    //                   isImage={false}
+    //                   formValue={field.value}
+    //                   formValueName={field.name}
+    //                   accept={{
+    //                     "application/msword": [".doc", ".docx", ".DOC", ".DOCX"],
+    //                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
+    //                   }}
+    //                   maxSize={5 * 1024 * 1024} // 5Mb
+    //                   disabled={form.formState.isSubmitting || isPending}
+    //                   className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+    //                 >
+    //                   <p className="text-xs text-muted-foreground mt-2 text-center">
+    //                     DOC, DOCX (Max 5Mb)
+    //                   </p>
+    //                 </DropzoneFile>
+    //               </FormControl>
+    //               <FormMessage />
+    //             </FormItem>
+    //           )}
+    //         />
+    //       </div>
 
-          <div className='lg:w-1/2 w-full'>
-            <FormField
-              control={form.control}
-              name="imageFile"
-              render={({ field }) => (
-                <FormItem className='w-full mx-auto text-center'>
-                  <FormLabel>Иллюстрация:</FormLabel>
-                  <FormControl>
-                    <DropzoneFile
-                      id={imageId}
-                      isImage
-                      formValue={field.value}
-                      formValueName={field.name}
-                      accept={{
-                        'image/jpg': [],
-                        'image/jpeg': [],
-                        'image/png': [],
-                      }}
-                      maxSize={20 * 1024 * 1024} // 20Mb
-                      disabled={form.formState.isSubmitting || isPending}
-                      className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
-                    >
-                      <p className="text-xs text-muted-foreground mt-2 text-center">
-                        JPEG, JPG, PNG (Max 20Mb)
-                      </p>
-                    </DropzoneFile>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
+    //       <div className='lg:w-1/2 w-full'>
+    //         <FormField
+    //           control={form.control}
+    //           name="imageFile"
+    //           render={({ field }) => (
+    //             <FormItem className='w-full mx-auto text-center'>
+    //               <FormLabel>Иллюстрация:</FormLabel>
+    //               <FormControl>
+    //                 <DropzoneFile
+    //                   id={imageId}
+    //                   isImage
+    //                   formValue={field.value}
+    //                   formValueName={field.name}
+    //                   accept={{
+    //                     'image/jpg': [],
+    //                     'image/jpeg': [],
+    //                     'image/png': [],
+    //                   }}
+    //                   maxSize={20 * 1024 * 1024} // 20Mb
+    //                   disabled={form.formState.isSubmitting || isPending}
+    //                   className="min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
+    //                 >
+    //                   <p className="text-xs text-muted-foreground mt-2 text-center">
+    //                     JPEG, JPG, PNG (Max 20Mb)
+    //                   </p>
+    //                 </DropzoneFile>
+    //               </FormControl>
+    //               <FormMessage />
+    //             </FormItem>
+    //           )}
+    //         />
+    //       </div>
+    //     </div>
 
-        <MetadataReportAdditional isPending={isPending} />
+    //     <MetadataReportAdditional isPending={isPending} />
 
-        <SubmitButton 
-          disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingReport || isLoadingImage}
-          className='sm:px-12 px-6 mx-auto md:!mt-0'
-        >
-          Сохранить
-        </SubmitButton>
-      </form>
-      {(isLoadingReport && (progressReport > 0)) && (
-        <div className='mt-6'>
-          <p className='text-center text-sm'>Загружаем файл...</p>
-          <Progress value={progressReport} />
-        </div>
-      )}
-      {(isLoadingImage && (progressImage > 0)) && (
-        <div className='mt-6'>
-          <p className='text-center text-sm'>Загружаем иллюстрацию...</p>
-          <Progress value={progressImage} />
-        </div>
-      )}
-    </Form>
+    //     <SubmitButton 
+    //       disabled={!(form.formState.isDirty && form.formState.isValid) || form.formState.isSubmitting || isPending || isLoadingReport || isLoadingImage}
+    //       className='sm:px-12 px-6 mx-auto md:!mt-0'
+    //     >
+    //       Сохранить
+    //     </SubmitButton>
+    //   </form>
+    //   {(isLoadingReport && (progressReport > 0)) && (
+    //     <div className='mt-6'>
+    //       <p className='text-center text-sm'>Загружаем файл...</p>
+    //       <Progress value={progressReport} />
+    //     </div>
+    //   )}
+    //   {(isLoadingImage && (progressImage > 0)) && (
+    //     <div className='mt-6'>
+    //       <p className='text-center text-sm'>Загружаем иллюстрацию...</p>
+    //       <Progress value={progressImage} />
+    //     </div>
+    //   )}
+    // </Form>
   )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import MetadataForm from '@/components/froms/MetadataForm'
 import { TypographyH3 } from '@/components/typography'
 import { Button } from '@/components/ui/button'
@@ -43,7 +44,8 @@ export default function Data({
         <Status report={metadata.report} status={status} />
       </div>
       <div className='mt-8'>
-        <Card className='w-full sm:max-w-3xl max-w-md mx-auto md:block hidden'>
+        <Card className='w-full sm:max-w-3xl max-w-md mx-auto hidden'>
+        {/* <Card className='w-full sm:max-w-3xl max-w-md mx-auto md:block hidden'> */}
           <CardHeader>
             <CardTitle className='text-center lg:text-2xl text-xl whitespace-pre-wrap'>Редактировать данные</CardTitle>
             <CardDescription className='text-center'>
@@ -63,9 +65,9 @@ export default function Data({
           </CardContent>
         </Card>
 
-
-        <div className='mt-8 md:hidden flex flex-col gap-6'>
-          <Dialog>
+        <div className='mt-8 flex flex-col gap-6'>
+        {/* <div className='mt-8 md:hidden flex flex-col gap-6'> */}
+          {/* <Dialog>
             <DialogTrigger asChild>
               <Button className='font-medium shadow text-sm md:px-6 md:py-5 px-4 py-4 gap-2 border bg-background text-foreground hover:text-background'>
                 <SquarePen className='md:w-5 md:h-5 w-4 h-4'/>Редактировать
@@ -87,12 +89,12 @@ export default function Data({
                     defaultValues={metadata} 
                     defaultTab={hasReport ? "report" : "no-report"}
                     fileId={file?.id}
-                    imageId={image?.id}      
+                    imageId={image?.id}
                   />
                 </div>
               </ScrollArea>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
 
           <Table>
             <TableBody>
