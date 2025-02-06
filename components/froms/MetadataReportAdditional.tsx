@@ -1,8 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import React from 'react'
-import { Button } from '../ui/button';
-import { Delete, Plus } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import { FormLabel } from '../ui/form';
 import { InputField } from './inputs/InputField';
@@ -47,7 +46,7 @@ export default function MetadataReportAdditional({
                 <AccordionTrigger className='py-2 justify-end'>
                   <div className='flex w-full flex-1 items-center justify-between gap-3'>
                     <p className='flex-1 text-left text-base'>{item.reportName}</p>
-                    <Button
+                    {/* <Button
                       type='button'
                       asChild
                       className='w-fit h-fit p-1 mr-1 z-50'
@@ -62,7 +61,7 @@ export default function MetadataReportAdditional({
                       }}
                     >
                       <Delete size={16}/>
-                    </Button>
+                    </Button> */}
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className='flex flex-col gap-2 border-2 border-b-0 border-boder rounded-t-xl p-3'>
@@ -71,7 +70,8 @@ export default function MetadataReportAdditional({
                     <DirectionSelect 
                       name={`additionalReports[${indx}].direction`}
                       defaultValue={form.getValues(`additionalReports[${indx}].direction`) as string}
-                      disabled={form.formState.isSubmitting || isPending}
+                      // disabled={form.formState.isSubmitting || isPending}
+                      disabled
                       className="mt-1"
                     />
                   </div>
@@ -79,9 +79,10 @@ export default function MetadataReportAdditional({
                   <div className='w-full'>
                     <FormLabel>Название доклада<span className='text-destructive'>*</span></FormLabel>
                     <InputField
-                      disabled={form.formState.isSubmitting || isPending}
-                      className='mt-1 bg-background rounded-lg border-border shadow'
                       value={form.getValues(`additionalReports[${indx}].reportName`) as string}
+                      // disabled={form.formState.isSubmitting || isPending}
+                      disabled
+                      className='mt-1 bg-background rounded-lg border-border shadow'
                       onChange={(e) => form.setValue(
                         `additionalReports[${indx}].reportName`, 
                         e.target.value,
@@ -106,7 +107,8 @@ export default function MetadataReportAdditional({
                           "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".doc", ".docx", ".DOC", ".DOCX"] 
                         }}
                         maxSize={5 * 1024 * 1024} // 5Mb
-                        disabled={form.formState.isSubmitting || isPending}
+                        // disabled={form.formState.isSubmitting || isPending}
+                        disabled
                         className="mt-1 min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
                       >
                         <p className="text-xs text-muted-foreground mt-2 text-center">
@@ -131,7 +133,8 @@ export default function MetadataReportAdditional({
                             'image/png': [],
                           }}
                         maxSize={20 * 1024 * 1024} // 20Mb
-                        disabled={form.formState.isSubmitting || isPending}
+                        // disabled={form.formState.isSubmitting || isPending}
+                        disabled
                         className="mt-1 min-h-32 bg-background rounded-lg border-dashed border border-primary/50 shadow hover:bg-secondary transition-all outline outline-1 outline-border outline-offset-2"
                       >
                         <p className="text-xs text-muted-foreground mt-2 text-center">
@@ -147,7 +150,7 @@ export default function MetadataReportAdditional({
         )
         : null
       }
-      <Button 
+      {/* <Button 
         className='w-full'
         type="button"
         onClick={() => 
@@ -159,7 +162,7 @@ export default function MetadataReportAdditional({
         }
       >
         <Plus className='w-5 h-5 mr-1'/>Добавить доклад
-      </Button>
+      </Button> */}
     </div>
   )
 }

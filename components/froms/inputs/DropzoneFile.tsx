@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
@@ -10,8 +11,6 @@ import { useFormStatus } from "react-dom";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import Image from "next/image"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { PopoverClose } from "@radix-ui/react-popover";
 import { useDeleteObject } from "@/lib/strapiUpload";
 import { toast } from "sonner";
 import AuthError from "@/components/errors/AuthError";
@@ -114,7 +113,7 @@ export default function DropzoneFile({
   if (!!valueURL && valueURL.length > 0)
     return (
       <>
-        <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+        {/* <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
           <PopoverTrigger asChild>
             <span
               className="text-muted-foreground hover:text-foreground mx-auto my-1 flex w-fit cursor-pointer items-center justify-center text-xs transition-all hover:scale-110"
@@ -147,7 +146,7 @@ export default function DropzoneFile({
               </PopoverClose>
             </div>
           </PopoverContent>
-        </Popover>
+        </Popover> */}
         <div
           {...getRootProps({
             className: cn(
