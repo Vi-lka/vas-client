@@ -67,6 +67,22 @@ export default function Filters({
                 align="center"
                 className='max-w-none'
             />
+            <Select
+                isMulti={false} 
+                values={booleanValues} 
+                param='file' 
+                placeholder="Файл?" 
+                align="center"
+                className='max-w-none'
+            />
+            <Select
+                isMulti={false} 
+                values={booleanValues} 
+                param='image' 
+                placeholder="Фото?" 
+                align="center"
+                className='max-w-none'
+            />
         </div>
     )
 }

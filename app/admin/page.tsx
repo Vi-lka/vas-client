@@ -133,6 +133,8 @@ async function DataTable({
   const subscribedContent = searchParams["subscribedContent"] as string | undefined;
   const subscribedReport = searchParams["subscribedReport"] as string | undefined;
   const metadata = searchParams["metadata"] as string | undefined;
+  const file = searchParams["file"] as string | undefined;
+  const image = searchParams["image"] as string | undefined;
 
   const [ dataResult ] = await Promise.allSettled([ 
     getAllUsers({
@@ -156,6 +158,12 @@ async function DataTable({
         : undefined,
       metadata: metadata
         ? metadata === "true" ? true : false
+        : undefined,
+      file: file
+        ? file === "true" ? true : false
+        : undefined,
+      image: image
+        ? image === "true" ? true : false
         : undefined,
     }) 
   ]);
@@ -248,7 +256,7 @@ async function DataTable({
                 )}
               </TableCell>
               <TableCell className='text-center'>
-                {(hasReport && metadata.additionalReports) && (
+                {(hasReport && metadata.additionalReports && metadata.additionalReports.length > 0) && (
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="secondary" className=''>Открыть</Button>

@@ -4,10 +4,11 @@ import { notFound } from "next/navigation"
 import fetchData from "../fetchData"
 import type { StatusTranslitEnum } from "../types/users";
 import { UsersT } from "../types/users"
+import type { MetadataFormT } from "../types/forms";
 
 export const getAllUsers = async ({
     token,
-    page,
+    page = 1,
     pageSize,
     report,
     confirmed,
@@ -16,6 +17,8 @@ export const getAllUsers = async ({
     subscribedReport,
     metadata,
     search,
+    file,
+    image,
     sort
 }: {
     token: string,
@@ -28,6 +31,8 @@ export const getAllUsers = async ({
     subscribedReport?: boolean;
     metadata?: boolean;
     search?: string;
+    file?: boolean;
+    image?: boolean;
     sort?: string
 }): Promise<UsersT> => {
     const query = /* GraphGL */ `
@@ -91,7 +96,7 @@ export const getAllUsers = async ({
         token,
         cache: 'no-store',
         variables: {
-            pagination: { page, pageSize },
+            // pagination: { page, pageSize },
             sort,
             filters: {
                 role: {
@@ -132,5 +137,44 @@ export const getAllUsers = async ({
 
     const allUsers = UsersT.parse(json.data.usersPermissionsUsers);
 
-    return allUsers
+    const filteredByFileUsers = allUsers.data.filter(user => {
+      const fileUrl = (user.attributes.metadata as MetadataFormT | null)?.reportFile?.url
+      if ((file === true)) {
+        if (fileUrl) return fileUrl.length > 0;
+        else return false;
+      }
+      if (file === false) {
+        if (fileUrl) return fileUrl.length < 1;
+        else return true;
+      }
+      return true;
+    })
+
+    const filteredByImageUsers = filteredByFileUsers.filter(user => {
+      const imageUrl = (user.attributes.metadata as MetadataFormT | null)?.imageFile?.url
+      if ((image === true)) {
+        if (imageUrl) return imageUrl.length > 0;
+        else return false;
+      }
+      if (image === false) {
+        if (imageUrl) return imageUrl.length < 1;
+        else return true;
+      }
+      return true;
+    })
+
+    const paginatedUsers = pageSize 
+      ? filteredByImageUsers.slice((page - 1) * pageSize, page * pageSize)
+      : filteredByImageUsers
+
+    const resUsers = {
+      meta: {
+        pagination: {
+          total: filteredByImageUsers.length
+        }
+      },
+      data: paginatedUsers
+    }
+    
+    return resUsers
 }
