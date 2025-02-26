@@ -61,6 +61,7 @@ export default function Data({
               defaultTab={hasReport ? "report" : "no-report"}
               fileId={file?.id}
               imageId={image?.id}
+              disabled={true}
             />
           </CardContent>
         </Card>

@@ -3,8 +3,25 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Check, Database, LogIn } from 'lucide-react'
 import React from 'react'
 import Steps from '../sign-up/[[...sign-up]]/Steps'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
+import { redirect } from 'next/navigation'
+import { getCurrentUser } from '@/lib/queries/getCurrentUser'
+import { MetadataFormT } from '@/lib/types/forms'
 
-export default function OnBoarding() {
+export default async function OnBoarding() {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.strapiToken) {
+      redirect("/sign-in");
+    }
+  
+    const currentUser = await getCurrentUser(session.strapiToken);
+  
+    const metadataResult = MetadataFormT.safeParse(currentUser.metadata);
+  
+    if (metadataResult.success) {
+      redirect("/account");
+    }
 
     const stepsData = [
         {title: "Регистрация", active: true, children: <LogIn className='w-5 h-5' />},
@@ -31,7 +48,7 @@ export default function OnBoarding() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <MetadataForm subscribedSwitch fileId={undefined} imageId={undefined} />
+                    <MetadataForm subscribedSwitch fileId={undefined} imageId={undefined} disabled={false} />
                 </CardContent>
             </Card>
         </div>

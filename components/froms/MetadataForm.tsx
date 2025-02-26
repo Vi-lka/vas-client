@@ -27,13 +27,15 @@ export default function MetadataForm({
   defaultTab = "report",
   subscribedSwitch,
   fileId,
-  imageId
+  imageId,
+  disabled
 }: {
   defaultValues?: MetadataFormT,
   defaultTab?: "report" | "no-report",
   subscribedSwitch?: boolean;
   fileId: string | undefined,
   imageId: string | undefined,
+  disabled?: boolean
 }) {
 
   const router = useRouter()
@@ -220,8 +222,10 @@ export default function MetadataForm({
 
   return (
     <>
+    {disabled ? (
       <h1 className='text-center'>Изменение данных закрыто</h1>
-      {/* <Form {...form}>
+    ) : (
+      <Form {...form}>
         <form 
           action={handleUpdateUser}
           className="space-y-3 flex flex-col w-full"
@@ -309,7 +313,8 @@ export default function MetadataForm({
             <Progress value={progressImage} />
           </div>
         )}
-      </Form> */}
+      </Form>
+    )}
     </>
   )
 }

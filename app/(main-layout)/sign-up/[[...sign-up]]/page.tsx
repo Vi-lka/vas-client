@@ -63,7 +63,7 @@ export default async function SignUpPage({ params, searchParams }: Props) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <MetadataForm subscribedSwitch fileId={undefined} imageId={undefined} />
+                <MetadataForm subscribedSwitch fileId={undefined} imageId={undefined} disabled={false} />
               </CardContent>
             </Card>
           )
