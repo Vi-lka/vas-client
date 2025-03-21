@@ -1,7 +1,6 @@
 import React from 'react'
 import NavigationLink from './NavigationLink'
 import { 
-  BadgeRussianRuble,
   // BadgeRussianRuble, 
   // Bed, 
   // CalendarDays, 
@@ -49,7 +48,7 @@ export default async function Navigation({
     {title: "Заявка", href: "data", children: <ClipboardList className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     ...navWhitReport,
     {title: "Информационные письма", href: "info", children: <InfoCircledIcon className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
-    {title: "Организационный взнос", href: "fee", children: <BadgeRussianRuble className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
+    // {title: "Организационный взнос", href: "fee", children: <BadgeRussianRuble className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     // {title: "Программа съезда", href: "programm", children: <CalendarDays className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     // {title: "Экскурсии", href: "excursions", children: <Compass className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
     // {title: "Гостиницы", href: "hotel", children: <Bed className="lg:h-5 lg:w-5 h-6 w-6 flex-none" />},
