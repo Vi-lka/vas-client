@@ -1,19 +1,53 @@
 import React from 'react'
 import { TypographyH3 } from '@/components/typography';
-import { redirect } from 'next/navigation';
-import type { MetadataFormT } from '@/lib/types/forms';
+import { FeeT } from '@/lib/types/content';
+import fetchData from '@/lib/fetchData';
+import { notFound } from 'next/navigation';
+import ErrorHandler from '@/components/errors/ErrorHandler';
+import BlocksRendererStrapi from '@/components/content-blocks/BlocksRendererStrapi';
 
-export default function Fee({
-  metadata
-}: {
-  metadata: MetadataFormT
-}) {
+export default async function Fee() {
+  const getFee = async (): Promise<FeeT> => {
+    const query = /* GraphGL */ `
+      query Fee {
+        fee {
+          data {
+            attributes {
+              text
+            }
+          }
+        }
+      }
+    `;
+  
+    const json = await fetchData<{ 
+      data: { 
+        fee: { 
+          data: FeeT
+        } 
+      }; 
+    }>({ 
+      query, 
+      error: "Failed to fetch Fee"
+    })
+  
+    // await new Promise((resolve) => setTimeout(resolve, 2000))
+  
+    if (json.data.fee.data === null) notFound();
+    
+    const data = FeeT.parse(json.data.fee.data);
+    
+    return data;
+  };
 
-  const hasReport = metadata.report === true
-
-  if (!hasReport) {
-    redirect("/account");
-  }
+  const [ dataResult ] = await Promise.allSettled([ getFee() ]);
+  if (dataResult.status === "rejected") return (
+    <ErrorHandler
+      error={dataResult.reason as unknown} 
+      place="Организационный взнос"
+      notFound={false}
+    />
+  )
 
   return (
     <div className='w-full'>
@@ -22,6 +56,8 @@ export default function Fee({
         
       </p>
       <div className='mt-8'>
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
+        <BlocksRendererStrapi content={dataResult.value.attributes.text} />
       </div>
     </div>
   )

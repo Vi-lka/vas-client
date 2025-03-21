@@ -13,3 +13,10 @@ export const AbstractsT = z.object({
     }),
 })
 export type AbstractsT = z.infer<typeof AbstractsT>;
+
+export const FeeT = z.object({
+    attributes: z.object({
+        text: z.any(),
+    }),
+})
+export type FeeT = z.infer<typeof FeeT>;

@@ -86,7 +86,7 @@ export default async function AccountPage({
       return <ArrivalDeparture metadata={metadataResult.data} />
     
     case "fee":
-      return <Fee metadata={metadataResult.data} />
+      return <Fee />
     
     case "info":
       return <Info />

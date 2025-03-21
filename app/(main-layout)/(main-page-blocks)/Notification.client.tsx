@@ -73,6 +73,9 @@ export default function NotificationClient({
           </Alert>
         ),
         {
+          classNames: {
+            toast: "md:w-5/6 md:left-1/2 md:-translate-x-1/2"
+          },
           onDismiss() {
             setHideNotification(true)
           },
